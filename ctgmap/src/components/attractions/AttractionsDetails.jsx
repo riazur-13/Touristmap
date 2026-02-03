@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, MapPin, Clock, DollarSign, Calendar, Info, Navigation } from 'lucide-react';
 import { CATEGORIES } from '../../utils/constants';
-import AttractionImage from '../ui/AttractionImage';
+
 import './AttractionsDetails.css'; // Import the CSS
 
 const AttractionDetails = ({ attraction, onClose }) => {
@@ -19,11 +19,7 @@ const AttractionDetails = ({ attraction, onClose }) => {
       <aside className="details-sidebar" onClick={(e) => e.stopPropagation()}>
         <div className="details-header">
           <button className="details-close-btn" onClick={onClose}><X size={20} /></button>
-          <AttractionImage 
-            src={Array.isArray(attraction.images) ? attraction.images[0] : attraction.images} 
-            alt={attraction.name} 
-            style={{ height: '100%', borderRadius: 0 }} 
-          />
+          
         </div>
 
         <div className="details-body">

@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react'
 import attractions from './data/attractions'
-import Header from "./components/layout/Header";
-import MapView from "./components/map/MapView";
-import SearchFilterBar from "./components/ui/SearchFilterBar";
-import AttractionDetails from "./components/attractions/AttractionsDetails";
 
-// Import the App-specific CSS
+// Component Imports
+import Header from './components/layout/Header'
+import MapView from './components/map/MapView'
+import SearchFilterBar from './components/ui/SearchFilterBar'
+import AttractionsDetails from './components/attractions/AttractionsDetails'
+
+// CSS Imports
 import './App.css'
 
 const App = () => {
@@ -29,6 +31,7 @@ const App = () => {
     });
   }, [searchQuery, activeFilters]);
 
+  // Derived State
   const attractionCount = filteredAttractions.length;
 
   const uniqueCategories = useMemo(() => {
@@ -81,8 +84,10 @@ const App = () => {
         />
       </main>
 
-      <AttractionDetails attraction={selectedAttraction}
-        onClose={handleCloseDetail}/>
+      <AttractionsDetails 
+        attraction={selectedAttraction}
+        onClose={handleCloseDetail}
+      />
     </div>
   )
 }

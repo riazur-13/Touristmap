@@ -3,12 +3,11 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-family, sans-serif);
   background-color: var(--color-bg-primary);
 }
 
 .main-content {
   flex: 1;
   position: relative;
-  overflow: hidden; /* Keeps the map from expanding the page */
+  overflow: hidden; /* Prevents the map from causing scrollbars */
 }
