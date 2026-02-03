@@ -1,0 +1,53 @@
+/* Container for the whole map */
+.map-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Custom Marker Pin (The Teardrop) */
+.marker-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+/* The Emoji inside the pin */
+.marker-pin span {
+  transform: rotate(45deg); /* Counter-rotate so emoji is upright */
+  font-size: 16px;
+}
+
+/* When a pin is selected/clicked */
+.marker-pin.selected {
+  transform: rotate(-45deg) scale(1.2);
+  box-shadow: 0 0 15px var(--marker-color);
+  z-index: 1000;
+}
+
+/* Stats overlay at the bottom left */
+.map-stats-overlay {
+  position: absolute;
+  bottom: var(--spacing-md);
+  left: var(--spacing-md);
+  background: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  z-index: 1000;
+  pointer-events: none;
+}
