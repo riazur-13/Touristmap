@@ -1,34 +1,66 @@
 /* Sidebar Overlay (The Backdrop) */
 .details-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
-  z-index: var(--z-modal, 1000);
+  z-index: 2000;
   display: flex;
+  padding: 20px;
+  align-items: center;
   justify-content: flex-end;
-  animation: fadeIn 0.3s ease-out;
+  
+}
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
 }
 
-/* The Sliding Sidebar */
+.nav-btn:hover {
+  background: white;
+}
+
+.nav-btn.left { left: 10px; }
+.nav-btn.right { right: 10px; }
+
+.img-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
 .details-sidebar {
   width: 100%;
-  max-width: 450px;
-  background-color: white;
-  height: 100%;
-  box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0,0,0,0.1));
+  max-width: 420px;
+  background: white;
+  max-height: 90%;
+  border-radius: 20px; /* Rounded corners from your SS */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  position: relative;
-  animation: slideInRight 0.3s ease-out;
+  overflow: hidden;
 }
 
 .details-header {
+  height: 240px; /* Fixed height for the image */
   position: relative;
-  height: 300px;
 }
 
 .details-close-btn {
@@ -46,13 +78,19 @@
   justify-content: center;
   box-shadow: var(--shadow-md);
 }
-
-.details-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--spacing-xl);
+.details-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This is the "Magic" property that fixes the stretching */
+  
 }
 
+.details-body {
+
+  overflow-y: auto;
+  padding: 24px;
+ 
+}
 /* Information Grid */
 .details-info-section {
   display: grid;

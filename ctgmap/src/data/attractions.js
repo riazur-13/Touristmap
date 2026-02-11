@@ -4,10 +4,15 @@ const attractions = [
   {
     id: 1,
     name: "Cox's Bazar Beach",
-    description: "The world's longest natural sea beach stretching 120 kilometers. Cox's Bazar offers pristine sandy shores, stunning sunsets, and a variety of water activities. It's the most popular tourist destination in Bangladesh.",
+    // Lengthened Description
+    description: "The world's longest natural sea beach stretching 120 kilometers. Cox's Bazar offers pristine sandy shores, stunning sunsets, and a variety of water activities. It's the most popular tourist destination in Bangladesh, drawing millions of visitors annually to its unique combination of hills and sea. The beach is famous for its golden sand and the shark-free waters of the Bay of Bengal, making it ideal for swimming and surfing.",
     coordinates: [21.4272, 92.0058],
     category: CATEGORIES.BEACH.name,
-    images: [],
+    // Standardized to Array
+    images: [
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+      'https://images.unsplash.com/photo-1590001158193-7fef746bc317'
+    ],
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: 'October to March',
     entryFee: 'Free',
@@ -15,25 +20,16 @@ const attractions = [
     facilities: 'Hotels, Restaurants, Water Sports',
   },
   {
-    id: 2,
-    name: 'Bandarban Hill District',
-    description: 'A picturesque hill district known for its indigenous culture, stunning mountain landscapes, and trekking opportunities. Home to the highest peaks in Bangladesh including Keokradong and Tahjingdong.',
-    coordinates: [22.1953, 92.2184],
-    category: CATEGORIES.HILL_STATION.name,
-    images: ['https://images.unsplash.com/photo-1660703080906-f4ac0cb7ea43?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFuZGFyYmFufGVufDB8fDB8fHww','https://images.unsplash.com/photo-1730877870263-9df7b1c6c239?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJhbmRhcmJhbnxlbnwwfHwwfHx8MA%3D%3D','https://images.unsplash.com/photo-1633450417381-e5fee241e4e9?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJhbmRhcmJhbnxlbnwwfHwwfHx8MA%3D%3D','https://plus.unsplash.com/premium_photo-1664117187580-c48528437e04?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmFuZGFyYmFufGVufDB8fDB8fHww'],
-    address: 'Bandarban, Chittagong Division',
-    bestTimeToVisit: 'November to February',
-    entryFee: 'Varies by location',
-    openingHours: 'N/A',
-    facilities: 'Accommodations, Guides, Trekking',
-  },
-  {
     id: 3,
     name: 'Rangamati (Kaptai Lake)',
-    description: 'The largest man-made lake in Bangladesh, surrounded by hills and tribal villages. Rangamati offers boat rides, hanging bridge, tribal museums, and serene natural beauty.',
+    description: "The largest man-made lake in Bangladesh, surrounded by emerald-green hills and colorful tribal villages of the Chakma and Marma people. Rangamati offers peaceful boat rides through the winding lake, visits to the iconic Hanging Bridge (Jhulonto Bridge), and exploration of tribal museums. The serene natural beauty and the unique lifestyle of the indigenous people make it a sanctuary for those looking to escape the hustle of city life.",
     coordinates: [22.6533, 92.1751],
     category: CATEGORIES.NATURAL.name,
-    images: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800',
+    // FIXED: Changed from String to Array
+    images: [
+      'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800',
+      'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800'
+    ],
     address: 'Rangamati, Chittagong Division',
     bestTimeToVisit: 'October to April',
     entryFee: 'Boat rides vary',
