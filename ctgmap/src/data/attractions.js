@@ -13,6 +13,7 @@ const attractions = [
       'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
       'https://images.unsplash.com/photo-1590001158193-7fef746bc317'
     ],
+    moreInfoLink: "https://en.wikipedia.org/wiki/Cox%27s_Bazar_Beach",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: 'October to March',
     entryFee: 'Free',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, MapPin, Clock, DollarSign, Calendar, Info, Navigation, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CATEGORIES } from '../../utils/constants';
 
-import './AttractionsDetails.css'; // Import the CSS
+import './AttractionsDetails.css';
 
 const AttractionDetails = ({ attraction, onClose }) => {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -51,6 +51,21 @@ const AttractionDetails = ({ attraction, onClose }) => {
           <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{attraction.name}</h2>
           <span style={{ color: category.color, fontWeight: 'bold' }}>{attraction.category}</span>
           <p style={{ marginTop: '1rem', lineHeight: '1.6' }}>{attraction.description}</p>
+  { attraction.moreInfoLink &&(
+<div className="see-more-section" style={{ marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
+  <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '0.5rem' }}>
+    Want to explore more history and photos?
+  </p>
+  <a 
+    href={attraction.moreInfoLink} 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    Visit Official Wiki / Website
+    <span style={{ fontSize: '1.2rem' }}>↗</span>
+  </a>
+</div>
+  )}
 
           <section className="details-info-section">
             <InfoRow icon={<MapPin size={20} color={category.color} />} label="Address" value={attraction.address} />

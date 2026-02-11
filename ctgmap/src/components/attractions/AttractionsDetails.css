@@ -84,6 +84,15 @@
   object-fit: cover; /* This is the "Magic" property that fixes the stretching */
   
 }
+.see-more-section{
+   display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
 
 .details-body {
 
