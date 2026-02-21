@@ -1,59 +1,38 @@
-.filter-panel-container {
+.filter-panel {
   display: flex;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
+  overflow-x: auto;
+  padding: 5px 0;
 }
 
-.filter-label {
+.filter-chip {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text-secondary);
-}
-
-.filter-btn {
-  padding: var(--spacing-sm) var(--spacing-md);
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #dcdfe6;
   background: white;
-  color: var(--color-text-primary);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  transition: all var(--transition-base);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  color: #606266;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
-/* Hover state using the dynamic variable */
-.filter-btn:not(.active):hover {
-  border-color: var(--category-color);
-  color: var(--category-color);
+.filter-chip:hover {
+  background: #f5f7fa;
+  border-color: #c0c4cc;
 }
 
-/* Active state */
-.filter-btn.active {
-  background-color: var(--category-color);
-  border-color: var(--category-color);
-  color: white;
+.filter-chip.active {
+  background: #ecf5ff;
+  color: #409eff;
+  border-color: #409eff;
+  font-weight: 500;
 }
 
-.clear-all-btn {
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: #fee2e2;
-  color: #dc2626;
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  transition: background 0.2s;
-}
-
-.clear-all-btn:hover {
-  background: #fca5a5;
+.filter-chip svg {
+  color: inherit; /* Icons take the color of the text */
 }

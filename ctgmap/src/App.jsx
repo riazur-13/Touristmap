@@ -1,95 +1,83 @@
-import { useState, useMemo } from 'react'
-import attractions from './data/attractions'
+import React, { useState } from "react"; // Added useState
+import "./App.css";
+import { Search, X, MapPin, Waves, Mountain, Landmark } from "lucide-react";
+import MapView from "./components/map/MapView";
+import attractions from "./data/attractions";
+import AttractionDetails from "./components/attractions/AttractionDetails";
+import SearchBar from "./components/ui/SearchBar";
 
-// Component Imports
-import Header from './components/layout/Header'
-import MapView from './components/map/MapView'
-import SearchFilterBar from './components/ui/SearchFilterBar'
-import AttractionsDetails from './components/attractions/AttractionsDetails'
+function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const filteredAttractions = attractions.filter((item) => {
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      activeCategory === "All" || item.category === activeCategory;
 
-// CSS Imports
-import './App.css'
+    return matchesSearch && matchesCategory;
+  });
+  const categories = [
+    "All",
+    ...new Set(attractions.map((item) => item.category)),
+  ];
 
-const App = () => {
-  const [selectedAttraction, setSelectedAttraction] = useState(null)
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilters, setActiveFilters] = useState([]);
-
-  // Filtering Logic
-  const filteredAttractions = useMemo(() => {
-    return attractions.filter(attraction => {
-      const matchesSearch = 
-        searchQuery === '' ||  
-        attraction.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        attraction.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesFilter = 
-        activeFilters.length === 0 ||  
-        activeFilters.includes(attraction.category);
-      
-      return matchesSearch && matchesFilter;
-    });
-  }, [searchQuery, activeFilters]);
-
-  // Derived State
-  const attractionCount = filteredAttractions.length;
-
-  const uniqueCategories = useMemo(() => {
-    return [...new Set(attractions.map(attr => attr.category))];
-  }, []);
-
-  // Event Handlers
-  const handleAttractionSelect = (attraction) => {
-    setSelectedAttraction(attraction);
-  };
-
-  const handleSearchChange = (query) => {
-    setSearchQuery(query);
-  };
-
-  const handleFilterToggle = (category) => {
-    setActiveFilters(prev =>
-      prev.includes(category)
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    );
-  };
-
-  const handleClearFilters = () => {
-    setActiveFilters([]);
-  };
-
-  const handleCloseDetail = () => {
-    setSelectedAttraction(null);
-  };
-  
   return (
-    <div className="app-container">
-      <Header attractionCount={attractionCount}/>
-      
-      <SearchFilterBar 
-        searchQuery={searchQuery} 
-        onSearchChange={handleSearchChange}
-        categories={uniqueCategories}
-        activeFilters={activeFilters}
-        onFilterToggle={handleFilterToggle} 
-        onClearFilters={handleClearFilters}
-      />
+    <div className="app-wrapper">
+      <header className="header-top">
+        <h1>Chittagong Explorer</h1>
+      </header>
 
-       <main className="main-content">
-        <MapView 
-          attractions={filteredAttractions}
-          selectedAttraction={selectedAttraction}
-          onAttractionSelect={handleAttractionSelect}
-        />
+      <section className="filter-bar">
+        <div className="search-and-count">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search locations..."
+          />
+          {/* Dynamic result count */}
+          <span className="results-badge">
+            {filteredAttractions.length}{" "}
+            {filteredAttractions.length === 1 ? "result" : "results"}
+          </span>
+        </div>
+
+        <div className="vertical-divider"></div>
+
+        <div className="filter-chips">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`chip ${activeCategory === cat ? "active" : ""}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <main className="main-layout">
+        <div className="map-column">
+          <MapView
+            attractions={filteredAttractions}
+            onSelect={setSelectedAttraction}
+          />
+        </div>
+
+        {selectedAttraction && (
+          <aside className="sidebar-column">
+            <AttractionDetails
+              attraction={selectedAttraction}
+              onClose={() => setSelectedAttraction(null)}
+            />
+          </aside>
+        )}
       </main>
-
-      <AttractionsDetails 
-        attraction={selectedAttraction}
-        onClose={handleCloseDetail}
-      />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,5 @@
-import React from 'react';
-import { Search, X } from 'lucide-react';
-import './SearchBar.css';
+import { Search, X } from "lucide-react";
+import "./SearchBar.css";
 
 const SearchBar = ({ value, onChange, placeholder }) => {
   return (
@@ -14,7 +13,7 @@ const SearchBar = ({ value, onChange, placeholder }) => {
         placeholder={placeholder}
       />
       {value && (
-        <button className="search-clear-btn" onClick={() => onChange('')}>
+        <button className="search-clear-btn" onClick={() => onChange("")}>
           <X size={18} />
         </button>
       )}
