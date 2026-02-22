@@ -6,21 +6,42 @@
 }
 
 /* Custom Marker Pin (The Teardrop) */
+/* The base marker style */
 .marker-pin {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50% 50% 50% 0;
+  background: #3b82f6; /* Your primary blue */
   position: absolute;
   transform: rotate(-45deg);
   left: 50%;
   top: 50%;
-  margin: -15px 0 0 -15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: -10px 0 0 -10px;
   border: 2px solid white;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-base);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* The Active (Highlighted) style */
+.marker-pin.active {
+  background: #ef4444; /* Bright Red */
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  z-index: 1000;
+  transform: rotate(-45deg) scale(1.2);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* Optional: Add a little white dot in the middle */
+.marker-pin::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin: 7px 0 0 7px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
 }
 
 /* The Emoji inside the pin */

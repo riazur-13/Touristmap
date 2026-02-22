@@ -1,5 +1,6 @@
 import React, { useState } from "react"; // Added useState
 import "./App.css";
+import "./styles/variables.css";
 import { Search, X, MapPin, Waves, Mountain, Landmark } from "lucide-react";
 import MapView from "./components/map/MapView";
 import attractions from "./data/attractions";
@@ -19,6 +20,7 @@ function App() {
 
     return matchesSearch && matchesCategory;
   });
+  const isSearchEmpty = searchQuery !== "" && filteredAttractions.length === 0;
   const categories = [
     "All",
     ...new Set(attractions.map((item) => item.category)),
@@ -61,9 +63,20 @@ function App() {
 
       <main className="main-layout">
         <div className="map-column">
+          {isSearchEmpty && (
+            <div className="no-results-message">
+              <p>
+                No locations found for "<strong>{searchQuery}</strong>"
+              </p>
+              <button onClick={() => setSearchQuery("")} className="clear-btn">
+                Clear Search
+              </button>
+            </div>
+          )}
           <MapView
             attractions={filteredAttractions}
             onSelect={setSelectedAttraction}
+            selectedAttraction={selectedAttraction}
           />
         </div>
 

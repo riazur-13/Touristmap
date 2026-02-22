@@ -1,5 +1,13 @@
 import React from "react";
-import { MapPin, Clock, Banknote, Navigation, X } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Banknote,
+  Navigation,
+  X,
+  Calendar,
+  Sparkles,
+} from "lucide-react";
 import "./AttractionDetails.css";
 
 const AttractionDetails = ({ attraction, onClose }) => {
@@ -7,12 +15,10 @@ const AttractionDetails = ({ attraction, onClose }) => {
 
   const handleGetDirections = () => {
     const [lat, lng] = attraction.coordinates;
-    // Fixed URL format for Google Maps
     const url = `https://www.google.com/maps?q=${lat},${lng}`;
     window.open(url, "_blank");
   };
 
-  // Safe image logic: Uses your 'images' key from data
   const imageSrc =
     attraction.images || "https://placehold.co/600x400?text=No+Image+Found";
 
@@ -61,6 +67,23 @@ const AttractionDetails = ({ attraction, onClose }) => {
                 <span className="label">Entry Fee</span>
                 <span className="value">{attraction.entryFee}</span>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="extra-info-section">
+          <div className="info-item full-width">
+            <Calendar size={18} className="info-icon" />
+            <div className="info-text">
+              <span className="label">Best Time to Visit</span>
+              <span className="value">{attraction.bestTimeToVisit}</span>
+            </div>
+          </div>
+
+          <div className="info-item full-width">
+            <Sparkles size={18} className="info-icon" />
+            <div className="info-text">
+              <span className="label">Facilities</span>
+              <span className="value">{attraction.facilities}</span>
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@
   border: none;
   padding: 5px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
@@ -110,4 +110,10 @@
 }
 .directions-btn svg {
   transform: rotate(45deg);
+}
+.extra-info-section {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
