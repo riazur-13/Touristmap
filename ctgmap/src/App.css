@@ -19,6 +19,7 @@
 .leaflet-container {
   width: 100% !important;
   height: 100% !important;
+  transition: width 0.3s ease-in-out;
 }
 
 .sidebar-column {

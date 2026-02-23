@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// This fix ensures the default icons are found by Vite
+// Standard icon fix
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import markerRetina from "leaflet/dist/images/marker-icon-2x.png";
@@ -24,42 +24,45 @@ const ActiveIcon = L.icon({
   iconAnchor: [15, 48],
 });
 
+// 1. Cleaner Recenter Logic
 function RecenterMap({ coords }) {
   const map = useMap();
-
-  // These coordinates and zoom level cover the main Chittagong area
-  const chittagongCenter = [22.3569, 91.7832];
-  const chittagongZoom = 7.0;
+  const divisionCenter = [22.3569, 91.7832];
+  const divisionZoom = 7.0;
 
   useEffect(() => {
-    if (coords) {
-      // Smoothly fly to the selected attraction
-      map.flyTo(coords, 14, {
-        duration: 1.5,
-        easeLinearity: 0.25,
-      });
-    } else {
-      // Smoothly fly back to the full city view when selection is cleared
-      map.flyTo(chittagongCenter, chittagongZoom, {
-        duration: 1.2,
-      });
+    if (!map) return;
+
+    try {
+      if (coords) {
+        map.flyTo(coords, 14, { duration: 1.5 });
+      } else {
+        // Fly back immediately; ResizeObserver handles the container shift
+        map.flyTo(divisionCenter, divisionZoom, { duration: 1 });
+      }
+    } catch {
+      // Silent catch
     }
   }, [coords, map]);
 
   return null;
 }
-function ResizeMap({ isSidebarOpen }) {
+
+// 2. The only resize component you need
+function ResizeMap() {
   const map = useMap();
 
   useEffect(() => {
-    // We wait 300ms for the sidebar's CSS transition to finish
-    // before recalculating the map size
-    const timer = setTimeout(() => {
+    if (!map) return;
+    const observer = new ResizeObserver(() => {
       map.invalidateSize();
-    }, 300);
+    });
 
-    return () => clearTimeout(timer);
-  }, [isSidebarOpen, map]);
+    const container = map.getContainer();
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [map]);
 
   return null;
 }
@@ -68,11 +71,8 @@ const MapView = ({ attractions, onSelect, selectedAttraction }) => {
   return (
     <MapContainer
       center={[22.3569, 91.7832]}
-      maxBounds={[
-        [20.5, 90.0], // Southwest (Sea)
-        [24.0, 93.5], // Northeast (Hills)
-      ]}
-      minZoom={7.0}
+      trackResize={true}
+      zoom={7.0}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
@@ -80,8 +80,9 @@ const MapView = ({ attractions, onSelect, selectedAttraction }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
 
+      {/* Removed MapTileFixer - ResizeMap handles everything now */}
       <RecenterMap coords={selectedAttraction?.coordinates} />
-      <ResizeMap isSidebarOpen={!!selectedAttraction} />
+      <ResizeMap />
 
       {attractions.map((loc) => {
         const isActive = selectedAttraction?.id === loc.id;
@@ -90,9 +91,7 @@ const MapView = ({ attractions, onSelect, selectedAttraction }) => {
             key={loc.id}
             position={loc.coordinates}
             icon={isActive ? ActiveIcon : DefaultIcon}
-            eventHandlers={{
-              click: () => onSelect(loc),
-            }}
+            eventHandlers={{ click: () => onSelect(loc) }}
           >
             <Popup>
               <strong>{loc.name}</strong>
