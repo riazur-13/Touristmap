@@ -11,6 +11,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
   const filteredAttractions = attractions.filter((item) => {
     const matchesSearch = item.name
       .toLowerCase()
@@ -25,6 +26,30 @@ function App() {
     "All",
     ...new Set(attractions.map((item) => item.category)),
   ];
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by you browser");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const newCoords = [latitude, longitude];
+        setUserLocation(newCoords);
+        setSelectedAttraction({
+          id: "user",
+          name: "My Location",
+          coordinates: newCoords,
+          category: "You",
+        });
+      },
+      () => {
+        alert(
+          "Unable to retrieve your location.Please check your permissions.",
+        );
+      },
+    );
+  };
 
   return (
     <div className="app-wrapper">
@@ -39,6 +64,13 @@ function App() {
             onChange={setSearchQuery}
             placeholder="Search locations..."
           />
+          <button
+            className="locate-btn"
+            onClick={handleLocateMe}
+            title="Find my location"
+          >
+            <MapPin size={20} />
+          </button>
           {/* Dynamic result count */}
           <span className="results-badge">
             {filteredAttractions.length}{" "}

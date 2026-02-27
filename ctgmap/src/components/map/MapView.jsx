@@ -34,8 +34,12 @@ function RecenterMap({ coords }) {
     if (!map) return;
 
     try {
+      // Inside your useEffect
       if (coords) {
-        map.flyTo(coords, 14, { duration: 1.5 });
+        const isMobile = window.innerWidth <= 768;
+        // If mobile, we use a standard zoom and no offset since the sidebar is below the map
+        const zoomLevel = isMobile ? 13 : 14;
+        map.flyTo(coords, zoomLevel, { duration: 1.5 });
       } else {
         // Fly back immediately; ResizeObserver handles the container shift
         map.flyTo(divisionCenter, divisionZoom, { duration: 1 });
