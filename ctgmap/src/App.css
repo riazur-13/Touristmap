@@ -16,6 +16,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .leaflet-container {
   width: 100% !important;
   height: 100% !important;
@@ -128,7 +129,8 @@
 }
 
 .directions-btn:hover {
-  background: #1d4ed8;
+  background-color: #1d4ed8;
+  transform: scale(1.02);
 }
 .filter-bar {
   display: flex;

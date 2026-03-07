@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  Polyline,
+  Tooltip,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -24,35 +32,39 @@ const ActiveIcon = L.icon({
   iconAnchor: [15, 48],
 });
 
-// 1. Cleaner Recenter Logic
-function RecenterMap({ coords }) {
+function RecenterMap({ coords, userPos, routePoints }) {
   const map = useMap();
-  const divisionCenter = [22.3569, 91.7832];
-  const divisionZoom = 7.0;
 
   useEffect(() => {
     if (!map) return;
 
-    try {
-      // Inside your useEffect
-      if (coords) {
-        const isMobile = window.innerWidth <= 768;
-        // If mobile, we use a standard zoom and no offset since the sidebar is below the map
-        const zoomLevel = isMobile ? 13 : 14;
-        map.flyTo(coords, zoomLevel, { duration: 1.5 });
-      } else {
-        // Fly back immediately; ResizeObserver handles the container shift
-        map.flyTo(divisionCenter, divisionZoom, { duration: 1 });
-      }
-    } catch {
-      // Silent catch
+    // If we have a route, fit the map to show the whole route
+    if (routePoints && routePoints.length > 0) {
+      const bounds = L.latLngBounds(routePoints);
+      map.fitBounds(bounds, { padding: [60, 60], duration: 1.5 });
+      return;
     }
-  }, [coords, map]);
+
+    // If we have both user and destination, fit both
+    if (coords && userPos) {
+      const bounds = L.latLngBounds([coords, userPos]);
+      map.fitBounds(bounds, { padding: [80, 80], duration: 1.5 });
+      return;
+    }
+
+    // Just an attraction selected — center on it
+    if (coords) {
+      map.flyTo(coords, 14, { duration: 1.5 });
+      return;
+    }
+
+    // Default: show full region
+    map.flyTo([22.3569, 91.7832], 7.0, { duration: 1 });
+  }, [coords, userPos, routePoints, map]);
 
   return null;
 }
 
-// 2. The only resize component you need
 function ResizeMap() {
   const map = useMap();
 
@@ -71,7 +83,14 @@ function ResizeMap() {
   return null;
 }
 
-const MapView = ({ attractions, onSelect, selectedAttraction }) => {
+const MapView = ({
+  attractions,
+  onSelect,
+  selectedAttraction,
+  routePoints,
+  userPos,
+  onMarkerDrag,
+}) => {
   return (
     <MapContainer
       center={[22.3569, 91.7832]}
@@ -83,23 +102,73 @@ const MapView = ({ attractions, onSelect, selectedAttraction }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
-
-      {/* Removed MapTileFixer - ResizeMap handles everything now */}
-      <RecenterMap coords={selectedAttraction?.coordinates} />
+      <RecenterMap
+        coords={selectedAttraction?.coordinates}
+        userPos={userPos}
+        routePoints={routePoints}
+      />
       <ResizeMap />
+      {attractions.map((attr) => (
+        <Marker
+          key={attr.id}
+          position={attr.coordinates}
+          eventHandlers={{
+            mouseover: (e) => e.target.openPopup(), // Opens on hover
+            mouseout: (e) => e.target.closePopup(), // Closes when mouse leaves
+          }}
+        >
+          <Popup>{attr.name}</Popup>
+        </Marker>
+      ))}
+
+      {userPos && (
+        <Marker
+          position={userPos} // This starts at the GPS spot, but changes when dragged
+          draggable={true} // This allows the user to fix the "Far away" problem
+          eventHandlers={{
+            dragend: (e) => {
+              const marker = e.target;
+              const newPos = marker.getLatLng();
+
+              // This calls the function in App.jsx to update the state
+              onMarkerDrag(newPos);
+            },
+          }}
+        >
+          <Popup>You are here. Drag me to your exact spot!</Popup>
+        </Marker>
+      )}
+      {routePoints && (
+        <Polyline
+          positions={routePoints}
+          pathOptions={{ color: "#2563eb", weight: 6, opacity: 0.8 }}
+        />
+      )}
 
       {attractions.map((loc) => {
         const isActive = selectedAttraction?.id === loc.id;
+
         return (
           <Marker
             key={loc.id}
             position={loc.coordinates}
             icon={isActive ? ActiveIcon : DefaultIcon}
-            eventHandlers={{ click: () => onSelect(loc) }}
+            eventHandlers={{
+              click: () => onSelect(loc),
+              // We can actually remove mouseover/mouseout entirely
+              // because Tooltips can be set to 'sticky' or 'permanent'
+            }}
           >
-            <Popup>
-              <strong>{loc.name}</strong>
-            </Popup>
+            <Tooltip
+              direction="top"
+              offset={[0, -10]}
+              opacity={1}
+              permanent={false} // Only shows on hover
+              sticky={true} // Follows the mouse slightly for a smooth feel
+              interactive={false} // THIS STOPS THE GLITCHING
+            >
+              <span style={{ fontWeight: "bold" }}>{loc.name}</span>
+            </Tooltip>
           </Marker>
         );
       })}

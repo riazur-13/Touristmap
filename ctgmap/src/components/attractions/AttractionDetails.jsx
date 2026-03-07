@@ -10,14 +10,19 @@ import {
 } from "lucide-react";
 import "./AttractionDetails.css";
 
-const AttractionDetails = ({ attraction, onClose }) => {
+const AttractionDetails = ({
+  attraction,
+  onClose,
+  onDirections,
+  routeInfo,
+}) => {
   if (!attraction) return null;
 
-  const handleGetDirections = () => {
-    const [lat, lng] = attraction.coordinates;
-    const url = `https://www.google.com/maps?q=${lat},${lng}`;
-    window.open(url, "_blank");
-  };
+  // const handleGetDirections = () => {
+  //   const [lat, lng] = attraction.coordinates;
+  //   const url = `https://www.google.com/maps?q=${lat},${lng}`;
+  //   window.open(url, "_blank");
+  // };
 
   const imageSrc =
     attraction.images || "https://placehold.co/600x400?text=No+Image+Found";
@@ -87,8 +92,14 @@ const AttractionDetails = ({ attraction, onClose }) => {
             </div>
           </div>
         </div>
+        {routeInfo && (
+          <div className="route-info-box">
+            <span>📍 {routeInfo.distance} km away</span>
+            <span>🕒 ~{routeInfo.duration} min by road</span>
+          </div>
+        )}
 
-        <button className="directions-btn" onClick={handleGetDirections}>
+        <button className="directions-btn" onClick={onDirections}>
           <Navigation size={18} />
           Get Directions
         </button>
