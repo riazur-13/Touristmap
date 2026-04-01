@@ -1,104 +1,158 @@
-import React, { useState } from "react"; // Added useState
+import React, { useState, useCallback, useMemo } from "react";
 import "./App.css";
 import "./styles/variables.css";
-import { Search, X, MapPin, Waves, Mountain, Landmark } from "lucide-react";
+import { X, MapPin, Waves, Mountain, Landmark } from "lucide-react";
 import MapView from "./components/map/MapView";
 import attractions from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 
+function haversineKm([lat1, lon1], [lat2, lon2]) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function formatDuration(minutes) {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const [userPos, setUserPos] = useState(null);
   const [routePoints, setRoutePoints] = useState(null);
   const [routeInfo, setRouteInfo] = useState(null);
-  const [userPos, setUserPos] = useState(null);
+  const [routeLoading, setRouteLoading] = useState(false);
+  const [routeError, setRouteError] = useState(null);
 
-  // ✅ New: pure route calculator — accepts a position directly
-  const calculateRoute = async (fromPos, target) => {
+  const calculateRoute = useCallback(async (fromPos, target) => {
     if (!fromPos || !target?.coordinates) return;
 
-    const [userLat, userLng] = fromPos;
-    const [destLat, destLng] = target.coordinates;
+    const [uLat, uLng] = fromPos;
+    const [dLat, dLng] = target.coordinates;
 
-    const url = `https://router.project-osrm.org/route/v1/driving/${userLng.toFixed(6)},${userLat.toFixed(6)};${destLng.toFixed(6)},${destLat.toFixed(6)}?overview=full&geometries=geojson`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.code === "Ok") {
-        const roadPoints = data.routes[0].geometry.coordinates.map((c) => [
-          c[1],
-          c[0],
-        ]);
-        const distanceKm = (data.routes[0].distance / 1000).toFixed(1);
-        const durationMin = Math.round(data.routes[0].duration / 60);
-
-        setRoutePoints(roadPoints);
-        setRouteInfo({ distance: distanceKm, duration: durationMin }); // ✅ Save distance
-      } else {
-        setRoutePoints([
-          [userLat, userLng],
-          [destLat, destLng],
-        ]);
-        setRouteInfo(null);
-      }
-    } catch (err) {
-      console.error("Fetch error:", err);
-      setRoutePoints([
-        [userLat, userLng],
-        [destLat, destLng],
-      ]);
-      setRouteInfo(null);
-    }
-  };
-
-  // ✅ This is what the button calls — fetches GPS first, then calculates
-  const handleGetDirections = (target) => {
-    if (!target?.coordinates) return;
-
+    setRouteLoading(true);
+    setRouteError(null);
     setRoutePoints(null);
     setRouteInfo(null);
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        const userPos = [latitude, longitude];
-        setUserPos(userPos);
-        await calculateRoute(userPos, target);
-      },
-      (error) => {
-        console.error("Geolocation error:", error.message);
-        alert("Could not get your location: " + error.message);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
-    );
-  };
-  const handleMarkerDrag = (newCoords) => {
-    const draggedPos = [newCoords.lat, newCoords.lng];
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10_000);
 
-    setUserPos(draggedPos);
+    const url =
+      `https://router.project-osrm.org/route/v1/driving/` +
+      `${uLng.toFixed(6)},${uLat.toFixed(6)};${dLng.toFixed(6)},${dLat.toFixed(6)}` +
+      `?overview=full&geometries=geojson`;
 
-    if (selectedAttraction) {
-      calculateRoute(draggedPos, selectedAttraction);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      if (data.code === "Ok") {
+        const route = data.routes[0];
+        setRoutePoints(
+          route.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+        );
+        setRouteInfo({
+          distance: (route.distance / 1000).toFixed(1), // km
+          duration: formatDuration(Math.round(route.duration / 60)), // "Xh Ym"
+          isFallback: false,
+        });
+      } else {
+        throw new Error(`OSRM: ${data.code}`);
+      }
+    } catch {
+      clearTimeout(timer);
+      setRoutePoints([fromPos, target.coordinates]);
+      setRouteInfo({
+        distance: haversineKm(fromPos, target.coordinates).toFixed(1),
+        duration: null,
+        isFallback: true,
+      });
+      setRouteError("Road data unavailable — showing straight-line estimate.");
+    } finally {
+      setRouteLoading(false);
     }
-  };
-  const filteredAttractions = attractions.filter((item) => {
-    const matchesSearch = item.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      activeCategory === "All" || item.category === activeCategory;
+  }, []);
 
-    return matchesSearch && matchesCategory;
-  });
+  const handleGetDirections = useCallback(
+    (target) => {
+      if (!target?.coordinates) return;
+      setRouteLoading(true);
+      setRouteError(null);
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const freshPos = [pos.coords.latitude, pos.coords.longitude];
+          setUserPos(freshPos);
+          await calculateRoute(freshPos, target);
+        },
+        (err) => {
+          setRouteLoading(false);
+          const msg = {
+            1: "Location access denied — please allow permission and retry.",
+            2: "Position unavailable — check your device GPS.",
+            3: "Location timed out — please try again.",
+          };
+          setRouteError(msg[err.code] ?? "Could not get your location.");
+        },
+        { enableHighAccuracy: true, timeout: 15_000, maximumAge: 0 },
+      );
+    },
+    [calculateRoute],
+  );
+
+  const handleMarkerDrag = useCallback(
+    (newLatLng) => {
+      const dragged = [newLatLng.lat, newLatLng.lng];
+      setUserPos(dragged);
+      if (selectedAttraction) calculateRoute(dragged, selectedAttraction);
+    },
+    [selectedAttraction, calculateRoute],
+  );
+
+  const handleClose = useCallback(() => {
+    setSelectedAttraction(null);
+    setRoutePoints(null);
+    setRouteInfo(null);
+    setRouteError(null);
+    setUserPos(null);
+    setRouteLoading(false);
+  }, []);
+
+  const filteredAttractions = useMemo(
+    () =>
+      attractions.filter((item) => {
+        const matchSearch = item.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        const matchCat =
+          activeCategory === "All" || item.category === activeCategory;
+        return matchSearch && matchCat;
+      }),
+    [searchQuery, activeCategory],
+  );
+
+  const categories = useMemo(
+    () => ["All", ...new Set(attractions.map((a) => a.category))],
+    [],
+  );
+
   const isSearchEmpty = searchQuery !== "" && filteredAttractions.length === 0;
-  const categories = [
-    "All",
-    ...new Set(attractions.map((item) => item.category)),
-  ];
 
   return (
     <div className="app-wrapper">
@@ -113,7 +167,6 @@ function App() {
             onChange={setSearchQuery}
             placeholder="Search locations..."
           />
-
           <span className="results-badge">
             {filteredAttractions.length}{" "}
             {filteredAttractions.length === 1 ? "result" : "results"}
@@ -162,12 +215,10 @@ function App() {
             <AttractionDetails
               attraction={selectedAttraction}
               routeInfo={routeInfo}
+              routeLoading={routeLoading}
+              routeError={routeError}
               onDirections={() => handleGetDirections(selectedAttraction)}
-              onClose={() => {
-                setSelectedAttraction(null);
-                setRoutePoints(null);
-                setRouteInfo(null);
-              }}
+              onClose={handleClose}
             />
           </aside>
         )}

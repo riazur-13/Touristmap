@@ -1,15 +1,17 @@
 .main-layout {
   display: flex;
-  flex-direction: row; /* Horizontal split */
+  flex-direction: row;
   flex: 1;
   position: relative;
   overflow: hidden;
 }
+
 .app-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
+
 .map-column {
   flex: 1;
   height: 100%;
@@ -29,7 +31,7 @@
   border-left: 1px solid #e2e8f0;
   height: 100%;
   overflow-y: auto;
-  flex-shrink: 0; /* Prevents the sidebar from getting squashed */
+  flex-shrink: 0;
   animation: slideIn 0.3s ease-out;
 }
 
@@ -41,6 +43,7 @@
     transform: translateX(0);
   }
 }
+
 .search-and-count {
   display: flex;
   align-items: center;
@@ -54,10 +57,9 @@
   background: #f1f5f9;
   padding: 4px 10px;
   border-radius: 6px;
-  white-space: nowrap; /* Keep the count on one line */
+  white-space: nowrap;
 }
 
-/* Optional: Make the badge pulse or change color if 0 results found */
 .results-badge:empty {
   display: none;
 }
@@ -69,11 +71,12 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .sidebar-body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Allows content to scroll within the sidebar */
+  overflow-y: auto;
 }
 
 .detail-image-container {
@@ -132,6 +135,7 @@
   background-color: #1d4ed8;
   transform: scale(1.02);
 }
+
 .filter-bar {
   display: flex;
   align-items: center;
@@ -139,7 +143,7 @@
   padding: 0 15px;
   background: #ffffff;
   border-bottom: 1px solid #e2e8f0;
-  height: 55px; /* Forced slim height */
+  height: 55px;
 }
 
 .search-container {
@@ -148,7 +152,7 @@
   background: #f1f5f9;
   padding: 6px 12px;
   border-radius: 8px;
-  width: 250px; /* Fixed width to keep it small */
+  width: 250px;
 }
 
 .compact-input {
@@ -164,12 +168,19 @@
   width: 1px;
   height: 24px;
   background: #e2e8f0;
+  flex-shrink: 0;
 }
 
 .filter-chips {
   display: flex;
   gap: 8px;
-  overflow-x: auto; /* Allows scrolling on small screens */
+  overflow-x: auto;
+  /* Hide scrollbar on mobile but keep scrollability */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.filter-chips::-webkit-scrollbar {
+  display: none;
 }
 
 .chip {
@@ -195,6 +206,7 @@
 .chip:hover {
   background: #f8fafc;
 }
+
 .locate-btn {
   background-color: white;
   width: 34px;
@@ -217,6 +229,7 @@
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
+
 .no-results-message {
   position: absolute;
   top: 20px;
@@ -238,4 +251,51 @@
   border: none;
   cursor: pointer;
   text-decoration: underline;
+}
+
+/* ── Mobile layout ─────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .main-layout {
+    flex-direction: column; /* stack map above sidebar */
+  }
+
+  /* Map takes upper 55% of the screen */
+  .map-column {
+    height: 55%;
+    flex: none;
+  }
+
+  /* Sidebar slides up from the bottom and takes the remaining 45% */
+  .sidebar-column {
+    width: 100%;
+    height: 45%;
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* Tighten the filter bar on small screens */
+  .filter-bar {
+    height: auto;
+    padding: 8px 12px;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .vertical-divider {
+    display: none;
+  }
+
+  .search-container {
+    width: 160px;
+  }
 }

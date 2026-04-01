@@ -7,6 +7,9 @@ import {
   X,
   Calendar,
   Sparkles,
+  Loader2,
+  AlertCircle,
+  Route,
 } from "lucide-react";
 import "./AttractionDetails.css";
 
@@ -15,14 +18,10 @@ const AttractionDetails = ({
   onClose,
   onDirections,
   routeInfo,
+  routeLoading,
+  routeError,
 }) => {
   if (!attraction) return null;
-
-  // const handleGetDirections = () => {
-  //   const [lat, lng] = attraction.coordinates;
-  //   const url = `https://www.google.com/maps?q=${lat},${lng}`;
-  //   window.open(url, "_blank");
-  // };
 
   const imageSrc =
     attraction.images || "https://placehold.co/600x400?text=No+Image+Found";
@@ -34,11 +33,16 @@ const AttractionDetails = ({
           src={imageSrc}
           alt={attraction.name}
           className="card-image"
+          loading="lazy"
           onError={(e) => {
             e.target.src = "https://placehold.co/600x400?text=Path+Error";
           }}
         />
-        <button className="close-btn-overlay" onClick={onClose}>
+        <button
+          className="close-btn-overlay"
+          onClick={onClose}
+          aria-label="Close"
+        >
           <X size={20} />
         </button>
       </div>
@@ -75,6 +79,7 @@ const AttractionDetails = ({
             </div>
           </div>
         </div>
+
         <div className="extra-info-section">
           <div className="info-item full-width">
             <Calendar size={18} className="info-icon" />
@@ -83,7 +88,6 @@ const AttractionDetails = ({
               <span className="value">{attraction.bestTimeToVisit}</span>
             </div>
           </div>
-
           <div className="info-item full-width">
             <Sparkles size={18} className="info-icon" />
             <div className="info-text">
@@ -92,16 +96,63 @@ const AttractionDetails = ({
             </div>
           </div>
         </div>
-        {routeInfo && (
-          <div className="route-info-box">
-            <span>📍 {routeInfo.distance} km away</span>
-            <span>🕒 ~{routeInfo.duration} min by road</span>
+
+        {/* ── Route status panel ───────────────────────────────────────── */}
+        {routeLoading && (
+          <div
+            className="route-info-box route-loading"
+            role="status"
+            aria-live="polite"
+          >
+            <Loader2 size={15} className="spin" />
+            <span>Calculating route…</span>
           </div>
         )}
 
-        <button className="directions-btn" onClick={onDirections}>
-          <Navigation size={18} />
-          Get Directions
+        {routeError && !routeLoading && (
+          <div className="route-info-box route-error" role="alert">
+            <AlertCircle size={15} />
+            <span>{routeError}</span>
+          </div>
+        )}
+
+        {routeInfo && !routeLoading && (
+          <div
+            className={`route-info-box ${routeInfo.isFallback ? "route-fallback" : "route-success"}`}
+          >
+            <div className="route-stat">
+              <Route size={14} />
+              <span>
+                <strong>{routeInfo.distance} km</strong>
+                {routeInfo.isFallback ? " straight line" : " by road"}
+              </span>
+            </div>
+            {routeInfo.duration && (
+              <div className="route-stat">
+                <Clock size={14} />
+                <span>
+                  <strong>{routeInfo.duration}</strong> drive
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        <button
+          className="directions-btn"
+          onClick={onDirections}
+          disabled={routeLoading}
+          aria-busy={routeLoading}
+        >
+          {routeLoading ? (
+            <>
+              <Loader2 size={18} className="spin" /> Finding route…
+            </>
+          ) : (
+            <>
+              <Navigation size={18} /> Get Directions
+            </>
+          )}
         </button>
       </div>
     </div>
