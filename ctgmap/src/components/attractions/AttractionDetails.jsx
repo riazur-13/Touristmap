@@ -10,6 +10,7 @@ import {
   Loader2,
   AlertCircle,
   Route,
+  ExternalLink,
 } from "lucide-react";
 import "./AttractionDetails.css";
 
@@ -138,22 +139,35 @@ const AttractionDetails = ({
           </div>
         )}
 
-        <button
-          className="directions-btn"
-          onClick={onDirections}
-          disabled={routeLoading}
-          aria-busy={routeLoading}
-        >
-          {routeLoading ? (
-            <>
-              <Loader2 size={18} className="spin" /> Finding route…
-            </>
-          ) : (
-            <>
-              <Navigation size={18} /> Get Directions
-            </>
+        <div className="buttons-group">
+          {attraction.moreInfoLink && (
+            <a
+              href={attraction.moreInfoLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="learn-more-btn"
+            >
+              <ExternalLink size={18} /> Learn More
+            </a>
           )}
-        </button>
+
+          <button
+            className="directions-btn"
+            onClick={onDirections}
+            disabled={routeLoading}
+            aria-busy={routeLoading}
+          >
+            {routeLoading ? (
+              <>
+                <Loader2 size={18} className="spin" /> Finding route…
+              </>
+            ) : (
+              <>
+                <Navigation size={18} /> Get Directions
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
