@@ -39,7 +39,7 @@ const attractions = [
     coordinates: [22.2361, 91.7981],
     category: CATEGORIES.BEACH.name,
     images: "/images/c4.jpg",
-    moreInfoLink: " https://en.wikipedia.org/wiki/Patenga_Beach",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Patenga_Sea_Beach",
     address: "Patenga, Chittagong",
     bestTimeToVisit: "Year-round",
     entryFee: "Free",
@@ -69,7 +69,7 @@ const attractions = [
     coordinates: [21.9667, 92.3333],
     category: CATEGORIES.NATURAL.name,
     images: "/images/c6.jpg",
-    moreInfoLink: " https://en.wikipedia.org/wiki/Boga_Lake",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Boga_Lake",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
     entryFee: "Trekking permit required",
@@ -99,7 +99,7 @@ const attractions = [
     coordinates: [21.8869, 92.3531],
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c8.jpg",
-    moreInfoLink: "https://en.wikipedia.org/wiki/Nilgiri_Hills_(Bangladesh)",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
     entryFee: "50 BDT per person",
@@ -126,13 +126,11 @@ const attractions = [
     name: "Ethnological Museum",
     description:
       "Located in Chittagong, this museum showcases the cultural heritage of various indigenous communities in the Chittagong Hill Tracts.",
-    coordinates: [22.3569, 91.7832],
+    coordinates: [22.328, 91.815],
     category: CATEGORIES.CULTURAL.name,
     images: "/images/c10.jpg",
-    moreInfoLink:
-      "https://en.wikipedia.org/wiki/Ethnological_Museum_(Bangladesh)",
-
-    address: "Agrabad, Chittagong",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Ethnological_Museum,_Chittagong",
+    address: "Agrabad C/A, Chittagong",
     bestTimeToVisit: "Year-round",
     entryFee: "20 BDT",
     openingHours: "10:00 AM - 5:00 PM (Closed Monday)",
@@ -251,7 +249,7 @@ const attractions = [
     coordinates: [22.5167, 91.6833],
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c18.jpg",
-    moreInfoLink: "https://en.wikipedia.org/wiki/Meghla",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Mirsharai_Upazila",
     address: "Mirsharai, Chittagong",
     bestTimeToVisit: "October to March",
     entryFee: "50 BDT",
@@ -355,7 +353,7 @@ const attractions = [
     coordinates: [21.8333, 92.5333],
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c25.jpg",
-    moreInfoLink: "https://en.wikipedia.org/wiki/Tajingdong",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Tazing_Dong",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
     entryFee: "Trekking permit required",
@@ -370,7 +368,7 @@ const attractions = [
     coordinates: [22.1667, 92.25],
     category: CATEGORIES.CULTURAL.name,
     images: "/images/c26.jpg",
-    moreInfoLink: "https://en.wikipedia.org/wiki/Khyang_Para",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Khyang_people",
     address: "Bandarban District",
     bestTimeToVisit: "Year-round",
     entryFee: "Donations appreciated",
@@ -385,7 +383,7 @@ const attractions = [
     coordinates: [21.8667, 92.2667],
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c27.jpg",
-    moreInfoLink: "https://en.wikipedia.org/wiki/Chimbuk_Hill",
+    moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
     entryFee: "30 BDT",
@@ -424,10 +422,9 @@ const attractions = [
   },
 ];
 
-export const getAttractionById = (id) =>
-  attractions.find((att) => att.id === id);
-export const getAttractionsByCategory = (category) =>
-  attractions.filter((att) => att.category === category);
+// The distinct categories present in the data, in first-seen order. Used to
+// build the filter chips — keep this as the single source of that list so the
+// chips can never drift from the data.
 export const getAllCategories = () => [
   ...new Set(attractions.map((attr) => attr.category)),
 ];

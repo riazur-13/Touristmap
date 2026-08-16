@@ -37,51 +37,34 @@ export const CATEGORIES = {
 export const MAP_CONFIG = {
   // Chittagong city center coordinates
   DEFAULT_CENTER: [22.3569, 91.7832],
-  
-  // Initial zoom level (9 = region view, 13 = close-up)
-  DEFAULT_ZOOM: 9,
-  DETAIL_ZOOM: 13,
-  
-  // Map bounds (prevents users from panning too far)
+
+  // Initial zoom level (7 = whole division, 14 = close-up on one attraction)
+  DEFAULT_ZOOM: 7,
+  DETAIL_ZOOM: 14,
+
+  // NOT currently applied to the map. At DEFAULT_ZOOM a desktop viewport shows
+  // 16-28 degrees of longitude, but this box is only 2.5 degrees wide, so
+  // passing it as `maxBounds` would pin the map and disable panning entirely.
+  // To enforce it, raise DEFAULT_ZOOM/MIN_ZOOM to ~10 or widen the box first.
   MAX_BOUNDS: [
     [20.5, 90.5],  // Southwest corner
     [23.5, 93.0]   // Northeast corner
   ],
-  
-  // Zoom limits
-  MIN_ZOOM: 8,
+
+  // Zoom limits. MIN_ZOOM must stay <= DEFAULT_ZOOM, otherwise Leaflet clamps
+  // the initial view and the map opens more zoomed-in than intended.
+  MIN_ZOOM: 7,
   MAX_ZOOM: 18
 };
 
 /**
  * Breakpoints for responsive design
- * Matches common device sizes
+ * Matches common device sizes. TABLET is the mobile/desktop split and must be
+ * kept in sync with the `max-width: 767px` media queries in the stylesheets.
  */
 export const BREAKPOINTS = {
   MOBILE: 640,      // 640px and below
   TABLET: 768,      // 641px - 768px
   DESKTOP: 1024,    // 769px - 1024px
   WIDE: 1280        // 1025px and above
-};
-
-/**
- * Animation durations (in milliseconds)
- * Consistent timing creates better UX
- */
-export const ANIMATION = {
-  FAST: 150,
-  NORMAL: 200,
-  SLOW: 300
-};
-
-/**
- * Feature flags
- * Easy way to enable/disable features
- */
-export const FEATURES = {
-  SEARCH_ENABLED: true,
-  FILTER_ENABLED: true,
-  FAVORITES_ENABLED: false,  
-  AI_ENABLED: false,         
-  OFFLINE_MODE: false       
 };

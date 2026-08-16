@@ -1,4 +1,3 @@
-import React from "react";
 import {
   MapPin,
   Clock,
@@ -136,6 +135,7 @@ const AttractionDetails = ({
                 </span>
               </div>
             )}
+            {routeInfo.note && <p className="route-note">{routeInfo.note}</p>}
           </div>
         )}
 
