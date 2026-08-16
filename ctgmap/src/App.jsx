@@ -1,9 +1,7 @@
-import React, { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import "./App.css";
-import "./styles/variables.css";
-import { X, MapPin, Waves, Mountain, Landmark } from "lucide-react";
 import MapView from "./components/map/MapView";
-import attractions from "./data/attractions";
+import attractions, { getAllCategories } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 
@@ -36,18 +34,39 @@ function App() {
   const [routeLoading, setRouteLoading] = useState(false);
   const [routeError, setRouteError] = useState(null);
 
+  // In-flight request bookkeeping. `abortRef` cancels the previous fetch and
+  // `requestIdRef` fences off its response, so a slow earlier reply can never
+  // overwrite a newer one (e.g. when the user marker is dragged repeatedly).
+  const abortRef = useRef(null);
+  const requestIdRef = useRef(0);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      abortRef.current?.abort();
+    };
+  }, []);
+
   const calculateRoute = useCallback(async (fromPos, target) => {
     if (!fromPos || !target?.coordinates) return;
 
     const [uLat, uLng] = fromPos;
     const [dLat, dLng] = target.coordinates;
 
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    const reqId = ++requestIdRef.current;
+    const isCurrent = () => mountedRef.current && reqId === requestIdRef.current;
+
     setRouteLoading(true);
     setRouteError(null);
     setRoutePoints(null);
     setRouteInfo(null);
 
-    const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10_000);
 
     const url =
@@ -57,41 +76,61 @@ function App() {
 
     try {
       const res = await fetch(url, { signal: controller.signal });
-      clearTimeout(timer);
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
+      if (data.code !== "Ok") throw new Error(`OSRM: ${data.code}`);
 
-      if (data.code === "Ok") {
-        const route = data.routes[0];
-        setRoutePoints(
-          route.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
-        );
-        setRouteInfo({
-          distance: (route.distance / 1000).toFixed(1), // km
-          duration: formatDuration(Math.round(route.duration / 60)), // "Xh Ym"
-          isFallback: false,
-        });
-      } else {
-        throw new Error(`OSRM: ${data.code}`);
-      }
+      const route = data.routes[0];
+      if (!isCurrent()) return;
+
+      setRoutePoints(
+        route.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+      );
+      setRouteInfo({
+        distance: (route.distance / 1000).toFixed(1), // km
+        duration: formatDuration(Math.round(route.duration / 60)), // "Xh Ym"
+        isFallback: false,
+      });
     } catch {
-      clearTimeout(timer);
+      if (!isCurrent()) return;
+
+      // Straight-line estimate. The fallback panel explains itself via `note`,
+      // so this is deliberately not surfaced as a routeError as well.
       setRoutePoints([fromPos, target.coordinates]);
       setRouteInfo({
         distance: haversineKm(fromPos, target.coordinates).toFixed(1),
         duration: null,
         isFallback: true,
+        note: "Road data unavailable — showing straight-line estimate.",
       });
-      setRouteError("Road data unavailable — showing straight-line estimate.");
     } finally {
-      setRouteLoading(false);
+      clearTimeout(timer);
+      if (isCurrent()) setRouteLoading(false);
     }
+  }, []);
+
+  // Cancels any in-flight request and wipes every route-derived piece of state.
+  const clearRoute = useCallback(() => {
+    abortRef.current?.abort();
+    requestIdRef.current++; // fence off any response still in flight
+    setRoutePoints(null);
+    setRouteInfo(null);
+    setRouteError(null);
+    setRouteLoading(false);
   }, []);
 
   const handleGetDirections = useCallback(
     (target) => {
       if (!target?.coordinates) return;
+
+      if (!navigator.geolocation) {
+        setRouteError(
+          "Geolocation isn't available in this browser, or the page isn't served over HTTPS.",
+        );
+        return;
+      }
+
       setRouteLoading(true);
       setRouteError(null);
 
@@ -125,14 +164,23 @@ function App() {
     [selectedAttraction, calculateRoute],
   );
 
+  // Selecting a new attraction must drop the previous attraction's route,
+  // otherwise its distance/duration would be shown against the new one.
+  // `userPos` deliberately survives — it is still valid, and re-fetching it
+  // would trigger a redundant permission prompt.
+  const handleSelect = useCallback(
+    (attraction) => {
+      setSelectedAttraction(attraction);
+      clearRoute();
+    },
+    [clearRoute],
+  );
+
   const handleClose = useCallback(() => {
     setSelectedAttraction(null);
-    setRoutePoints(null);
-    setRouteInfo(null);
-    setRouteError(null);
     setUserPos(null);
-    setRouteLoading(false);
-  }, []);
+    clearRoute();
+  }, [clearRoute]);
 
   const filteredAttractions = useMemo(
     () =>
@@ -147,10 +195,7 @@ function App() {
     [searchQuery, activeCategory],
   );
 
-  const categories = useMemo(
-    () => ["All", ...new Set(attractions.map((a) => a.category))],
-    [],
-  );
+  const categories = useMemo(() => ["All", ...getAllCategories()], []);
 
   const isSearchEmpty = searchQuery !== "" && filteredAttractions.length === 0;
 
@@ -202,7 +247,7 @@ function App() {
           )}
           <MapView
             attractions={filteredAttractions}
-            onSelect={setSelectedAttraction}
+            onSelect={handleSelect}
             selectedAttraction={selectedAttraction}
             routePoints={routePoints}
             userPos={userPos}

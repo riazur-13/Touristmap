@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, memo } from "react";
+import { useEffect, useRef, useMemo, memo } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -10,12 +10,16 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import "./MapView.css";
+import { MAP_CONFIG, BREAKPOINTS } from "../../styles/utils/constants";
 
 // ─── Icons (module-level constants — created once, never re-instantiated) ─────
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import markerRetina from "leaflet/dist/images/marker-icon-2x.png";
+// Vendored from github.com/pointhi/leaflet-color-markers (BSD-2-Clause) so the
+// map has no runtime dependency on raw.githubusercontent.com being reachable.
+import markerRed from "../../assets/markers/marker-icon-2x-red.png";
+import markerBlue from "../../assets/markers/marker-icon-2x-blue.png";
 
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -26,16 +30,14 @@ const DefaultIcon = L.icon({
 });
 
 const ActiveIcon = L.icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+  iconUrl: markerRed,
   shadowUrl: markerShadow,
   iconSize: [30, 48],
   iconAnchor: [15, 48],
 });
 
 const UserIcon = L.icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  iconUrl: markerBlue,
   shadowUrl: markerShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -45,10 +47,8 @@ const UserIcon = L.icon({
 // Decides the best view based on available data — priority order:
 //   1. Full route  →  fitBounds(route)
 //   2. User + dest →  fitBounds(both points)
-//   3. Dest only   →  flyTo(dest, 14)
-//   4. Default     →  flyTo(region, 7)
-const REGION = [22.3569, 91.7832];
-const REGION_Z = 7;
+//   3. Dest only   →  flyTo(dest, MAP_CONFIG.DETAIL_ZOOM)
+//   4. Default     →  flyTo(MAP_CONFIG.DEFAULT_CENTER, MAP_CONFIG.DEFAULT_ZOOM)
 function RecenterMap({ coords, userPos, routePoints }) {
   const map = useMap();
 
@@ -57,7 +57,7 @@ function RecenterMap({ coords, userPos, routePoints }) {
 
     if (routePoints && routePoints.length > 1) {
       const bounds = L.latLngBounds(routePoints);
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth < BREAKPOINTS.TABLET;
       map.fitBounds(bounds, {
         padding: isMobile ? [40, 20] : [80, 80],
         maxZoom: 15,
@@ -78,11 +78,17 @@ function RecenterMap({ coords, userPos, routePoints }) {
     }
 
     if (coords) {
-      map.flyTo(coords, 14, { animate: true, duration: 1.2 });
+      map.flyTo(coords, MAP_CONFIG.DETAIL_ZOOM, {
+        animate: true,
+        duration: 1.2,
+      });
       return;
     }
 
-    map.flyTo(REGION, REGION_Z, { animate: true, duration: 0.8 });
+    map.flyTo(MAP_CONFIG.DEFAULT_CENTER, MAP_CONFIG.DEFAULT_ZOOM, {
+      animate: true,
+      duration: 0.8,
+    });
   }, [map, coords, userPos, routePoints]);
 
   return null;
@@ -154,11 +160,11 @@ const MapView = ({
 
   return (
     <MapContainer
-      center={[22.3569, 91.7832]}
-      zoom={7}
+      center={MAP_CONFIG.DEFAULT_CENTER}
+      zoom={MAP_CONFIG.DEFAULT_ZOOM}
+      minZoom={MAP_CONFIG.MIN_ZOOM}
+      maxZoom={MAP_CONFIG.MAX_ZOOM}
       style={{ height: "100%", width: "100%" }}
-      tap={true} // required for iOS touch events
-      tapTolerance={15} // larger tap target on mobile
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -42,3 +42,11 @@
 .search-clear-btn:hover {
   color: #ef4444;
 }
+
+/* Replaces the dead `.search-container` override that used to live in App.css
+   and no longer matched anything after SearchBar was extracted. */
+@media (max-width: 767px) {
+  .search-bar-wrapper {
+    width: 160px;
+  }
+}
