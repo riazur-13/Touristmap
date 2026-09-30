@@ -21,6 +21,7 @@
   --spacing-xl: 2rem;
 
   /* Others */
+  --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-full: 9999px;
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);

@@ -1,14 +1,12 @@
-
-
 export const CATEGORIES = {
   BEACH: {
     name: 'Beach',
-    color: '#3b82f6', 
+    color: '#3b82f6',
     icon: '🏖️'
   },
   HILL_STATION: {
     name: 'Hill Station',
-    color: '#10b981',  
+    color: '#10b981',
     icon: '⛰️'
   },
   HISTORICAL: {
@@ -18,21 +16,31 @@ export const CATEGORIES = {
   },
   RELIGIOUS: {
     name: 'Religious Site',
-    color: '#8b5cf6',  
+    color: '#8b5cf6',
     icon: '🕌'
   },
   NATURAL: {
     name: 'Natural Wonder',
-    color: '#14b8a6', 
+    color: '#14b8a6',
     icon: '🌿'
   },
   CULTURAL: {
     name: 'Cultural Center',
-    color: '#ec4899', 
+    color: '#ec4899',
     icon: '🎭'
   }
 };
 
+// Used for any category name that is missing from CATEGORIES.
+export const FALLBACK_CATEGORY_COLOR = '#64748b';
+
+/**
+ * Marker/badge color for a category *name* (the value stored on each
+ * attraction), so the map pins, filter chips and details badge always agree.
+ */
+export const getCategoryColor = (name) =>
+  Object.values(CATEGORIES).find((c) => c.name === name)?.color ??
+  FALLBACK_CATEGORY_COLOR;
 
 export const MAP_CONFIG = {
   // Chittagong city center coordinates
