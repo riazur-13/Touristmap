@@ -1,6 +1,6 @@
 # Audit report — 2026-09-30
 
-Branch: `audit/cleanup-2026-09-30` (15 commits on top of `main`, including this report; not pushed).
+Branch: `audit/cleanup-2026-09-30` (not pushed). The audit (sections 1–6) is 15 commits. A follow-up round (section 7) adds 6 more, including this report update.
 
 ## 1. Summary
 
@@ -99,16 +99,16 @@ Nothing else needed removing:
 - Keep the current static `attractions.js` as the fallback when the API is down. The `.gitignore` rules are already in place.
 
 **Data that needs a local check:**
-- **Meghla Tourist Complex.** The description says a hilltop resort in Mirsharai with tea gardens. The well-known Meghla Parjatan Complex is in Bandarban, and no OSM or Wikipedia match exists for a Mirsharai one. The description, address, coordinates and link may all describe the wrong place.
-- **Chimbuk Hill, Nafakhum, Tajingdong, Himchari.** OSM and Wikipedia either disagree or have no precise point. Left as is.
+- ~~**Meghla Tourist Complex.**~~ Resolved in section 7: it is now the Meghla Parjatan Complex near Bandarban. Its entry fee and opening hours still need checking locally.
+- **Chimbuk Hill, Nafakhum, Tajingdong, Himchari.** OSM and Wikipedia either disagree or have no precise point. The pins are unchanged, but since section 7 they're flagged `approximateLocation` and the details panel says so.
 - **Kaptai Lake and Sangu River** are large features. The pins are representative points, so they weren't moved.
 - **Links to parent articles.** Nilgiri, Chimbuk, Meghla, the Hanging Bridge and Khyang Para link to their upazila, district or people article because no dedicated English Wikipedia article exists.
 - **Categories.** Dulahazara Safari Park is filed as "Cultural Center". A wildlife park might fit "Natural Wonder" better.
 - **Google Maps links.** The data has none, so there was nothing to validate. Directions use OSRM.
 
 **Looks unused, but I kept it:**
-- `CATEGORIES[*].icon` (emoji): unused, but plausible future UI.
-- `MAP_CONFIG.MAX_BOUNDS`: intentionally unapplied and documented.
+- ~~`CATEGORIES[*].icon` (emoji)~~: removed in section 7.
+- ~~`MAP_CONFIG.MAX_BOUNDS`~~: applied in section 7.
 - `BREAKPOINTS.MOBILE`, `DESKTOP` and `WIDE`: only `TABLET` is used.
 
 **Other:**
@@ -135,9 +135,83 @@ The browser checks used headless Chrome against both `vite preview` and `vite de
 
 ## 6. Suggested next steps
 
-1. **Compress the photos.** `public/images` is 6.8 MB, and `c16.jpg` alone is 4.6 MB. Converting to ~1200 px WebP would cut this by about 90%.
+1. ~~**Compress the photos.**~~ Done in section 7: 6.84 MB → 1.67 MB.
 2. **Replace the remote `placehold.co` fallback** with a local placeholder image, so a broken photo doesn't need a third-party request.
 3. **Move `styles/utils/constants.js`** to something like `src/config/`. It holds map config and category data, not styles.
-4. **Match search against address too**, so "Bandarban" finds the nine places there.
+4. **Match search against address too**, so "Bandarban" finds the 12 places there.
 5. **Add a data test** (for example with Vitest) that locks in the schema, unique-id, bounds and image checks from this audit.
 6. **Use a self-hosted or keyed routing endpoint and tile provider** before any real deployment. The OSRM demo and OSM tile servers are not meant for production traffic.
+
+## 7. Follow-up round
+
+Five requested changes, each in its own commit.
+
+### 7.1 Meghla → Meghla Parjatan Complex (`fix(data)`)
+
+The entry described a hilltop resort in Mirsharai, but its own photo (`c18`, a lake with a cable car) shows the Meghla Parjatan Complex in Bandarban.
+
+- **Coordinates:** 22.1828, 92.1877, from Wikidata [Q55232254](https://www.wikidata.org/wiki/Q55232254). Two related Wikidata items, the lake (Q66638457) and hanging bridge 1 (Q122644019), are within about 150 m. The pin moved about 64 km and now sits just off the Bandarban–Chittagong road (N108), about 3.7 km west of the town.
+- **Text:** new name, description, address and facilities (hanging bridges, cable car, boating, picnic spots).
+- **Category:** moved from Hill Station to Natural Wonder, matching the similar Foy's Lake.
+- **Link:** English Wikipedia has no article for Meghla, and neither does OSM. The link now points to the [Bandarban](https://en.wikipedia.org/wiki/Bandarban) town article instead of Mirsharai Upazila.
+- **Still to verify:** I found no reliable source for the fee or hours. The old values ("50 BDT", "8:00 AM – 6:00 PM") belonged to the wrong place, so they now read "Ticket required" and "Daylight hours" until someone checks.
+
+### 7.2 `approximateLocation` flag (`feat(details)`)
+
+- **Which entries:** Chimbuk Hill, Nafakhum Waterfall, Tajingdong and Himchari National Park now have `approximateLocation: true`.
+- **What users see:** a small amber note under the address in the details panel: "Approximate location — the map pin may be a few kilometres off."
+- **Schema:** the field is optional, and the README documents it.
+
+### 7.3 `maxBounds` applied (`feat(map)`)
+
+The original `MAX_BOUNDS` box couldn't be applied as it was. It was 2.5° wide, but at zoom 7 the viewport is 15–20° wide. Leaflet stops panning on any axis where the view is larger than the bounds, so the map would have been frozen in place. To make bounds usable:
+
+| Setting | Before | After |
+|---|---|---|
+| `MIN_ZOOM` / `DEFAULT_ZOOM` | 7 / 7 | 8 / 8 |
+| `DEFAULT_CENTER` | Chittagong city (22.357, 91.783) | Midpoint of the attractions (21.65, 92.10) |
+| `MAX_BOUNDS` | 20.5–23.5 N, 90.5–93.0 E (not applied) | 18.5–26.8 N, 86.0–98.0 E |
+| `maxBoundsViscosity` | none | 0.8 |
+
+The new box is larger than a 1920×1080 view at zoom 8, so panning still works. It also covers all of Bangladesh, so a route from anywhere in the country still fits on screen.
+
+Checked in headless Chrome at 1366×800, 1920×1080 and 390×844:
+- all 28 pins are in view on load;
+- a small drag pans the map;
+- an 8,000 px drag stops at the edge.
+
+On a 1920 px wide screen there's only about 1.5° of horizontal panning at zoom 8. That's expected, since the view is nearly as wide as the box.
+
+### 7.4 Category emoji removed (`refactor(constants)`)
+
+`CATEGORIES[*].icon` was read nowhere, so it's gone.
+
+### 7.5 Photos converted to WebP (`perf(images)`)
+
+All 28 photos were converted with `sharp`:
+- rotated using their EXIF orientation;
+- resized to at most 1200 px wide, never enlarged;
+- saved as WebP at quality 80.
+
+Seven small JPEGs were already heavily compressed and grew at quality 80. Those were stepped down to quality 75 or 70 until they were no larger. `c18` is still 3 KB larger (66 → 69 KB) even at quality 70, and I left it there rather than drop quality further.
+
+| | Before (JPEG) | After (WebP) |
+|---|---|---|
+| **Total, 28 files** | **6.84 MB** | **1.67 MB (−75.5%)** |
+| Largest file | `c16.jpg` 4,678 KB (4000×3000) | `c21.webp` 186 KB |
+| `c16` (War Cemetery) | 4,678 KB | 174 KB (1200×900) |
+| `c11` (Himchari) | 421 KB | 135 KB |
+| `c21` (Jadipai) | 341 KB | 186 KB |
+
+The data references and README were updated, and no `.jpg` references remain. In the browser, all 28 attraction photos load as WebP with no fallback and no HTTP errors.
+
+**`loading="lazy"` was not added.** The app has no gallery. The only attraction photo is the header image of the details panel, which is on screen the moment the panel opens. Lazy loading an image that's already visible only delays it, which is why the first audit removed that attribute (section 2, Accessibility). If a gallery or thumbnail list is added later, its images should get `loading="lazy"`.
+
+### Verification after this round
+
+| Check | Result |
+|---|---|
+| `npm run lint` | ✓ clean |
+| `npm run build` | ✓ 0 errors, 0 warnings (JS 384.4 kB / 121.1 kB gzip) |
+| Data check (schema, ids, bounds, image files, Wikipedia links) | ✓ 28/28 |
+| Browser: open all 28 attractions by keyboard | ✓ 28/28 photos load. The approximate-location note shows on exactly the 4 flagged entries. No console errors or warnings. |
