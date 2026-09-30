@@ -1,4 +1,4 @@
-import { CATEGORIES } from "../styles/utils/constants";
+import { CATEGORIES } from "../config/constants";
 
 const attractions = [
   {

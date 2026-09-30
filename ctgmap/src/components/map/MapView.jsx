@@ -16,7 +16,7 @@ import {
   BREAKPOINTS,
   FALLBACK_CATEGORY_COLOR,
   getCategoryColor,
-} from "../../styles/utils/constants";
+} from "../../config/constants";
 
 // ─── Icons (module-level constants — created once, never re-instantiated) ─────
 // Every marker passes an explicit icon, so Leaflet's L.Icon.Default (whose

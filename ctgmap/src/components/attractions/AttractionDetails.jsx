@@ -12,7 +12,7 @@ import {
   ExternalLink,
   Info,
 } from "lucide-react";
-import { getCategoryColor } from "../../styles/utils/constants";
+import { getCategoryColor } from "../../config/constants";
 // Local, so a missing or broken photo never depends on a third-party service.
 import placeholderImage from "../../assets/placeholder.webp";
 import "./AttractionDetails.css";

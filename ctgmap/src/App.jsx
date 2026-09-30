@@ -4,7 +4,7 @@ import MapView from "./components/map/MapView";
 import attractions, { getAllCategories } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
-import { getCategoryColor } from "./styles/utils/constants";
+import { getCategoryColor } from "./config/constants";
 
 const CATEGORY_OPTIONS = getAllCategories();
 

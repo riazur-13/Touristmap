@@ -72,7 +72,7 @@ ctgmap/
     components/map/MapView.jsx           Leaflet map, category pins, route line
     components/attractions/…             details panel for the selected place
     components/ui/SearchBar.jsx          search input
-    styles/utils/constants.js            map config, categories, breakpoints
+    config/constants.js                  map config, categories, breakpoints
     styles/variables.css                 design tokens (colors, spacing, radii)
 ```
 
@@ -83,7 +83,7 @@ component, and colors from the custom properties in `styles/variables.css`.
 
 Attraction records live in `ctgmap/src/data/attractions.js`. Each entry needs a
 unique `id`, a `coordinates` pair as `[latitude, longitude]`, a `category`
-drawn from `CATEGORIES` in `styles/utils/constants.js`, and an image under
+drawn from `CATEGORIES` in `config/constants.js`, and an image under
 `public/images/`. Note that `id: 2` is intentionally absent, so ids are not
 contiguous — never treat an id as an array index.
 
