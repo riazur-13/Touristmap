@@ -6,7 +6,7 @@ const attractions = [
     name: "Cox's Bazar Beach",
     description:
       "The world's longest natural sea beach stretching 120 kilometers. Cox's Bazar offers pristine sandy shores, stunning sunsets, and a variety of water activities.",
-    coordinates: [21.4272, 92.0058],
+    coordinates: [21.4506, 91.9524],
     category: CATEGORIES.BEACH.name,
     images: "/images/c1.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Cox%27s_Bazar_Beach",
@@ -36,7 +36,7 @@ const attractions = [
     name: "Patenga Beach",
     description:
       "A popular beach near Chittagong city where the Karnaphuli River meets the Bay of Bengal. Known for its scenic views and naval base.",
-    coordinates: [22.2361, 91.7981],
+    coordinates: [22.2344, 91.7923],
     category: CATEGORIES.BEACH.name,
     images: "/images/c4.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Patenga_Sea_Beach",
@@ -51,7 +51,7 @@ const attractions = [
     name: "Foy's Lake",
     description:
       "A beautiful man-made lake in Chittagong surrounded by hills. Features an amusement park, water sports, and cable car rides.",
-    coordinates: [22.3628, 91.8111],
+    coordinates: [22.3734, 91.7926],
     category: CATEGORIES.NATURAL.name,
     images: "/images/c5.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Foy%27s_Lake",
@@ -66,7 +66,7 @@ const attractions = [
     name: "Boga Lake",
     description:
       "A natural lake situated at 1,246 feet above sea level in Bandarban. Surrounded by dense forest and offers a peaceful environment.",
-    coordinates: [21.9667, 92.3333],
+    coordinates: [21.9803, 92.4701],
     category: CATEGORIES.NATURAL.name,
     images: "/images/c6.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Boga_Lake_(Bangladesh)",
@@ -81,7 +81,7 @@ const attractions = [
     name: "Chandranath Temple",
     description:
       "An ancient Hindu temple located on top of Chandranath Hill in Sitakunda. It attracts thousands of pilgrims and offers stunning hilltop views.",
-    coordinates: [22.6158, 91.6639],
+    coordinates: [22.6335, 91.6847],
     category: CATEGORIES.RELIGIOUS.name,
     images: "/images/c7.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Chandranath_Temple",
@@ -96,7 +96,7 @@ const attractions = [
     name: "Nilgiri Hills",
     description:
       "The highest peak accessible by road in Bangladesh, offering breathtaking 360-degree views of clouds and mountains.",
-    coordinates: [21.8869, 92.3531],
+    coordinates: [21.9135, 92.3244],
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c8.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
@@ -111,7 +111,7 @@ const attractions = [
     name: "Inani Beach",
     description:
       "A pristine coral beach near Cox's Bazar with unique coral stones and clear blue water. Less crowded and peaceful.",
-    coordinates: [21.2069, 92.0817],
+    coordinates: [21.185, 92.048],
     category: CATEGORIES.BEACH.name,
     images: "/images/c9.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Inani_Beach",
@@ -186,7 +186,7 @@ const attractions = [
     name: "Dulahazara Safari Park",
     description:
       "Bangladesh's first safari park featuring Bengal tigers, elephants, and various bird species.",
-    coordinates: [21.67, 92.09],
+    coordinates: [21.6598, 92.1032],
     category: CATEGORIES.CULTURAL.name,
     images: "/images/c14.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Dulhazra_Safari_Park",
@@ -216,7 +216,7 @@ const attractions = [
     name: "Chittagong War Cemetery",
     description:
       "A Commonwealth War Cemetery honoring soldiers who died in World War II.",
-    coordinates: [22.3353, 91.8206],
+    coordinates: [22.3572, 91.8287],
     category: CATEGORIES.HISTORICAL.name,
     images: "/images/c16.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Chittagong_War_Cemetery",
@@ -290,12 +290,12 @@ const attractions = [
     id: 21,
     name: "Jadipai Waterfall",
     description:
-      "A stunning three-tier waterfall in Thanchi, Bandarban. Accessible via trekking.",
-    coordinates: [21.7667, 92.4333],
+      "A stunning three-tier waterfall near Keokradong in Ruma, Bandarban. Accessible via trekking.",
+    coordinates: [21.9298, 92.5054],
     category: CATEGORIES.NATURAL.name,
     images: "/images/c21.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Jadipai_Waterfall",
-    address: "Thanchi, Bandarban",
+    address: "Ruma, Bandarban",
     bestTimeToVisit: "July to September",
     entryFee: "Trekking permit required",
     openingHours: "Daylight hours",
@@ -306,7 +306,7 @@ const attractions = [
     name: "Buddha Dhatu Jadi",
     description:
       "The largest Buddhist temple in Bangladesh, featuring Southeast Asian architecture.",
-    coordinates: [22.1892, 92.2186],
+    coordinates: [22.2231, 92.1977],
     category: CATEGORIES.RELIGIOUS.name,
     images: "/images/c22.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Buddha_Dhatu_Jadi",
