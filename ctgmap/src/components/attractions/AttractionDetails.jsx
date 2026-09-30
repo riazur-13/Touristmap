@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   MapPin,
   Clock,
@@ -19,13 +20,40 @@ import { getGoogleMapsUrl } from "../../utils/maps";
 import placeholderImage from "../../assets/placeholder.webp";
 import "./AttractionDetails.css";
 
-// Swap in the placeholder once. The guard stops onError from re-firing in a
-// loop should the placeholder itself ever fail to load.
-const handleImageError = (e) => {
-  const img = e.currentTarget;
-  if (img.dataset.fallback) return;
-  img.dataset.fallback = "true";
-  img.src = placeholderImage;
+// Photo plus its credit line. Render with key={attraction.id} so the failed
+// state resets per attraction. On a load error it swaps in the placeholder and
+// hides the credit, which would otherwise name the author of an image that is
+// not shown. A failing placeholder sets the same state again, so no loop.
+const AttractionPhoto = ({ src, alt, credit, children }) => {
+  const [failed, setFailed] = useState(false);
+  const showPhoto = Boolean(src) && !failed;
+
+  return (
+    <>
+      <div className="attraction-card__media">
+        <img
+          src={showPhoto ? src : placeholderImage}
+          alt={alt}
+          className="attraction-card__image"
+          onError={() => setFailed(true)}
+        />
+        {children}
+      </div>
+      {showPhoto && credit && (
+        <p className="attraction-card__credit">
+          Photo:{" "}
+          <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">
+            {credit.author}
+            <span className="visually-hidden">
+              {" "}
+              (Wikimedia Commons, opens in a new tab)
+            </span>
+          </a>
+          , {credit.license}
+        </p>
+      )}
+    </>
+  );
 };
 
 // Renders nothing for an unknown value: optional fields (fee, hours,
@@ -53,16 +81,12 @@ const AttractionDetails = ({
 
   return (
     <article className="attraction-card">
-      <div className="attraction-card__media">
-        <img
-          // key forces a fresh <img> per attraction, which also resets the
-          // data-fallback flag set by handleImageError.
-          key={attraction.id}
-          src={attraction.images || placeholderImage}
-          alt={attraction.name}
-          className="attraction-card__image"
-          onError={handleImageError}
-        />
+      <AttractionPhoto
+        key={attraction.id}
+        src={attraction.images}
+        alt={attraction.name}
+        credit={attraction.photoCredit}
+      >
         <button
           type="button"
           className="attraction-card__close"
@@ -71,7 +95,7 @@ const AttractionDetails = ({
         >
           <X size={20} aria-hidden="true" />
         </button>
-      </div>
+      </AttractionPhoto>
 
       <div className="attraction-card__body">
         <h2 className="attraction-card__title">{attraction.name}</h2>
