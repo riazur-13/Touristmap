@@ -158,14 +158,9 @@ const AttractionMarker = memo(({ location, isActive, onSelect }) => (
       },
     }}
   >
-    <Tooltip
-      direction="top"
-      offset={[0, -10]}
-      opacity={1}
-      permanent={false}
-      sticky={true}
-      interactive={false}
-    >
+    {/* Not sticky: Leaflet ignores the icon's tooltipAnchor for sticky
+        tooltips, which then cover the pin when opened by keyboard focus. */}
+    <Tooltip direction="top" offset={[0, -4]} opacity={1}>
       <strong>{location.name}</strong>
     </Tooltip>
   </Marker>
