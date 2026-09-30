@@ -37,33 +37,30 @@ export const getCategoryColor = (name) =>
   FALLBACK_CATEGORY_COLOR;
 
 export const MAP_CONFIG = {
-  // Midpoint of the attractions (Saint Martin's in the south to Chandranath
-  // in the north), so every pin is in view at DEFAULT_ZOOM on phone and
-  // desktop alike.
-  DEFAULT_CENTER: [21.65, 92.1],
+  // The map opens (and returns, when nothing is selected) fitted to the
+  // bounding box of all attractions, with this padding in pixels.
+  HOME_PADDING: [24, 24],
 
-  // Initial zoom level (8 = all attractions, 14 = close-up on one attraction)
-  DEFAULT_ZOOM: 8,
+  // Zoom used when flying to a selected attraction.
   DETAIL_ZOOM: 14,
 
   // Panning limit, applied as `maxBounds`. Leaflet locks panning on any axis
   // where the viewport is larger than this box, so it must stay bigger than
-  // the view at MIN_ZOOM: at zoom 8 a 1920x1080 screen shows ~10.5 x 5 deg.
-  // This box (12 x 8.3 deg) does, and it spans all of Bangladesh so a route
+  // the view at MIN_ZOOM: at zoom 7 a 1920x1080 screen shows ~21 x 10 deg.
+  // This box (22 x 12 deg) does, and it spans all of Bangladesh so a route
   // from anywhere in the country still fits.
   MAX_BOUNDS: [
-    [18.5, 86.0],  // Southwest corner
-    [26.8, 98.0]   // Northeast corner
+    [16.5, 81.0],  // Southwest corner
+    [28.5, 103.0]  // Northeast corner
   ],
   // 0 = soft (bounds only nudge), 1 = hard wall. 0.8 resists dragging past
   // the edge but still gives a little elastic feedback.
   MAX_BOUNDS_VISCOSITY: 0.8,
 
-  // Zoom limits. MIN_ZOOM must stay <= DEFAULT_ZOOM, otherwise Leaflet clamps
-  // the initial view and the map opens more zoomed-in than intended. Raising
-  // it past 8 needs MAX_BOUNDS re-checked (see above); lowering it below 8
-  // lets large screens outgrow the box.
-  MIN_ZOOM: 8,
+  // Zoom limits. The attractions span ~3.5 deg of latitude (Saint Martin's to
+  // Brahmanbaria), which needs zoom 7 to fit on a laptop screen. Lowering
+  // MIN_ZOOM further needs MAX_BOUNDS re-checked (see above).
+  MIN_ZOOM: 7,
   MAX_ZOOM: 18
 };
 

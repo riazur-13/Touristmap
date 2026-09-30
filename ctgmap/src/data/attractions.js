@@ -1511,4 +1511,15 @@ export const getAllCategories = () => [
   ...new Set(attractions.map((attr) => attr.category)),
 ];
 
+// [[south, west], [north, east]] around the given attractions, in the shape
+// Leaflet accepts for `bounds` / `fitBounds`.
+export const getBounds = (list) => {
+  const lats = list.map((a) => a.coordinates[0]);
+  const lngs = list.map((a) => a.coordinates[1]);
+  return [
+    [Math.min(...lats), Math.min(...lngs)],
+    [Math.max(...lats), Math.max(...lngs)],
+  ];
+};
+
 export default attractions;

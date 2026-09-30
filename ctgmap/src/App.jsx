@@ -1,12 +1,14 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import "./App.css";
 import MapView from "./components/map/MapView";
-import attractions, { getAllCategories } from "./data/attractions";
+import attractions, { getAllCategories, getBounds } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 import { getCategoryColor } from "./config/constants";
 
 const CATEGORY_OPTIONS = getAllCategories();
+// The map's "home" view: every attraction, regardless of the active filters.
+const HOME_BOUNDS = getBounds(attractions);
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
   const R = 6371;
@@ -314,6 +316,7 @@ function App() {
             routePoints={routePoints}
             userPos={userPos}
             onMarkerDrag={handleMarkerDrag}
+            homeBounds={HOME_BOUNDS}
           />
         </div>
 
