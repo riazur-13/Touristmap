@@ -944,23 +944,6 @@ const attractions = [
     bestTimeToVisit: "October to March",
   },
   {
-    id: 50,
-    name: "Bhatiari Lake",
-    slug: "bhatiari-lake",
-    description:
-      "A lake among the hills at Bhatiari, on the north-western edge of Chattogram city.",
-    coordinates: [22.43234, 91.75991],
-    category: CATEGORIES.NATURAL.name,
-    images: "/images/c50.webp",
-    photoCredit: {
-      author: "Moheen Reeyad",
-      license: "CC BY-SA 4.0",
-      sourceUrl: "https://commons.wikimedia.org/wiki/File:Bhatiari_Lake_(02).jpg",
-    },
-    address: "Bhatiari, Sitakunda, Chattogram",
-    bestTimeToVisit: "October to March",
-  },
-  {
     id: 51,
     name: "Sandwip Island",
     slug: "sandwip-island",
