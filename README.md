@@ -2,7 +2,7 @@
 
 Live demo: <https://touristmappp.vercel.app/>
 
-An interactive map of 83 tourist attractions across Chittagong Division,
+An interactive map of 90 tourist attractions across Chittagong Division,
 Bangladesh — beaches, hill stations, waterfalls, religious and historical sites
 in 10 of the division's 11 districts.
 Pick a marker to see details for that place, then use **Get Directions** to draw
@@ -76,7 +76,7 @@ ctgmap/
   public/images/                         attraction photos (c<id>.webp, ≤1200px wide)
   src/
     App.jsx                              app shell, filtering, routing state
-    data/attractions.js                  the 83 attractions + lookup helpers
+    data/attractions.js                  the 90 attractions + lookup helpers
     components/map/MapView.jsx           Leaflet map, category pins, clusters, route line
     components/attractions/…             details panel for the selected place
     components/ui/SearchBar.jsx          search input

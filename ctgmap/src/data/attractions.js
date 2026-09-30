@@ -1569,6 +1569,127 @@ const attractions = [
     address: "Sonaimuri, Noakhali",
     bestTimeToVisit: "Year-round",
   },
+  {
+    id: 86,
+    name: "Shah Amanat Shrine",
+    slug: "shah-amanat",
+    description:
+      "The shrine of Shah Amanat (Amanatullah Khan, d. 1773), one of the most revered Sufi saints of Chittagong. Pilgrims gather in large numbers, especially on the 27th night of Ramadan.",
+    coordinates: [22.343, 91.84],
+    approximateLocation: true,
+    category: CATEGORIES.RELIGIOUS.name,
+    images: "/images/c86.webp",
+    photoCredit: {
+      author: "Owais Al Qarni",
+      license: "CC BY-SA 4.0",
+      sourceUrl:
+        "https://commons.wikimedia.org/wiki/File:Chittagong's_Shah_Amanat_Shrine_Draws_Thousands_on_the_27th_Night_of_Ramadan.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Shah_Amanat",
+    address: "Chattogram city",
+    bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 87,
+    name: "Mathin's Well",
+    slug: "mathins-well",
+    description:
+      "A well in the Teknaf police station compound, tied to a 1930s love story between police officer Dhiraj Bhattacharya and a local woman, Ma Thin, told in his memoir \"Jakhan Police Chhilam\".",
+    coordinates: [20.863, 92.298],
+    approximateLocation: true,
+    category: CATEGORIES.HISTORICAL.name,
+    images: "/images/c87.webp",
+    photoCredit: {
+      author: "Rocky Masum",
+      license: "CC BY-SA 4.0",
+      sourceUrl:
+        "https://commons.wikimedia.org/wiki/File:Well_of_Mathin_-_front_yard.jpg",
+    },
+    address: "Teknaf, Cox's Bazar",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 88,
+    name: "Debotakhum",
+    slug: "debotakhum",
+    description:
+      "A natural water-filled hollow in the hills of Rowangchhari, Bandarban, about 50 to 70 feet deep and roughly 600 feet long. Reached by a trek and a river crossing.",
+    coordinates: [22.1667, 92.3333],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c88.webp",
+    photoCredit: {
+      author: "অভিজিৎ দাস",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:দেবতাখুম.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Debotakhum",
+    address: "Rowangchhari, Bandarban",
+    bestTimeToVisit: "November to February",
+  },
+  {
+    id: 89,
+    name: "Gandhi Ashram",
+    slug: "gandhi-ashram",
+    description:
+      "The ashram at Jayag, Noakhali, where Mahatma Gandhi arrived on 29 January 1947 on his peace mission after the 1946 Noakhali riots. It is now run by the Gandhi Ashram Trust.",
+    coordinates: [23.07, 91.105],
+    approximateLocation: true,
+    category: CATEGORIES.HISTORICAL.name,
+    images: "/images/c89.webp",
+    photoCredit: {
+      author: "Umar",
+      license: "CC BY-SA 3.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:GANDHI_ASHRAM_03.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Gandhi_Ashram_Trust",
+    address: "Jayag, Sonaimuri, Noakhali",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 90,
+    name: "Aggameda Khyang",
+    slug: "aggameda",
+    description:
+      "A large Buddhist monastery (khyang) near the entrance of Cox's Bazar town, founded in the early 20th century by the monk U Pannya Jota Mahathero.",
+    coordinates: [21.437, 92.0],
+    approximateLocation: true,
+    category: CATEGORIES.RELIGIOUS.name,
+    address: "Cox's Bazar town",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 91,
+    name: "Debta Pukur",
+    slug: "debta-pukur",
+    description:
+      "A small lake in Khagrachhari district, sacred to the Tipra community and also known as Matai Pukhiri, about 11 km south of Khagrachhari town.",
+    coordinates: [23.0156, 91.9719],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    moreInfoLink: "https://en.wikipedia.org/wiki/Matai_Pukhiri",
+    address: "Mahalchhari, Khagrachhari",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 92,
+    name: "Risang Waterfall",
+    slug: "risang-waterfall",
+    description:
+      "A hill waterfall about 100 feet high in Sapmara village, Matiranga, roughly 10 km from Khagrachhari town. Best in and just after the rains.",
+    coordinates: [23.0664, 91.9438],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c92.webp",
+    photoCredit: {
+      author: "Solayman .Emon",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Risang_02.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Risang_Waterfall",
+    address: "Sapmara, Matiranga, Khagrachhari",
+    bestTimeToVisit: "June to September",
+  },
 ];
 
 // The distinct categories present in the data, in first-seen order. Used to
