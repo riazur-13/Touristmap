@@ -42,7 +42,8 @@ function createPinIcon(color, isActive) {
       `<circle cx="12.5" cy="12.5" r="4.5" fill="#ffffff"/></svg>`,
     iconSize: [w, h],
     iconAnchor: [w / 2, h],
-    tooltipAnchor: [0, -h * 0.75],
+    // Tooltip sits above the pin (plus the Tooltip's own offset), never over it.
+    tooltipAnchor: [0, -h],
   });
 }
 
@@ -138,15 +139,24 @@ function ResizeMap() {
 
 // ─── Single attraction marker — memo'd so it only re-renders when its own ─────
 // data changes, not when userPos or routePoints update.
-// Leaflet makes each marker focusable (role="button") and turns Enter into a
-// click, so `title` doubles as the accessible name for keyboard users.
+// Leaflet makes each marker focusable with role="button" but, as of 1.9, does
+// not activate it from the keyboard, so Enter/Space are handled here. `title`
+// doubles as the accessible name.
 const AttractionMarker = memo(({ location, isActive, onSelect }) => (
   <Marker
     position={location.coordinates}
     icon={getPinIcon(location.category, isActive)}
     title={`${location.name} (${location.category})`}
     zIndexOffset={isActive ? 1000 : 0}
-    eventHandlers={{ click: () => onSelect(location) }}
+    eventHandlers={{
+      click: () => onSelect(location),
+      keydown: ({ originalEvent: e }) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(location);
+        }
+      },
+    }}
   >
     <Tooltip
       direction="top"
