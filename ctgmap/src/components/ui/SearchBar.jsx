@@ -3,18 +3,24 @@ import "./SearchBar.css";
 
 const SearchBar = ({ value, onChange, placeholder }) => {
   return (
-    <div className="search-bar-wrapper">
-      <Search size={20} className="search-icon" />
+    <div className="search-bar" role="search">
+      <Search size={20} className="search-bar__icon" aria-hidden="true" />
       <input
-        type="text"
-        className="search-input"
+        type="search"
+        className="search-bar__input"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        aria-label="Search attractions by name"
       />
       {value && (
-        <button className="search-clear-btn" onClick={() => onChange("")}>
-          <X size={18} />
+        <button
+          type="button"
+          className="search-bar__clear"
+          onClick={() => onChange("")}
+          aria-label="Clear search"
+        >
+          <X size={18} aria-hidden="true" />
         </button>
       )}
     </div>

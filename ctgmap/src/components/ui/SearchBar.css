@@ -1,52 +1,64 @@
-.search-bar-wrapper {
+.search-bar {
   display: flex;
   align-items: center;
-  background: #f1f5f9;
+  background: var(--color-bg-muted);
   padding: 6px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   width: 280px; /* Keep it compact */
-  transition: all 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
   border: 1px solid transparent;
 }
 
-.search-bar-wrapper:focus-within {
-  background: white;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+/* The input's own outline is removed; this ring on the wrapper replaces it. */
+.search-bar:focus-within {
+  background: var(--color-bg-primary);
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
-.search-input {
+.search-bar__icon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.search-bar__input {
   border: none;
   background: transparent;
   margin-left: 8px;
+  font: inherit;
   font-size: 14px;
   outline: none;
   width: 100%;
-  color: #1e293b;
+  min-width: 0;
+  color: var(--color-text-primary);
 }
 
-.search-icon {
-  color: #94a3b8;
+/* The clear button below replaces the browser's own clear control. */
+.search-bar__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.search-clear-btn {
+.search-bar__clear {
   background: none;
   border: none;
-  color: #94a3b8;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   padding: 2px;
 }
 
-.search-clear-btn:hover {
-  color: #ef4444;
+.search-bar__clear:hover {
+  color: var(--color-danger);
 }
 
-/* Replaces the dead `.search-container` override that used to live in App.css
-   and no longer matched anything after SearchBar was extracted. */
 @media (max-width: 767px) {
-  .search-bar-wrapper {
+  .search-bar {
     width: 160px;
   }
 }
