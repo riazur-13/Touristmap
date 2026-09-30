@@ -35,6 +35,8 @@ Other scripts (run inside `ctgmap/`):
 npm run build    # production build into dist/
 npm run preview  # serve the production build locally
 npm run lint     # eslint
+npm test         # Vitest: validates src/data/attractions.js (schema, ids,
+                 # bounds, image files); `npm run test:watch` to re-run on save
 ```
 
 > **Geolocation needs a secure context.** Browsers only expose
