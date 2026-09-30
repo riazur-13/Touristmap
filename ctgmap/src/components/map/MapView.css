@@ -11,6 +11,31 @@
   transform: scale(1.1);
 }
 
+/* Cluster bubble (L.divIcon, see createClusterIcon): neutral slate so it is
+   never mistaken for a category color. */
+.map-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-text-primary);
+  border: 3px solid var(--color-bg-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  color: var(--color-bg-primary);
+  font: 700 13px/1 system-ui, sans-serif;
+  transition: transform 0.15s ease;
+}
+
+.map-cluster:hover,
+.map-cluster:focus-visible {
+  transform: scale(1.1);
+}
+
+.map-cluster:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .map-pin:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;

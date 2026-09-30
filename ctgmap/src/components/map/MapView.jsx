@@ -9,6 +9,9 @@ import {
   Tooltip,
 } from "react-leaflet";
 import L from "leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
+// Animation styles only; cluster icons are styled in MapView.css.
+import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "./MapView.css";
 import {
   CATEGORIES,
@@ -48,15 +51,41 @@ function createPinIcon(color, isActive) {
 }
 
 const PIN_ICONS = new Map(
-  [...Object.values(CATEGORIES).map((c) => c.color), FALLBACK_CATEGORY_COLOR]
-    .flatMap((color) => [
-      [`${color}|0`, createPinIcon(color, false)],
-      [`${color}|1`, createPinIcon(color, true)],
-    ]),
+  [
+    ...Object.values(CATEGORIES).map((c) => c.color),
+    FALLBACK_CATEGORY_COLOR,
+  ].flatMap((color) => [
+    [`${color}|0`, createPinIcon(color, false)],
+    [`${color}|1`, createPinIcon(color, true)],
+  ]),
 );
 
 const getPinIcon = (category, isActive) =>
   PIN_ICONS.get(`${getCategoryColor(category)}|${isActive ? 1 : 0}`);
+
+// Clusters are neutral (slate) so they never read as one of the category
+// colors. Setting options.title before Leaflet builds the icon gives the
+// focusable cluster an accessible name.
+function createClusterIcon(cluster) {
+  const count = cluster.getChildCount();
+  const size = count < 10 ? 34 : count < 25 ? 40 : 46;
+  cluster.options.title = `${count} attractions: select to zoom in`;
+  return L.divIcon({
+    html: `<span>${count}</span>`,
+    className: "map-cluster",
+    iconSize: L.point(size, size),
+  });
+}
+
+// Leaflet does not activate focused markers from the keyboard (see
+// AttractionMarker), so Enter/Space on a cluster zooms into it, like a click.
+function handleClusterKeydown(e) {
+  const { key } = e.originalEvent;
+  if (key === "Enter" || key === " ") {
+    e.originalEvent.preventDefault();
+    e.layer.zoomToBounds({ padding: [40, 40] });
+  }
+}
 
 // Leaflet paths are drawn to canvas/SVG attributes, not CSS, so this cannot
 // be a custom property; it matches --color-primary in variables.css.
@@ -74,8 +103,8 @@ const UserIcon = L.icon({
 //   1. Full route  →  fitBounds(route)
 //   2. User + dest →  fitBounds(both points)
 //   3. Dest only   →  flyTo(dest, MAP_CONFIG.DETAIL_ZOOM)
-//   4. Default     →  flyTo(MAP_CONFIG.DEFAULT_CENTER, MAP_CONFIG.DEFAULT_ZOOM)
-function RecenterMap({ coords, userPos, routePoints }) {
+//   4. Default     →  flyToBounds(homeBounds), i.e. every attraction in view
+function RecenterMap({ coords, userPos, routePoints, homeBounds }) {
   const map = useMap();
 
   useEffect(() => {
@@ -111,11 +140,12 @@ function RecenterMap({ coords, userPos, routePoints }) {
       return;
     }
 
-    map.flyTo(MAP_CONFIG.DEFAULT_CENTER, MAP_CONFIG.DEFAULT_ZOOM, {
+    map.flyToBounds(homeBounds, {
+      padding: MAP_CONFIG.HOME_PADDING,
       animate: true,
       duration: 0.8,
     });
-  }, [map, coords, userPos, routePoints]);
+  }, [map, coords, userPos, routePoints, homeBounds]);
 
   return null;
 }
@@ -140,15 +170,21 @@ function ResizeMap() {
 // ─── Single attraction marker — memo'd so it only re-renders when its own ─────
 // data changes, not when userPos or routePoints update.
 // Leaflet makes each marker focusable with role="button" but, as of 1.9, does
-// not activate it from the keyboard, so Enter/Space are handled here. `title`
-// doubles as the accessible name.
+// not activate it from the keyboard, so Enter/Space are handled here. The
+// accessible name is an aria-label set on the marker element.
 const AttractionMarker = memo(({ location, isActive, onSelect }) => (
   <Marker
     position={location.coordinates}
     icon={getPinIcon(location.category, isActive)}
-    title={`${location.name} (${location.category})`}
     zIndexOffset={isActive ? 1000 : 0}
     eventHandlers={{
+      // Not `title`: the browser would show its native tooltip on top of
+      // Leaflet's. Re-applied on every add because clustering removes and
+      // re-adds marker elements.
+      add: (e) =>
+        e.target
+          .getElement()
+          ?.setAttribute("aria-label", `${location.name} (${location.category})`),
       click: () => onSelect(location),
       keydown: ({ originalEvent: e }) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -175,6 +211,7 @@ const MapView = ({
   routePoints,
   userPos,
   onMarkerDrag,
+  homeBounds,
 }) => {
   // Stable ref for drag handler — prevents Marker re-mount when parent re-renders
   const dragRef = useRef(onMarkerDrag);
@@ -194,8 +231,8 @@ const MapView = ({
 
   return (
     <MapContainer
-      center={MAP_CONFIG.DEFAULT_CENTER}
-      zoom={MAP_CONFIG.DEFAULT_ZOOM}
+      bounds={homeBounds}
+      boundsOptions={{ padding: MAP_CONFIG.HOME_PADDING }}
       minZoom={MAP_CONFIG.MIN_ZOOM}
       maxZoom={MAP_CONFIG.MAX_ZOOM}
       maxBounds={MAP_CONFIG.MAX_BOUNDS}
@@ -214,18 +251,41 @@ const MapView = ({
         coords={selectedAttraction?.coordinates ?? null}
         userPos={userPos}
         routePoints={routePoints}
+        homeBounds={homeBounds}
       />
       <ResizeMap />
 
-      {/* One loop only — tooltip handles hover, click handles selection */}
-      {attractions.map((loc) => (
+      {/* Unselected pins cluster when they crowd together; each keeps its
+          category color. Tooltip handles hover, click handles selection. */}
+      <MarkerClusterGroup
+        chunkedLoading
+        iconCreateFunction={createClusterIcon}
+        maxClusterRadius={50}
+        showCoverageOnHover={false}
+        onKeydown={handleClusterKeydown}
+      >
+        {attractions
+          .filter((loc) => loc.id !== selectedAttraction?.id)
+          .map((loc) => (
+            <AttractionMarker
+              key={loc.id}
+              location={loc}
+              isActive={false}
+              onSelect={onSelect}
+            />
+          ))}
+      </MarkerClusterGroup>
+
+      {/* The selected pin stays outside the cluster group so it is never
+          hidden inside a cluster, e.g. when a route zooms the map out. */}
+      {selectedAttraction && (
         <AttractionMarker
-          key={loc.id}
-          location={loc}
-          isActive={selectedAttraction?.id === loc.id}
+          key={`active-${selectedAttraction.id}`}
+          location={selectedAttraction}
+          isActive={true}
           onSelect={onSelect}
         />
-      ))}
+      )}
 
       {/* User position marker — draggable to correct GPS drift */}
       {userPos && (

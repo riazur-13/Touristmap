@@ -21,6 +21,25 @@
   object-fit: cover;
 }
 
+/* Attribution required by the CC BY / CC BY-SA photo licenses. */
+.attraction-card__credit {
+  margin: 0;
+  padding: 6px 24px 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.attraction-card__credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.attraction-card__credit a:hover {
+  color: var(--color-primary);
+}
+
 .attraction-card__close {
   position: absolute;
   top: 12px;
@@ -286,6 +305,10 @@
 
   .attraction-card__body {
     padding: 16px;
+  }
+
+  .attraction-card__credit {
+    padding: 6px 16px 0;
   }
 
   .attraction-card__info-row {

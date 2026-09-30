@@ -1,12 +1,27 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import "./App.css";
 import MapView from "./components/map/MapView";
-import attractions, { getAllCategories } from "./data/attractions";
+import attractions, {
+  findBySlug,
+  getAllCategories,
+  getBounds,
+  getSlug,
+} from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 import { getCategoryColor } from "./config/constants";
+import { readPlaceSlug, withPlace } from "./utils/placeUrl";
 
 const CATEGORY_OPTIONS = getAllCategories();
+// The map's "home" view: every attraction, regardless of the active filters.
+const HOME_BOUNDS = getBounds(attractions);
+
+// Adds a history entry for the new selection; no-op if the URL already matches.
+function pushPlaceUrl(slug) {
+  const url = withPlace(window.location, slug);
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (url !== current) window.history.pushState(null, "", url);
+}
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
   const R = 6371;
@@ -30,7 +45,9 @@ function formatDuration(minutes) {
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategories, setActiveCategories] = useState(() => new Set());
-  const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const [selectedAttraction, setSelectedAttraction] = useState(() =>
+    findBySlug(readPlaceSlug(window.location.search)),
+  );
   const [userPos, setUserPos] = useState(null);
   const [routePoints, setRoutePoints] = useState(null);
   const [routeInfo, setRouteInfo] = useState(null);
@@ -183,6 +200,7 @@ function App() {
     (attraction) => {
       setSelectedAttraction(attraction);
       clearRoute();
+      pushPlaceUrl(getSlug(attraction));
     },
     [clearRoute],
   );
@@ -191,7 +209,29 @@ function App() {
     setSelectedAttraction(null);
     setUserPos(null);
     clearRoute();
+    pushPlaceUrl(null);
   }, [clearRoute]);
+
+  // Back/forward: the URL is the source of truth, so re-read it.
+  useEffect(() => {
+    const onPopState = () => {
+      const next = findBySlug(readPlaceSlug(window.location.search));
+      setSelectedAttraction(next);
+      if (!next) setUserPos(null);
+      clearRoute();
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [clearRoute]);
+
+  // An unknown ?place= opens nothing, so drop it rather than leave a dead link.
+  useEffect(() => {
+    if (readPlaceSlug(window.location.search) && !selectedAttraction) {
+      window.history.replaceState(null, "", withPlace(window.location, null));
+    }
+    // Only the initial URL needs checking; later changes go through pushPlaceUrl.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Escape closes the details panel, matching its close button.
   useEffect(() => {
@@ -314,6 +354,7 @@ function App() {
             routePoints={routePoints}
             userPos={userPos}
             onMarkerDrag={handleMarkerDrag}
+            homeBounds={HOME_BOUNDS}
           />
         </div>
 
