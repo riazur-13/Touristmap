@@ -1,0 +1,26 @@
+# Repo-wide ignores. ctgmap/.gitignore covers the frontend's own build output.
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+
+# Environment files (commit a .env.example instead)
+.env
+.env.*
+!.env.example
+
+# Python (planned FastAPI backend)
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
