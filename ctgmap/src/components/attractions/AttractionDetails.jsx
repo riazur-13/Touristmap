@@ -11,7 +11,30 @@ import {
   Route,
   ExternalLink,
 } from "lucide-react";
+import { getCategoryColor } from "../../styles/utils/constants";
 import "./AttractionDetails.css";
+
+const NO_IMAGE = "https://placehold.co/600x400?text=No+Image+Found";
+const BROKEN_IMAGE = "https://placehold.co/600x400?text=Image+Unavailable";
+
+// Swap in a placeholder once. Without the guard, a failing placeholder would
+// fire onError again and loop forever.
+const handleImageError = (e) => {
+  const img = e.currentTarget;
+  if (img.dataset.fallback) return;
+  img.dataset.fallback = "true";
+  img.src = BROKEN_IMAGE;
+};
+
+const InfoItem = ({ icon: Icon, label, value }) => (
+  <div className="info-item">
+    <Icon size={18} className="info-item__icon" aria-hidden="true" />
+    <div>
+      <span className="info-item__label">{label}</span>
+      <span className="info-item__value">{value}</span>
+    </div>
+  </div>
+);
 
 const AttractionDetails = ({
   attraction,
@@ -23,153 +46,149 @@ const AttractionDetails = ({
 }) => {
   if (!attraction) return null;
 
-  const imageSrc =
-    attraction.images || "https://placehold.co/600x400?text=No+Image+Found";
-
   return (
-    <div className="detail-card">
-      <div className="card-image-container">
+    <article className="attraction-card">
+      <div className="attraction-card__media">
         <img
-          src={imageSrc}
+          // key forces a fresh <img> per attraction, which also resets the
+          // data-fallback flag set by handleImageError.
+          key={attraction.id}
+          src={attraction.images || NO_IMAGE}
           alt={attraction.name}
-          className="card-image"
-          loading="lazy"
-          onError={(e) => {
-            e.target.src = "https://placehold.co/600x400?text=Path+Error";
-          }}
+          className="attraction-card__image"
+          onError={handleImageError}
         />
         <button
-          className="close-btn-overlay"
+          type="button"
+          className="attraction-card__close"
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Close details"
         >
-          <X size={20} />
+          <X size={20} aria-hidden="true" />
         </button>
       </div>
 
-      <div className="card-body">
-        <h2 className="card-title">{attraction.name}</h2>
-        <span className="category-badge">{attraction.category}</span>
+      <div className="attraction-card__body">
+        <h2 className="attraction-card__title">{attraction.name}</h2>
+        <span
+          className="attraction-card__category"
+          style={{ "--category-color": getCategoryColor(attraction.category) }}
+        >
+          {attraction.category}
+        </span>
 
-        <p className="card-description">{attraction.description}</p>
+        <p className="attraction-card__description">{attraction.description}</p>
 
-        <div className="info-grid">
-          <div className="info-item">
-            <MapPin size={18} className="info-icon" />
-            <div className="info-text">
-              <span className="label">Address</span>
-              <span className="value">{attraction.address}</span>
-            </div>
+        <div className="attraction-card__info">
+          <InfoItem icon={MapPin} label="Address" value={attraction.address} />
+          <div className="attraction-card__info-row">
+            <InfoItem
+              icon={Clock}
+              label="Opening Hours"
+              value={attraction.openingHours}
+            />
+            <InfoItem
+              icon={Banknote}
+              label="Entry Fee"
+              value={attraction.entryFee}
+            />
           </div>
-
-          <div className="info-row-flex">
-            <div className="info-item">
-              <Clock size={18} className="info-icon" />
-              <div className="info-text">
-                <span className="label">Opening Hours</span>
-                <span className="value">{attraction.openingHours}</span>
-              </div>
-            </div>
-            <div className="info-item">
-              <Banknote size={18} className="info-icon" />
-              <div className="info-text">
-                <span className="label">Entry Fee</span>
-                <span className="value">{attraction.entryFee}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="extra-info-section">
-          <div className="info-item full-width">
-            <Calendar size={18} className="info-icon" />
-            <div className="info-text">
-              <span className="label">Best Time to Visit</span>
-              <span className="value">{attraction.bestTimeToVisit}</span>
-            </div>
-          </div>
-          <div className="info-item full-width">
-            <Sparkles size={18} className="info-icon" />
-            <div className="info-text">
-              <span className="label">Facilities</span>
-              <span className="value">{attraction.facilities}</span>
-            </div>
-          </div>
+          <InfoItem
+            icon={Calendar}
+            label="Best Time to Visit"
+            value={attraction.bestTimeToVisit}
+          />
+          <InfoItem
+            icon={Sparkles}
+            label="Facilities"
+            value={attraction.facilities}
+          />
         </div>
 
         {/* ── Route status panel ───────────────────────────────────────── */}
         {routeLoading && (
           <div
-            className="route-info-box route-loading"
+            className="route-status route-status--loading"
             role="status"
             aria-live="polite"
           >
-            <Loader2 size={15} className="spin" />
+            <Loader2 size={15} className="spinner" aria-hidden="true" />
             <span>Calculating route…</span>
           </div>
         )}
 
         {routeError && !routeLoading && (
-          <div className="route-info-box route-error" role="alert">
-            <AlertCircle size={15} />
+          <div className="route-status route-status--error" role="alert">
+            <AlertCircle size={15} aria-hidden="true" />
             <span>{routeError}</span>
           </div>
         )}
 
         {routeInfo && !routeLoading && (
           <div
-            className={`route-info-box ${routeInfo.isFallback ? "route-fallback" : "route-success"}`}
+            className={`route-status ${routeInfo.isFallback ? "route-status--fallback" : "route-status--success"}`}
+            role="status"
           >
-            <div className="route-stat">
-              <Route size={14} />
+            <div className="route-status__stat">
+              <Route size={14} aria-hidden="true" />
               <span>
                 <strong>{routeInfo.distance} km</strong>
                 {routeInfo.isFallback ? " straight line" : " by road"}
               </span>
             </div>
             {routeInfo.duration && (
-              <div className="route-stat">
-                <Clock size={14} />
+              <div className="route-status__stat">
+                <Clock size={14} aria-hidden="true" />
                 <span>
                   <strong>{routeInfo.duration}</strong> drive
                 </span>
               </div>
             )}
-            {routeInfo.note && <p className="route-note">{routeInfo.note}</p>}
+            {routeInfo.note && (
+              <p className="route-status__note">{routeInfo.note}</p>
+            )}
           </div>
         )}
 
-        <div className="buttons-group">
+        <div className="attraction-card__actions">
           {attraction.moreInfoLink && (
             <a
               href={attraction.moreInfoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="learn-more-btn"
+              className="btn btn--secondary"
             >
-              <ExternalLink size={18} /> Learn More
+              <ExternalLink size={18} aria-hidden="true" /> Learn More
+              <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
           )}
 
           <button
-            className="directions-btn"
+            type="button"
+            className="btn btn--primary"
             onClick={onDirections}
             disabled={routeLoading}
             aria-busy={routeLoading}
           >
             {routeLoading ? (
               <>
-                <Loader2 size={18} className="spin" /> Finding route…
+                <Loader2 size={18} className="spinner" aria-hidden="true" />{" "}
+                Finding route…
               </>
             ) : (
               <>
-                <Navigation size={18} /> Get Directions
+                <Navigation
+                  size={18}
+                  className="btn__icon--rotated"
+                  aria-hidden="true"
+                />{" "}
+                Get Directions
               </>
             )}
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
