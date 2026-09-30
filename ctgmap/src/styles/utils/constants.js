@@ -1,33 +1,27 @@
 export const CATEGORIES = {
   BEACH: {
     name: 'Beach',
-    color: '#3b82f6',
-    icon: '🏖️'
+    color: '#3b82f6'
   },
   HILL_STATION: {
     name: 'Hill Station',
-    color: '#10b981',
-    icon: '⛰️'
+    color: '#10b981'
   },
   HISTORICAL: {
     name: 'Historical Site',
-    color: '#f59e0b',  // Amber - represents age/heritage
-    icon: '🏛️'
+    color: '#f59e0b'  // Amber - represents age/heritage
   },
   RELIGIOUS: {
     name: 'Religious Site',
-    color: '#8b5cf6',
-    icon: '🕌'
+    color: '#8b5cf6'
   },
   NATURAL: {
     name: 'Natural Wonder',
-    color: '#14b8a6',
-    icon: '🌿'
+    color: '#14b8a6'
   },
   CULTURAL: {
     name: 'Cultural Center',
-    color: '#ec4899',
-    icon: '🎭'
+    color: '#ec4899'
   }
 };
 
