@@ -5,7 +5,6 @@ import attractions, {
   findBySlug,
   getAllCategories,
   getBounds,
-  getSlug,
 } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
@@ -200,7 +199,7 @@ function App() {
     (attraction) => {
       setSelectedAttraction(attraction);
       clearRoute();
-      pushPlaceUrl(getSlug(attraction));
+      pushPlaceUrl(attraction.slug);
     },
     [clearRoute],
   );
