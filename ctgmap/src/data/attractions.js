@@ -142,6 +142,7 @@ const attractions = [
     description:
       "A scenic national park near Cox's Bazar featuring waterfalls, hills, and diverse wildlife.",
     coordinates: [21.3294, 92.0183],
+    approximateLocation: true,
     category: CATEGORIES.NATURAL.name,
     images: "/images/c11.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Himchari_National_Park",
@@ -321,6 +322,7 @@ const attractions = [
     name: "Nafakhum Waterfall",
     description: "One of Bangladesh's largest waterfalls on the Remakri River.",
     coordinates: [21.7333, 92.5167],
+    approximateLocation: true,
     category: CATEGORIES.NATURAL.name,
     images: "/images/c23.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Nafakhum_Waterfall",
@@ -351,6 +353,7 @@ const attractions = [
     description:
       "The highest peak in Bangladesh at 1,280 meters. Offers challenging trekking routes.",
     coordinates: [21.8333, 92.5333],
+    approximateLocation: true,
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c25.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Tazing_Dong",
@@ -381,6 +384,7 @@ const attractions = [
     description:
       "The third-highest peak in Bangladesh offering stunning valley views.",
     coordinates: [21.8667, 92.2667],
+    approximateLocation: true,
     category: CATEGORIES.HILL_STATION.name,
     images: "/images/c27.jpg",
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",

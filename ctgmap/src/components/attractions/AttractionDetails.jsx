@@ -10,6 +10,7 @@ import {
   AlertCircle,
   Route,
   ExternalLink,
+  Info,
 } from "lucide-react";
 import { getCategoryColor } from "../../styles/utils/constants";
 import "./AttractionDetails.css";
@@ -81,6 +82,12 @@ const AttractionDetails = ({
 
         <div className="attraction-card__info">
           <InfoItem icon={MapPin} label="Address" value={attraction.address} />
+          {attraction.approximateLocation && (
+            <p className="attraction-card__note">
+              <Info size={14} aria-hidden="true" />
+              Approximate location — the map pin may be a few kilometres off.
+            </p>
+          )}
           <div className="attraction-card__info-row">
             <InfoItem
               icon={Clock}

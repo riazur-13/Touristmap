@@ -87,9 +87,10 @@ drawn from `CATEGORIES` in `styles/utils/constants.js`, and an image under
 `public/images/`. Note that `id: 2` is intentionally absent, so ids are not
 contiguous — never treat an id as an array index.
 
-Coordinates were checked against OpenStreetMap and Wikipedia; see
-[`AUDIT_REPORT.md`](AUDIT_REPORT.md) for the few that still need an on-the-ground
-check.
+Coordinates were checked against OpenStreetMap, Wikipedia and Wikidata. Where no
+source gives a precise point, the entry sets the optional
+`approximateLocation: true`, and the details panel tells the user the pin is
+approximate.
 
 `MAP_CONFIG.MAX_BOUNDS` is defined but deliberately **not** applied to the map;
 see the comment in `constants.js` for why.
