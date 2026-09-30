@@ -134,13 +134,21 @@ function App() {
       setRouteLoading(true);
       setRouteError(null);
 
+      // The position lookup can take up to 15 s. If the user selects another
+      // attraction or closes the panel meanwhile, clearRoute bumps the id and
+      // this lookup's result must be dropped, not routed to the old target.
+      const reqId = ++requestIdRef.current;
+      const isCurrent = () => mountedRef.current && reqId === requestIdRef.current;
+
       navigator.geolocation.getCurrentPosition(
         async (pos) => {
+          if (!isCurrent()) return;
           const freshPos = [pos.coords.latitude, pos.coords.longitude];
           setUserPos(freshPos);
           await calculateRoute(freshPos, target);
         },
         (err) => {
+          if (!isCurrent()) return;
           setRouteLoading(false);
           const msg = {
             1: "Location access denied — please allow permission and retry.",
