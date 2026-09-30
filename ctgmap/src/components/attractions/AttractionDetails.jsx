@@ -172,7 +172,7 @@ const AttractionDetails = ({
               </a>
             )}
             <a
-              href={getGoogleMapsUrl(attraction.coordinates)}
+              href={getGoogleMapsUrl(attraction)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn--outline"
