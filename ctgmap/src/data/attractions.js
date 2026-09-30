@@ -1543,7 +1543,7 @@ const attractions = [
     },
     moreInfoLink: "https://en.wikipedia.org/wiki/Debotakhum",
     address: "Rowangchhari, Bandarban",
-    bestTimeToVisit: "November to February",
+    bestTimeToVisit: "October to March",
   },
   {
     id: 89,
