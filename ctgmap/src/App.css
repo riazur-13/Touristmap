@@ -1,41 +1,56 @@
-.main-layout {
+/* ── App shell ─────────────────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  /* 100% of #root rather than 100vh, which overflows behind mobile browser
+     toolbars. */
+  height: 100%;
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  height: 56px;
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.app__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.app__main {
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: 0;
   position: relative;
   overflow: hidden;
 }
 
-.app-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.map-column {
+.app__map {
   flex: 1;
-  height: 100%;
+  min-height: 0;
   position: relative;
   overflow: hidden;
 }
 
-.leaflet-container {
-  width: 100% !important;
-  height: 100% !important;
-  transition: width 0.3s ease-in-out;
-}
-
-.sidebar-column {
-  width: 420px;
-  background: white;
-  border-left: 1px solid #e2e8f0;
+.app__sidebar {
+  width: var(--sidebar-width);
+  background: var(--color-bg-primary);
+  border-left: 1px solid var(--color-border);
   height: 100%;
   overflow-y: auto;
   flex-shrink: 0;
-  animation: slideIn 0.3s ease-out;
+  animation: slide-in 0.3s ease-out;
 }
 
-@keyframes slideIn {
+@keyframes slide-in {
   from {
     transform: translateX(100%);
   }
@@ -44,198 +59,106 @@
   }
 }
 
-.search-and-count {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.results-badge {
-  font-size: 12px;
-  font-weight: 500;
-  color: #64748b;
-  background: #f1f5f9;
-  padding: 4px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-}
-
-.results-badge:empty {
-  display: none;
-}
-
-.sidebar-header {
-  padding: 15px 20px;
-  border-bottom: 1px solid #f1f5f9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.sidebar-body {
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.detail-image-container {
-  position: relative;
-  width: 100%;
-  height: 200px;
-}
-
-.detail-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.category-tag {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(30, 41, 59, 0.8);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.detail-info {
-  padding: 20px;
-}
-
-.detail-info h2 {
-  margin: 0 0 10px 0;
-  font-size: 24px;
-  color: #1e293b;
-}
-
-.description {
-  color: #64748b;
-  line-height: 1.6;
-  font-size: 14px;
-}
-
-.directions-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 12px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.directions-btn:hover {
-  background-color: #1d4ed8;
-  transform: scale(1.02);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  height: 56px;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  flex-shrink: 0;
-}
-
-.header-top h1 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
+/* ── Filter bar ────────────────────────────────────────────────────────────── */
 .filter-bar {
   display: flex;
   align-items: center;
   gap: 15px;
   padding: 0 15px;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
   height: 55px;
   flex-shrink: 0;
 }
 
-.vertical-divider {
-  width: 1px;
-  height: 24px;
-  background: #e2e8f0;
+.filter-bar__search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   flex-shrink: 0;
 }
 
-.filter-chips {
+.filter-bar__count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-muted);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.filter-bar__divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.filter-bar__chips {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  /* Hide scrollbar on mobile but keep scrollability */
-  -ms-overflow-style: none;
+  /* Room for chip focus rings, which overflow would otherwise clip. */
+  padding: 4px 2px;
+  /* Hide the scrollbar but keep the row scrollable. */
   scrollbar-width: none;
 }
-.filter-chips::-webkit-scrollbar {
+
+.filter-bar__chips::-webkit-scrollbar {
   display: none;
 }
 
+/* ── Category chip ─────────────────────────────────────────────────────────── */
 .chip {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
   border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font: inherit;
   font-size: 13px;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.chip.active {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #2563eb;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 }
 
 .chip:hover {
-  background: #f8fafc;
+  background: var(--color-bg-secondary);
 }
 
-.locate-btn {
-  background-color: white;
-  width: 34px;
-  height: 34px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  color: #1e293b;
+.chip--active,
+.chip--active:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
-.locate-btn:hover {
-  background-color: #f8fafc;
-  color: #2563eb;
+/* Same color as the category's map pins, so the chips double as a legend. */
+.chip__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--swatch-color);
+  flex-shrink: 0;
 }
 
-.leaflet-control-bar {
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-.no-results-message {
+/* ── Empty state (no attractions match the filters) ───────────────────────── */
+.empty-state {
   position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
+  /* Above Leaflet panes (400) and controls (800). */
   z-index: 1000;
+  width: max-content;
+  max-width: calc(100% - 32px);
   background: var(--color-bg-primary);
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--radius-md);
@@ -244,37 +167,38 @@
   text-align: center;
 }
 
-.no-results-message button {
+.empty-state__text {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.empty-state__action {
   margin-top: var(--spacing-sm);
   color: var(--color-primary);
   background: none;
   border: none;
+  font: inherit;
   cursor: pointer;
   text-decoration: underline;
 }
 
 /* ── Mobile layout ─────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-  .main-layout {
+  .app__main {
     flex-direction: column; /* stack map above sidebar */
   }
 
-  /* Map takes upper 55% of the screen */
-  .map-column {
-    height: 55%;
-    flex: none;
-  }
-
-  /* Sidebar slides up from the bottom and takes the remaining 45% */
-  .sidebar-column {
+  /* The map fills whatever the sidebar leaves; with no selection that is
+     the whole area rather than a fixed 55% above empty space. */
+  .app__sidebar {
     width: 100%;
     height: 45%;
     border-left: none;
-    border-top: 1px solid #e2e8f0;
-    animation: slideUp 0.3s ease-out;
+    border-top: 1px solid var(--color-border);
+    animation-name: slide-up;
   }
 
-  @keyframes slideUp {
+  @keyframes slide-up {
     from {
       transform: translateY(100%);
     }
@@ -287,19 +211,18 @@
   .filter-bar {
     height: auto;
     padding: 8px 12px;
-    flex-wrap: nowrap;
     gap: 8px;
   }
 
-  .vertical-divider {
+  .filter-bar__divider {
     display: none;
   }
 
-  .header-top {
+  .app__header {
     height: 48px;
   }
 
-  .header-top h1 {
+  .app__title {
     font-size: 1rem;
   }
 }
