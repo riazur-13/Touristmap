@@ -1522,4 +1522,21 @@ export const getBounds = (list) => {
   ];
 };
 
+// URL-safe identifier derived from the name, e.g. "Cox's Bazar Beach" ->
+// "coxs-bazar-beach". Uniqueness is enforced by attractions.test.js.
+export const slugify = (name) =>
+  name
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+export const getSlug = (attraction) => slugify(attraction.name);
+
+const BY_SLUG = new Map(attractions.map((a) => [getSlug(a), a]));
+
+export const findBySlug = (slug) => BY_SLUG.get(slug) ?? null;
+
 export default attractions;

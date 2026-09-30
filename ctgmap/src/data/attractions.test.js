@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import attractions from "./attractions";
+import attractions, { findBySlug, getSlug, slugify } from "./attractions";
 import { CATEGORIES, MAP_CONFIG } from "../config/constants";
 
 const PUBLIC_DIR = fileURLToPath(new URL("../../public", import.meta.url));
@@ -50,6 +50,21 @@ describe("attractions data", () => {
   it("has unique ids", () => {
     const ids = attractions.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("has unique, non-empty URL slugs that resolve back to their place", () => {
+    const slugs = attractions.map(getSlug);
+    expect(slugs.every((s) => /^[a-z0-9]+(-[a-z0-9]+)*$/.test(s))).toBe(true);
+    expect(new Set(slugs).size).toBe(slugs.length);
+    for (const a of attractions) expect(findBySlug(getSlug(a))).toBe(a);
+    expect(findBySlug("no-such-place")).toBeNull();
+  });
+
+  it("slugifies names", () => {
+    expect(slugify("Cox's Bazar Beach")).toBe("coxs-bazar-beach");
+    expect(slugify("Hanging Bridge (Jhulonto Bridge)")).toBe(
+      "hanging-bridge-jhulonto-bridge",
+    );
   });
 
   describe.each(cases)("%s", (_label, a) => {
