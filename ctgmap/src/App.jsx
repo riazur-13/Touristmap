@@ -4,6 +4,9 @@ import MapView from "./components/map/MapView";
 import attractions, { getAllCategories } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
+import { getCategoryColor } from "./config/constants";
+
+const CATEGORY_OPTIONS = getAllCategories();
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
   const R = 6371;
@@ -26,7 +29,7 @@ function formatDuration(minutes) {
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategories, setActiveCategories] = useState(() => new Set());
   const [selectedAttraction, setSelectedAttraction] = useState(null);
   const [userPos, setUserPos] = useState(null);
   const [routePoints, setRoutePoints] = useState(null);
@@ -134,13 +137,21 @@ function App() {
       setRouteLoading(true);
       setRouteError(null);
 
+      // The position lookup can take up to 15 s. If the user selects another
+      // attraction or closes the panel meanwhile, clearRoute bumps the id and
+      // this lookup's result must be dropped, not routed to the old target.
+      const reqId = ++requestIdRef.current;
+      const isCurrent = () => mountedRef.current && reqId === requestIdRef.current;
+
       navigator.geolocation.getCurrentPosition(
         async (pos) => {
+          if (!isCurrent()) return;
           const freshPos = [pos.coords.latitude, pos.coords.longitude];
           setUserPos(freshPos);
           await calculateRoute(freshPos, target);
         },
         (err) => {
+          if (!isCurrent()) return;
           setRouteLoading(false);
           const msg = {
             1: "Location access denied — please allow permission and retry.",
@@ -182,66 +193,117 @@ function App() {
     clearRoute();
   }, [clearRoute]);
 
-  const filteredAttractions = useMemo(
-    () =>
-      attractions.filter((item) => {
-        const matchSearch = item.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-        const matchCat =
-          activeCategory === "All" || item.category === activeCategory;
-        return matchSearch && matchCat;
-      }),
-    [searchQuery, activeCategory],
-  );
+  // Escape closes the details panel, matching its close button.
+  useEffect(() => {
+    if (!selectedAttraction) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") handleClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedAttraction, handleClose]);
 
-  const categories = useMemo(() => ["All", ...getAllCategories()], []);
+  // Toggles one category chip. An empty set means "All".
+  const toggleCategory = useCallback((cat) => {
+    setActiveCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) next.delete(cat);
+      else next.add(cat);
+      return next;
+    });
+  }, []);
 
-  const isSearchEmpty = searchQuery !== "" && filteredAttractions.length === 0;
+  const clearFilters = useCallback(() => {
+    setSearchQuery("");
+    setActiveCategories(new Set());
+  }, []);
+
+  // Search matches name or address (so "Bandarban" finds every place there).
+  // Search and categories combine with AND; selected categories with OR.
+  const filteredAttractions = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return attractions.filter(
+      (item) =>
+        (item.name.toLowerCase().includes(query) ||
+          item.address.toLowerCase().includes(query)) &&
+        (activeCategories.size === 0 || activeCategories.has(item.category)),
+    );
+  }, [searchQuery, activeCategories]);
+
+  const isEmpty = filteredAttractions.length === 0;
 
   return (
-    <div className="app-wrapper">
-      <header className="header-top">
-        <h1>Chittagong Explorer</h1>
+    <div className="app">
+      <header className="app__header">
+        <h1 className="app__title">Chittagong Explorer</h1>
       </header>
 
-      <section className="filter-bar">
-        <div className="search-and-count">
+      <section className="filter-bar" aria-label="Filter attractions">
+        <div className="filter-bar__search">
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search locations..."
+            placeholder="Search places or areas..."
           />
-          <span className="results-badge">
+          <span className="filter-bar__count" aria-live="polite">
             {filteredAttractions.length}{" "}
             {filteredAttractions.length === 1 ? "result" : "results"}
           </span>
         </div>
 
-        <div className="vertical-divider"></div>
+        <div className="filter-bar__divider" aria-hidden="true"></div>
 
-        <div className="filter-chips">
-          {categories.map((cat) => (
+        <div className="filter-bar__chips" role="group" aria-label="Categories">
+          <button
+            type="button"
+            className={`chip${activeCategories.size === 0 ? " chip--active" : ""}`}
+            aria-pressed={activeCategories.size === 0}
+            onClick={() => setActiveCategories(new Set())}
+          >
+            All
+          </button>
+          {CATEGORY_OPTIONS.map((cat) => (
             <button
               key={cat}
-              className={`chip ${activeCategory === cat ? "active" : ""}`}
-              onClick={() => setActiveCategory(cat)}
+              type="button"
+              className={`chip${activeCategories.has(cat) ? " chip--active" : ""}`}
+              aria-pressed={activeCategories.has(cat)}
+              onClick={() => toggleCategory(cat)}
             >
+              <span
+                className="chip__swatch"
+                style={{ "--swatch-color": getCategoryColor(cat) }}
+                aria-hidden="true"
+              />
               {cat}
             </button>
           ))}
         </div>
       </section>
 
-      <main className="main-layout">
-        <div className="map-column">
-          {isSearchEmpty && (
-            <div className="no-results-message">
-              <p>
-                No locations found for "<strong>{searchQuery}</strong>"
+      <main className="app__main">
+        <div className="app__map">
+          {isEmpty && (
+            <div className="empty-state" role="status">
+              <p className="empty-state__text">
+                No places match
+                {searchQuery.trim() && (
+                  <>
+                    {" "}
+                    &ldquo;<strong>{searchQuery.trim()}</strong>&rdquo;
+                  </>
+                )}
+                {activeCategories.size > 0 && (
+                  <> in {[...activeCategories].join(", ")}</>
+                )}
+                .
               </p>
-              <button onClick={() => setSearchQuery("")} className="clear-btn">
-                Clear Search
+              <button
+                type="button"
+                className="empty-state__action"
+                onClick={clearFilters}
+              >
+                Clear filters
               </button>
             </div>
           )}
@@ -256,7 +318,7 @@ function App() {
         </div>
 
         {selectedAttraction && (
-          <aside className="sidebar-column">
+          <aside className="app__sidebar" aria-label="Attraction details">
             <AttractionDetails
               attraction={selectedAttraction}
               routeInfo={routeInfo}

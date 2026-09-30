@@ -8,33 +8,59 @@ import {
   Polyline,
   Tooltip,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { MAP_CONFIG, BREAKPOINTS } from "../../styles/utils/constants";
+import "./MapView.css";
+import {
+  CATEGORIES,
+  MAP_CONFIG,
+  BREAKPOINTS,
+  FALLBACK_CATEGORY_COLOR,
+  getCategoryColor,
+} from "../../config/constants";
 
 // ─── Icons (module-level constants — created once, never re-instantiated) ─────
-import markerIcon from "leaflet/dist/images/marker-icon.png";
+// Every marker passes an explicit icon, so Leaflet's L.Icon.Default (whose
+// image paths break under Vite) is never used.
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import markerRetina from "leaflet/dist/images/marker-icon-2x.png";
 // Vendored from github.com/pointhi/leaflet-color-markers (BSD-2-Clause) so the
 // map has no runtime dependency on raw.githubusercontent.com being reachable.
-import markerRed from "../../assets/markers/marker-icon-2x-red.png";
 import markerBlue from "../../assets/markers/marker-icon-2x-blue.png";
 
-const DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerRetina,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+// Attraction pins are inline SVG so each category gets its own color from
+// CATEGORIES; the selected pin is larger and outlined.
+const PIN_PATH =
+  "M12.5 0C5.6 0 0 5.6 0 12.5 0 21.9 12.5 41 12.5 41S25 21.9 25 12.5C25 5.6 19.4 0 12.5 0z";
 
-const ActiveIcon = L.icon({
-  iconUrl: markerRed,
-  shadowUrl: markerShadow,
-  iconSize: [30, 48],
-  iconAnchor: [15, 48],
-});
+function createPinIcon(color, isActive) {
+  const [w, h] = isActive ? [32, 52] : [25, 41];
+  const stroke = isActive ? "#1e293b" : "#ffffff";
+  return L.divIcon({
+    className: isActive ? "map-pin map-pin--active" : "map-pin",
+    html:
+      `<svg viewBox="-1.5 -1.5 28 44" width="${w}" height="${h}" aria-hidden="true">` +
+      `<path d="${PIN_PATH}" fill="${color}" stroke="${stroke}" stroke-width="1.5"/>` +
+      `<circle cx="12.5" cy="12.5" r="4.5" fill="#ffffff"/></svg>`,
+    iconSize: [w, h],
+    iconAnchor: [w / 2, h],
+    // Tooltip sits above the pin (plus the Tooltip's own offset), never over it.
+    tooltipAnchor: [0, -h],
+  });
+}
+
+const PIN_ICONS = new Map(
+  [...Object.values(CATEGORIES).map((c) => c.color), FALLBACK_CATEGORY_COLOR]
+    .flatMap((color) => [
+      [`${color}|0`, createPinIcon(color, false)],
+      [`${color}|1`, createPinIcon(color, true)],
+    ]),
+);
+
+const getPinIcon = (category, isActive) =>
+  PIN_ICONS.get(`${getCategoryColor(category)}|${isActive ? 1 : 0}`);
+
+// Leaflet paths are drawn to canvas/SVG attributes, not CSS, so this cannot
+// be a custom property; it matches --color-primary in variables.css.
+const ROUTE_COLOR = "#2563eb";
 
 const UserIcon = L.icon({
   iconUrl: markerBlue,
@@ -113,21 +139,29 @@ function ResizeMap() {
 
 // ─── Single attraction marker — memo'd so it only re-renders when its own ─────
 // data changes, not when userPos or routePoints update.
+// Leaflet makes each marker focusable with role="button" but, as of 1.9, does
+// not activate it from the keyboard, so Enter/Space are handled here. `title`
+// doubles as the accessible name.
 const AttractionMarker = memo(({ location, isActive, onSelect }) => (
   <Marker
     position={location.coordinates}
-    icon={isActive ? ActiveIcon : DefaultIcon}
-    eventHandlers={{ click: () => onSelect(location) }}
+    icon={getPinIcon(location.category, isActive)}
+    title={`${location.name} (${location.category})`}
+    zIndexOffset={isActive ? 1000 : 0}
+    eventHandlers={{
+      click: () => onSelect(location),
+      keydown: ({ originalEvent: e }) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(location);
+        }
+      },
+    }}
   >
-    <Tooltip
-      direction="top"
-      offset={[0, -10]}
-      opacity={1}
-      permanent={false}
-      sticky={true}
-      interactive={false}
-    >
-      <span style={{ fontWeight: "bold" }}>{location.name}</span>
+    {/* Not sticky: Leaflet ignores the icon's tooltipAnchor for sticky
+        tooltips, which then cover the pin when opened by keyboard focus. */}
+    <Tooltip direction="top" offset={[0, -4]} opacity={1}>
+      <strong>{location.name}</strong>
     </Tooltip>
   </Marker>
 ));
@@ -148,7 +182,7 @@ const MapView = ({
     dragRef.current = onMarkerDrag;
   }, [onMarkerDrag]);
 
-  // ✅ useMemo — stable object identity, no ref access during render
+  // Stable object identity; dragRef itself never changes, so no deps needed.
   const dragHandlers = useMemo(
     () => ({
       dragend(e) {
@@ -156,7 +190,7 @@ const MapView = ({
       },
     }),
     [],
-  ); // empty deps — dragRef itself never changes identity
+  );
 
   return (
     <MapContainer
@@ -164,6 +198,8 @@ const MapView = ({
       zoom={MAP_CONFIG.DEFAULT_ZOOM}
       minZoom={MAP_CONFIG.MIN_ZOOM}
       maxZoom={MAP_CONFIG.MAX_ZOOM}
+      maxBounds={MAP_CONFIG.MAX_BOUNDS}
+      maxBoundsViscosity={MAP_CONFIG.MAX_BOUNDS_VISCOSITY}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
@@ -212,7 +248,7 @@ const MapView = ({
         <Polyline
           positions={routePoints}
           pathOptions={{
-            color: "#2563eb",
+            color: ROUTE_COLOR,
             weight: 5,
             opacity: 0.85,
             lineJoin: "round",

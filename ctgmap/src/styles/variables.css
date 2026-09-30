@@ -1,29 +1,47 @@
 :root {
-  /* Colors */
-  --color-primary: #667eea;
-  --color-primary-dark: #764ba2;
-  --color-secondary: #10b981;
-  --color-accent: #f59e0b;
-  
+  /* Brand */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-strong: #1e40af;
+  --color-primary-soft: #eff6ff;
+  --color-primary-border: #bfdbfe;
+  --color-danger: #ef4444;
+
   /* Neutrals */
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f8fafc;
+  --color-bg-muted: #f1f5f9;
   --color-text-primary: #1e293b;
+  --color-text-body: #334155;
   --color-text-secondary: #64748b;
   --color-text-muted: #94a3b8;
   --color-border: #e2e8f0;
+  --color-overlay: rgba(15, 23, 42, 0.55);
+  --color-overlay-hover: rgba(15, 23, 42, 0.8);
+
+  /* Route status panels */
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-warning-text: #92400e;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+  --color-error-text: #b91c1c;
 
   /* Spacing */
-  --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
 
-  /* Others */
+  /* Radii, shadows, focus */
+  --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
-  --radius-full: 9999px;
+  --radius-lg: 0.625rem;
+  --radius-xl: 1rem;
+  --radius-pill: 999px;
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --z-sticky: 100;
-  --transition-base: all 0.2s ease;
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.25);
+
+  /* Keep in sync with the width of .app__sidebar on desktop */
+  --sidebar-width: 420px;
 }
