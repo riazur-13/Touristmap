@@ -65,7 +65,7 @@ tiles are replaced with "Access blocked" images when it is missing.
 ```
 ctgmap/
   index.html
-  public/images/                         attraction photos (c1.jpg … c29.jpg)
+  public/images/                         attraction photos (c1.webp … c29.webp, ≤1200px wide)
   src/
     App.jsx                              app shell, filtering, routing state
     data/attractions.js                  the 28 attractions + lookup helpers
