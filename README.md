@@ -14,7 +14,7 @@ Built with React 19, Vite and Leaflet (via react-leaflet). The app lives in
 - Search by name or address (e.g. "Bandarban") combined with multi-select
   category filters, with an empty state that offers to clear everything.
 - Details panel with photo, opening hours, entry fee, best season, facilities
-  and a Wikipedia link.
+  and links to Wikipedia and Google Maps.
 - Driving directions from your location, with a draggable "you are here"
   marker and a straight-line fallback when routing is unavailable.
 - Keyboard accessible: pins are focusable and open with Enter/Space, Escape
@@ -75,6 +75,7 @@ ctgmap/
     components/attractions/…             details panel for the selected place
     components/ui/SearchBar.jsx          search input
     config/constants.js                  map config, categories, breakpoints
+    utils/maps.js                        Google Maps link helper
     styles/variables.css                 design tokens (colors, spacing, radii)
 ```
 

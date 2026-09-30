@@ -11,8 +11,10 @@ import {
   Route,
   ExternalLink,
   Info,
+  MapPinned,
 } from "lucide-react";
 import { getCategoryColor } from "../../config/constants";
+import { getGoogleMapsUrl } from "../../utils/maps";
 // Local, so a missing or broken photo never depends on a third-party service.
 import placeholderImage from "../../assets/placeholder.webp";
 import "./AttractionDetails.css";
@@ -157,17 +159,28 @@ const AttractionDetails = ({
         )}
 
         <div className="attraction-card__actions">
-          {attraction.moreInfoLink && (
+          <div className="attraction-card__links">
+            {attraction.moreInfoLink && (
+              <a
+                href={attraction.moreInfoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn--outline"
+              >
+                <ExternalLink size={18} aria-hidden="true" /> Learn More
+                <span className="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            )}
             <a
-              href={attraction.moreInfoLink}
+              href={getGoogleMapsUrl(attraction.coordinates)}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn--secondary"
+              className="btn btn--outline"
             >
-              <ExternalLink size={18} aria-hidden="true" /> Learn More
+              <MapPinned size={18} aria-hidden="true" /> Google Maps
               <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
-          )}
+          </div>
 
           <button
             type="button"
