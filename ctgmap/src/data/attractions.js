@@ -1165,6 +1165,123 @@ const attractions = [
     address: "Suwalok, Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
   },
+  {
+    id: 66,
+    name: "Sajek Valley",
+    description:
+      "Called the 'Queen of Hills', a valley at about 550 m in the Kasalong range, known for its greenery and dense forests.",
+    coordinates: [23.39092, 92.28551],
+    category: CATEGORIES.HILL_STATION.name,
+    images: "/images/c66.webp",
+    photoCredit: {
+      author: "Shadman Samee from Dhaka, Bangladesh",
+      license: "CC BY-SA 2.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Views_from_Sajek._(40700496984).jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Sajek_Valley",
+    address: "Sajek, Baghaichhari, Rangamati",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 67,
+    name: "Rajban Vihara",
+    description:
+      "The largest Buddhist monastery in Bangladesh, on the edge of Rangamati town, built by followers of the monk Bana Bhante after 1977.",
+    coordinates: [22.66576, 92.17061],
+    category: CATEGORIES.RELIGIOUS.name,
+    images: "/images/c67.webp",
+    photoCredit: {
+      author: "Souvik.arko",
+      license: "Public domain",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:RajbanViharaRangamati.jpg",
+    },
+    moreInfoLink: "https://bn.wikipedia.org/wiki/%E0%A6%B0%E0%A6%BE%E0%A6%9C%E0%A6%AC%E0%A6%A8_%E0%A6%AC%E0%A6%BF%E0%A6%B9%E0%A6%BE%E0%A6%B0",
+    address: "Rangamati Sadar, Rangamati",
+    bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 68,
+    name: "Kaptai National Park",
+    description:
+      "A national park of mixed evergreen forest, established in 1999 and covering about 5,465 hectares.",
+    coordinates: [22.49995, 92.17739],
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c68.webp",
+    photoCredit: {
+      author: "Arifinikram",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Dear_Kaptai.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Kaptai_National_Park",
+    address: "Kaptai, Rangamati",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 69,
+    name: "Polwel Park",
+    description:
+      "A lakeside park in Rangamati town, on the shore of Kaptai Lake.",
+    coordinates: [22.64116, 92.19992],
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c69.webp",
+    photoCredit: {
+      author: "Al Riaz Uddin",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Polwel_Park.jpg",
+    },
+    address: "Rangamati Sadar, Rangamati",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 70,
+    name: "Alutila Cave",
+    description:
+      "A 100-metre cave running through Alutila hill, surrounded by deep green forest.",
+    coordinates: [23.08833, 91.95667],
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c70.webp",
+    photoCredit: {
+      author: "Swarup Biswas",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Cave_painting.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Alutila_Cave",
+    address: "Alutila, Khagrachari",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 71,
+    name: "Khagrachari Hill District Council Park",
+    description:
+      "A horticulture park with a lake on the edge of Khagrachari town.",
+    coordinates: [23.09788, 91.97262],
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c71.webp",
+    photoCredit: {
+      author: "Moheen Reeyad",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Khagrachari_HDCH_Park_(01).jpg",
+    },
+    address: "Khagrachari Sadar, Khagrachari",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 72,
+    name: "Shantipur Aranya Kutir",
+    description:
+      "A Buddhist forest monastery in Panchhari, known for its large Buddha statue.",
+    coordinates: [23.25951, 91.89107],
+    category: CATEGORIES.RELIGIOUS.name,
+    images: "/images/c72.webp",
+    photoCredit: {
+      author: "Aumit22",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:%E0%A6%AC%E0%A7%81%E0%A6%A6%E0%A7%8D%E0%A6%A7_%E0%A6%AE%E0%A7%81%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A6%BF.JPG",
+    },
+    moreInfoLink: "https://bn.wikipedia.org/wiki/%E0%A6%AA%E0%A6%BE%E0%A6%A8%E0%A6%9B%E0%A6%A1%E0%A6%BC%E0%A6%BF_%E0%A6%B6%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A6%BF%E0%A6%AA%E0%A7%81%E0%A6%B0_%E0%A6%85%E0%A6%B0%E0%A6%A3%E0%A7%8D%E0%A6%AF_%E0%A6%95%E0%A7%81%E0%A6%9F%E0%A6%BF%E0%A6%B0",
+    address: "Panchhari, Khagrachari",
+    bestTimeToVisit: "Year-round",
+  },
 ];
 
 // The distinct categories present in the data, in first-seen order. Used to
