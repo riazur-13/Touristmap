@@ -18,8 +18,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Cox%27s_Bazar_Beach",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Hotels, Restaurants, Water Sports",
   },
   {
@@ -39,8 +37,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Kaptai_Lake",
     address: "Rangamati, Chittagong Division",
     bestTimeToVisit: "October to April",
-    entryFee: "Boat rides vary",
-    openingHours: "Dawn to dusk",
     facilities: "Boat rentals, Restaurants, Hotels",
   },
   {
@@ -60,8 +56,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Patenga_Sea_Beach",
     address: "Patenga, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Parking, Restaurants, Beach activities",
   },
   {
@@ -81,8 +75,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Foy%27s_Lake",
     address: "Khulshi, Chittagong",
     bestTimeToVisit: "October to March",
-    entryFee: "50-100 BDT",
-    openingHours: "9:00 AM - 6:00 PM",
     facilities: "Amusement park, Cable car, Restaurants",
   },
   {
@@ -102,8 +94,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Boga_Lake_(Bangladesh)",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Trekking permit required",
-    openingHours: "Camping allowed",
     facilities: "Trekking, Camping",
   },
   {
@@ -123,8 +113,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chandranath_Temple",
     address: "Sitakunda, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "6:00 AM - 8:00 PM",
     facilities: "Parking, Accommodation nearby",
   },
   {
@@ -144,8 +132,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    entryFee: "50 BDT per person",
-    openingHours: "7:00 AM - 5:00 PM",
     facilities: "Resort, Restaurant, Parking",
   },
   {
@@ -165,8 +151,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Inani_Beach",
     address: "Ukhia, Cox's Bazar",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Beach resorts, Restaurants",
   },
   {
@@ -186,8 +170,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ethnological_Museum,_Chittagong",
     address: "Agrabad C/A, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "20 BDT",
-    openingHours: "10:00 AM - 5:00 PM (Closed Monday)",
     facilities: "Guided tours, Parking",
   },
   {
@@ -208,8 +190,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Himchari_National_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "20 BDT",
-    openingHours: "8:00 AM - 5:00 PM",
     facilities: "Trekking trails, Picnic spots, Parking",
   },
   {
@@ -229,8 +209,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Sangu_River",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "November to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Boat services, Camping areas",
   },
   {
@@ -250,8 +228,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Teknaf_Beach",
     address: "Teknaf, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Limited facilities, Fishing boats",
   },
   {
@@ -271,8 +247,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Dulhazra_Safari_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "100 BDT",
-    openingHours: "9:00 AM - 5:00 PM",
     facilities: "Safari tours, Picnic areas, Restaurant",
   },
   {
@@ -292,8 +266,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Moheshkhali_Island",
     address: "Moheshkhali, Cox's Bazar",
     bestTimeToVisit: "November to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Boat services, Temples, Local markets",
   },
   {
@@ -313,8 +285,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chittagong_War_Cemetery",
     address: "Dampara, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "8:00 AM - 5:00 PM",
     facilities: "Maintained gardens, Information boards",
   },
   {
@@ -334,8 +304,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Karnaphuli",
     address: "Chittagong City",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Boat services, Ferry terminals",
   },
   {
@@ -374,8 +342,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ali_Kadam_Upazila",
     address: "Alikadam, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Permit required",
-    openingHours: "N/A",
     facilities: "Basic accommodations, Trekking guides",
   },
   {
@@ -395,8 +361,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Parki_Beach",
     address: "Anwara, Chittagong",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Fishing boats, Local restaurants",
   },
   {
@@ -416,8 +380,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Jadipai_Waterfall",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "July to September",
-    entryFee: "Trekking permit required",
-    openingHours: "Daylight hours",
     facilities: "Trekking, Swimming, Camping",
   },
   {
@@ -437,8 +399,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Buddha_Dhatu_Jadi",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "6:00 AM - 6:00 PM",
     facilities: "Parking, Meditation halls, Gift shop",
   },
   {
@@ -458,8 +418,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Nafakhum_Waterfall",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "October to February",
-    entryFee: "Boat and trekking fees apply",
-    openingHours: "Daylight hours",
     facilities: "Camping, Swimming, Guides",
   },
   {
@@ -479,8 +437,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Saint_Martin%27s_Island",
     address: "Saint Martin, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    entryFee: "Boat fare applies",
-    openingHours: "Island access seasonal",
     facilities: "Resorts, Restaurants, Snorkeling",
   },
   {
@@ -501,8 +457,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Tazing_Dong",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Trekking permit required",
-    openingHours: "Multi-day trek",
     facilities: "Guides mandatory, Camping",
   },
   {
@@ -516,8 +470,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Khyang_people",
     address: "Bandarban District",
     bestTimeToVisit: "Year-round",
-    entryFee: "Donations appreciated",
-    openingHours: "Daylight hours",
     facilities: "Cultural tours, Handicrafts",
   },
   {
@@ -538,8 +490,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    entryFee: "30 BDT",
-    openingHours: "7:00 AM - 6:00 PM",
     facilities: "Resort, Restaurant, Observatory",
   },
   {
@@ -559,8 +509,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Rangamati",
     address: "Rangamati",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
     facilities: "Nearby markets, Boat services",
   },
   {
@@ -580,8 +528,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Shoilo_Propat",
     address: "Milonchari, Bandarban",
     bestTimeToVisit: "June to September",
-    entryFee: "30 BDT",
-    openingHours: "Daylight hours",
     facilities: "Trekking, Swimming, Parking",
   },
   {
