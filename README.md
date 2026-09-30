@@ -92,8 +92,9 @@ source gives a precise point, the entry sets the optional
 `approximateLocation: true`, and the details panel tells the user the pin is
 approximate.
 
-`MAP_CONFIG.MAX_BOUNDS` is defined but deliberately **not** applied to the map;
-see the comment in `constants.js` for why.
+`MAP_CONFIG.MAX_BOUNDS` keeps panning within the region around Bangladesh. It is
+tied to `MIN_ZOOM`: if the viewport is ever larger than the box, Leaflet stops
+panning on that axis. See the comment in `constants.js` before changing either.
 
 ## Roadmap
 

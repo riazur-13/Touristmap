@@ -198,6 +198,8 @@ const MapView = ({
       zoom={MAP_CONFIG.DEFAULT_ZOOM}
       minZoom={MAP_CONFIG.MIN_ZOOM}
       maxZoom={MAP_CONFIG.MAX_ZOOM}
+      maxBounds={MAP_CONFIG.MAX_BOUNDS}
+      maxBoundsViscosity={MAP_CONFIG.MAX_BOUNDS_VISCOSITY}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
