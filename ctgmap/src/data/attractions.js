@@ -1522,16 +1522,29 @@ export const getBounds = (list) => {
   ];
 };
 
+const SLUG_MAX_WORDS = 4;
+const SLUG_FILLER_WORDS = new Set(["and", "of", "the"]);
+
 // URL-safe identifier derived from the name, e.g. "Cox's Bazar Beach" ->
-// "coxs-bazar-beach". Uniqueness is enforced by attractions.test.js.
-export const slugify = (name) =>
-  name
+// "coxs-bazar-beach". A bracketed alternate name is dropped ("Shoilo Propat
+// (Shoilo Waterfall)" -> "shoilo-propat"), and a slug longer than
+// SLUG_MAX_WORDS loses its filler words and is cut to that many words.
+// Uniqueness is enforced by attractions.test.js.
+export const slugify = (name) => {
+  const words = name
+    .replace(/\([^)]*\)/g, " ")
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
     .replace(/['’]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+  const short =
+    words.length > SLUG_MAX_WORDS
+      ? words.filter((w) => !SLUG_FILLER_WORDS.has(w)).slice(0, SLUG_MAX_WORDS)
+      : words;
+  return short.join("-");
+};
 
 export const getSlug = (attraction) => slugify(attraction.name);
 

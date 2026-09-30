@@ -62,9 +62,28 @@ describe("attractions data", () => {
 
   it("slugifies names", () => {
     expect(slugify("Cox's Bazar Beach")).toBe("coxs-bazar-beach");
-    expect(slugify("Hanging Bridge (Jhulonto Bridge)")).toBe(
-      "hanging-bridge-jhulonto-bridge",
+  });
+
+  it("drops bracketed alternate names from slugs", () => {
+    expect(slugify("Shoilo Propat (Shoilo Waterfall)")).toBe("shoilo-propat");
+    expect(slugify("Rangamati (Kaptai Lake)")).toBe("rangamati");
+  });
+
+  it("shortens slugs over four words, dropping filler words first", () => {
+    expect(slugify("Sitakunda Botanical Garden and Eco Park")).toBe(
+      "sitakunda-botanical-garden-eco",
     );
+    expect(slugify("Khagrachari Hill District Council Park")).toBe(
+      "khagrachari-hill-district-council",
+    );
+    expect(slugify("Anderkilla Shahi Jame Mosque")).toBe(
+      "anderkilla-shahi-jame-mosque",
+    );
+  });
+
+  it("keeps every slug to four words or fewer", () => {
+    for (const a of attractions)
+      expect(getSlug(a).split("-").length, a.name).toBeLessThanOrEqual(4);
   });
 
   describe.each(cases)("%s", (_label, a) => {
