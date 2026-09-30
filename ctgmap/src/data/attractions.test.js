@@ -17,11 +17,16 @@ const REQUIRED_FIELDS = {
   moreInfoLink: "string",
   address: "string",
   bestTimeToVisit: "string",
+};
+// Optional fields may be absent, but when present they must be the right type
+// (and non-empty, for strings). Fees, hours and facilities are left out when
+// no reliable source gives them; the details panel then hides the row.
+const OPTIONAL_FIELDS = {
+  approximateLocation: "boolean",
   entryFee: "string",
   openingHours: "string",
   facilities: "string",
 };
-const OPTIONAL_FIELDS = { approximateLocation: "boolean" };
 
 const CATEGORY_NAMES = Object.values(CATEGORIES).map((c) => c.name);
 const [[SOUTH, WEST], [NORTH, EAST]] = MAP_CONFIG.MAX_BOUNDS;
@@ -53,9 +58,11 @@ describe("attractions data", () => {
       expect(Object.keys(a).filter((k) => !(k in known))).toEqual([]);
     });
 
-    it("has a boolean approximateLocation when present", () => {
-      if ("approximateLocation" in a) {
-        expect(a.approximateLocation).toBeTypeOf("boolean");
+    it("has optional fields of the right type when present", () => {
+      for (const [field, type] of Object.entries(OPTIONAL_FIELDS)) {
+        if (!(field in a)) continue;
+        expect(a[field], field).toBeTypeOf(type);
+        if (type === "string") expect(a[field].trim(), field).not.toBe("");
       }
     });
 

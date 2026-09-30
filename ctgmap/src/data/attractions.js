@@ -253,8 +253,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban",
     address: "Meghla, Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    entryFee: "Ticket required",
-    openingHours: "Daylight hours",
     facilities: "Hanging bridges, Cable car, Boating, Picnic spots",
   },
   {

@@ -28,15 +28,18 @@ const handleImageError = (e) => {
   img.src = placeholderImage;
 };
 
-const InfoItem = ({ icon: Icon, label, value }) => (
-  <div className="info-item">
-    <Icon size={18} className="info-item__icon" aria-hidden="true" />
-    <div>
-      <span className="info-item__label">{label}</span>
-      <span className="info-item__value">{value}</span>
+// Renders nothing for an unknown value: optional fields (fee, hours,
+// facilities) are left out of the data rather than guessed.
+const InfoItem = ({ icon: Icon, label, value }) =>
+  value ? (
+    <div className="info-item">
+      <Icon size={18} className="info-item__icon" aria-hidden="true" />
+      <div>
+        <span className="info-item__label">{label}</span>
+        <span className="info-item__value">{value}</span>
+      </div>
     </div>
-  </div>
-);
+  ) : null;
 
 const AttractionDetails = ({
   attraction,
@@ -89,18 +92,20 @@ const AttractionDetails = ({
               Approximate location — the map pin may be a few kilometres off.
             </p>
           )}
-          <div className="attraction-card__info-row">
-            <InfoItem
-              icon={Clock}
-              label="Opening Hours"
-              value={attraction.openingHours}
-            />
-            <InfoItem
-              icon={Banknote}
-              label="Entry Fee"
-              value={attraction.entryFee}
-            />
-          </div>
+          {(attraction.openingHours || attraction.entryFee) && (
+            <div className="attraction-card__info-row">
+              <InfoItem
+                icon={Clock}
+                label="Opening Hours"
+                value={attraction.openingHours}
+              />
+              <InfoItem
+                icon={Banknote}
+                label="Entry Fee"
+                value={attraction.entryFee}
+              />
+            </div>
+          )}
           <InfoItem
             icon={Calendar}
             label="Best Time to Visit"
