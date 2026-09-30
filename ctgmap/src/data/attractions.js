@@ -188,7 +188,7 @@ const attractions = [
     description:
       "Bangladesh's first safari park featuring Bengal tigers, elephants, and various bird species.",
     coordinates: [21.6598, 92.1032],
-    category: CATEGORIES.CULTURAL.name,
+    category: CATEGORIES.NATURAL.name,
     images: "/images/c14.webp",
     moreInfoLink: "https://en.wikipedia.org/wiki/Dulhazra_Safari_Park",
     address: "Cox's Bazar, Chittagong Division",
