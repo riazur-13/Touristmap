@@ -11,8 +11,8 @@ Built with React 19, Vite and Leaflet (via react-leaflet). The app lives in
 ## Features
 
 - Map pins colored by category; the category chips double as the legend.
-- Search by name combined with multi-select category filters, with an empty
-  state that offers to clear everything.
+- Search by name or address (e.g. "Bandarban") combined with multi-select
+  category filters, with an empty state that offers to clear everything.
 - Details panel with photo, opening hours, entry fee, best season, facilities
   and a Wikipedia link.
 - Driving directions from your location, with a draggable "you are here"

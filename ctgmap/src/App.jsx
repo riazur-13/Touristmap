@@ -218,12 +218,14 @@ function App() {
     setActiveCategories(new Set());
   }, []);
 
+  // Search matches name or address (so "Bandarban" finds every place there).
   // Search and categories combine with AND; selected categories with OR.
   const filteredAttractions = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     return attractions.filter(
       (item) =>
-        item.name.toLowerCase().includes(query) &&
+        (item.name.toLowerCase().includes(query) ||
+          item.address.toLowerCase().includes(query)) &&
         (activeCategories.size === 0 || activeCategories.has(item.category)),
     );
   }, [searchQuery, activeCategories]);
@@ -241,7 +243,7 @@ function App() {
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search locations..."
+            placeholder="Search places or areas..."
           />
           <span className="filter-bar__count" aria-live="polite">
             {filteredAttractions.length}{" "}

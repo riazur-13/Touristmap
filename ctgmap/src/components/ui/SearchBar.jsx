@@ -11,7 +11,7 @@ const SearchBar = ({ value, onChange, placeholder }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        aria-label="Search attractions by name"
+        aria-label="Search attractions by name or address"
       />
       {value && (
         <button
