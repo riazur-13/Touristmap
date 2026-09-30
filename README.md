@@ -1,5 +1,7 @@
 # Chittagong Explorer
 
+Live demo: <https://touristmappp.vercel.app/>
+
 An interactive map of 28 tourist attractions across Chittagong Division,
 Bangladesh — beaches, hill stations, waterfalls, religious and historical sites.
 Pick a marker to see details for that place, then use **Get Directions** to draw
