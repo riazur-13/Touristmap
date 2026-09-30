@@ -18,7 +18,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Cox%27s_Bazar_Beach",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    facilities: "Hotels, Restaurants, Water Sports",
   },
   {
     id: 3,
@@ -37,7 +36,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Kaptai_Lake",
     address: "Rangamati, Chittagong Division",
     bestTimeToVisit: "October to April",
-    facilities: "Boat rentals, Restaurants, Hotels",
   },
   {
     id: 4,
@@ -56,7 +54,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Patenga_Sea_Beach",
     address: "Patenga, Chittagong",
     bestTimeToVisit: "Year-round",
-    facilities: "Parking, Restaurants, Beach activities",
   },
   {
     id: 5,
@@ -75,7 +72,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Foy%27s_Lake",
     address: "Khulshi, Chittagong",
     bestTimeToVisit: "October to March",
-    facilities: "Amusement park, Cable car, Restaurants",
   },
   {
     id: 6,
@@ -94,7 +90,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Boga_Lake_(Bangladesh)",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    facilities: "Trekking, Camping",
   },
   {
     id: 7,
@@ -113,7 +108,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chandranath_Temple",
     address: "Sitakunda, Chittagong",
     bestTimeToVisit: "Year-round",
-    facilities: "Parking, Accommodation nearby",
   },
   {
     id: 8,
@@ -132,7 +126,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    facilities: "Resort, Restaurant, Parking",
   },
   {
     id: 9,
@@ -151,7 +144,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Inani_Beach",
     address: "Ukhia, Cox's Bazar",
     bestTimeToVisit: "October to March",
-    facilities: "Beach resorts, Restaurants",
   },
   {
     id: 10,
@@ -170,7 +162,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ethnological_Museum,_Chittagong",
     address: "Agrabad C/A, Chittagong",
     bestTimeToVisit: "Year-round",
-    facilities: "Guided tours, Parking",
   },
   {
     id: 11,
@@ -190,7 +181,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Himchari_National_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    facilities: "Trekking trails, Picnic spots, Parking",
   },
   {
     id: 12,
@@ -209,7 +199,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Sangu_River",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "November to March",
-    facilities: "Boat services, Camping areas",
   },
   {
     id: 13,
@@ -228,7 +217,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Teknaf_Beach",
     address: "Teknaf, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    facilities: "Limited facilities, Fishing boats",
   },
   {
     id: 14,
@@ -247,7 +235,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Dulhazra_Safari_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    facilities: "Safari tours, Picnic areas, Restaurant",
   },
   {
     id: 15,
@@ -266,7 +253,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Moheshkhali_Island",
     address: "Moheshkhali, Cox's Bazar",
     bestTimeToVisit: "November to March",
-    facilities: "Boat services, Temples, Local markets",
   },
   {
     id: 16,
@@ -285,7 +271,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chittagong_War_Cemetery",
     address: "Dampara, Chittagong",
     bestTimeToVisit: "Year-round",
-    facilities: "Maintained gardens, Information boards",
   },
   {
     id: 17,
@@ -304,7 +289,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Karnaphuli",
     address: "Chittagong City",
     bestTimeToVisit: "Year-round",
-    facilities: "Boat services, Ferry terminals",
   },
   {
     id: 18,
@@ -323,7 +307,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban",
     address: "Meghla, Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    facilities: "Hanging bridges, Cable car, Boating, Picnic spots",
   },
   {
     id: 19,
@@ -342,7 +325,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ali_Kadam_Upazila",
     address: "Alikadam, Bandarban",
     bestTimeToVisit: "November to February",
-    facilities: "Basic accommodations, Trekking guides",
   },
   {
     id: 20,
@@ -361,7 +343,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Parki_Beach",
     address: "Anwara, Chittagong",
     bestTimeToVisit: "October to March",
-    facilities: "Fishing boats, Local restaurants",
   },
   {
     id: 21,
@@ -380,7 +361,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Jadipai_Waterfall",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "July to September",
-    facilities: "Trekking, Swimming, Camping",
   },
   {
     id: 22,
@@ -399,7 +379,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Buddha_Dhatu_Jadi",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "Year-round",
-    facilities: "Parking, Meditation halls, Gift shop",
   },
   {
     id: 23,
@@ -418,7 +397,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Nafakhum_Waterfall",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "October to February",
-    facilities: "Camping, Swimming, Guides",
   },
   {
     id: 24,
@@ -437,7 +415,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Saint_Martin%27s_Island",
     address: "Saint Martin, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    facilities: "Resorts, Restaurants, Snorkeling",
   },
   {
     id: 25,
@@ -457,7 +434,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Tazing_Dong",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    facilities: "Guides mandatory, Camping",
   },
   {
     id: 26,
@@ -470,7 +446,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Khyang_people",
     address: "Bandarban District",
     bestTimeToVisit: "Year-round",
-    facilities: "Cultural tours, Handicrafts",
   },
   {
     id: 27,
@@ -490,7 +465,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    facilities: "Resort, Restaurant, Observatory",
   },
   {
     id: 28,
@@ -509,7 +483,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Rangamati",
     address: "Rangamati",
     bestTimeToVisit: "October to March",
-    facilities: "Nearby markets, Boat services",
   },
   {
     id: 29,
@@ -528,7 +501,6 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Shoilo_Propat",
     address: "Milonchari, Bandarban",
     bestTimeToVisit: "June to September",
-    facilities: "Trekking, Swimming, Parking",
   },
   {
     id: 30,
