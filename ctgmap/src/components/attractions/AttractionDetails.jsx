@@ -13,18 +13,17 @@ import {
   Info,
 } from "lucide-react";
 import { getCategoryColor } from "../../styles/utils/constants";
+// Local, so a missing or broken photo never depends on a third-party service.
+import placeholderImage from "../../assets/placeholder.webp";
 import "./AttractionDetails.css";
 
-const NO_IMAGE = "https://placehold.co/600x400?text=No+Image+Found";
-const BROKEN_IMAGE = "https://placehold.co/600x400?text=Image+Unavailable";
-
-// Swap in a placeholder once. Without the guard, a failing placeholder would
-// fire onError again and loop forever.
+// Swap in the placeholder once. The guard stops onError from re-firing in a
+// loop should the placeholder itself ever fail to load.
 const handleImageError = (e) => {
   const img = e.currentTarget;
   if (img.dataset.fallback) return;
   img.dataset.fallback = "true";
-  img.src = BROKEN_IMAGE;
+  img.src = placeholderImage;
 };
 
 const InfoItem = ({ icon: Icon, label, value }) => (
@@ -54,7 +53,7 @@ const AttractionDetails = ({
           // key forces a fresh <img> per attraction, which also resets the
           // data-fallback flag set by handleImageError.
           key={attraction.id}
-          src={attraction.images || NO_IMAGE}
+          src={attraction.images || placeholderImage}
           alt={attraction.name}
           className="attraction-card__image"
           onError={handleImageError}
