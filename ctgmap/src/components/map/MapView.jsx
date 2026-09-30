@@ -170,15 +170,21 @@ function ResizeMap() {
 // ─── Single attraction marker — memo'd so it only re-renders when its own ─────
 // data changes, not when userPos or routePoints update.
 // Leaflet makes each marker focusable with role="button" but, as of 1.9, does
-// not activate it from the keyboard, so Enter/Space are handled here. `title`
-// doubles as the accessible name.
+// not activate it from the keyboard, so Enter/Space are handled here. The
+// accessible name is an aria-label set on the marker element.
 const AttractionMarker = memo(({ location, isActive, onSelect }) => (
   <Marker
     position={location.coordinates}
     icon={getPinIcon(location.category, isActive)}
-    title={`${location.name} (${location.category})`}
     zIndexOffset={isActive ? 1000 : 0}
     eventHandlers={{
+      // Not `title`: the browser would show its native tooltip on top of
+      // Leaflet's. Re-applied on every add because clustering removes and
+      // re-adds marker elements.
+      add: (e) =>
+        e.target
+          .getElement()
+          ?.setAttribute("aria-label", `${location.name} (${location.category})`),
       click: () => onSelect(location),
       keydown: ({ originalEvent: e }) => {
         if (e.key === "Enter" || e.key === " ") {
