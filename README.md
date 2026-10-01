@@ -9,7 +9,8 @@ Pick a marker to see details for that place, then use **Get Directions** to draw
 a driving route from your current location.
 
 Built with React 19, Vite and Leaflet (via react-leaflet). The app lives in
-[`ctgmap/`](ctgmap).
+[`ctgmap/`](ctgmap); an optional Python/FastAPI recommendations API lives in
+[`backend/`](backend).
 
 ## Features
 
@@ -25,6 +26,8 @@ Built with React 19, Vite and Leaflet (via react-leaflet). The app lives in
 - Keyboard accessible: pins and clusters are focusable and open with
   Enter/Space, Escape closes the details panel.
 - Responsive: on small screens the details panel slides up under the map.
+- "You might also like": up to four similar places per attraction, from the
+  backend when it is running and computed in the browser when it is not.
 
 ## Getting started
 
@@ -80,9 +83,22 @@ ctgmap/
     components/map/MapView.jsx           Leaflet map, category pins, clusters, route line
     components/attractions/…             details panel for the selected place
     components/ui/SearchBar.jsx          search input
+    api/                                 backend client + in-browser fallback
+    hooks/useSimilarPlaces.js            picks whichever suggestion source works
     config/constants.js                  map config, categories, breakpoints
     utils/maps.js                        Google Maps link helper
+    utils/geo.js                         haversine distance (mirrors the backend)
     styles/variables.css                 design tokens (colors, spacing, radii)
+  scripts/                               data export + headless-browser check
+
+backend/
+  app/
+    main.py                              FastAPI app, endpoints, CORS
+    recommender.py                       TF-IDF + proximity scoring
+    models.py                            Pydantic request/response models
+    config.py                            weights, limits, allowed origins
+    data/attractions.json                GENERATED from the frontend data
+  tests/                                 pytest suite
 ```
 
 CSS uses BEM class names (`block__element--modifier`), one stylesheet per
@@ -121,7 +137,31 @@ keeps panning within the region around Bangladesh. It is tied to `MIN_ZOOM`:
 if the viewport is ever larger than the box, Leaflet stops panning on that
 axis. See the comment in `constants.js` before changing either.
 
-## Roadmap
+## The recommendations backend
 
-A Python/FastAPI backend with a TF-IDF recommendation engine is planned but not
-yet in this repository.
+[`backend/`](backend) is a FastAPI service that answers "which other places are
+like this one?" using TF-IDF text similarity blended with proximity. Setup and
+endpoints are in [`backend/README.md`](backend/README.md); the design, the
+reasoning and an interview-oriented walkthrough are in
+[`docs/backend-guide.md`](docs/backend-guide.md).
+
+```bash
+cd backend
+py -m venv .venv && .\.venv\Scripts\Activate.ps1   # Windows
+pip install -r requirements.txt
+uvicorn app.main:app --reload                      # http://localhost:8000/docs
+```
+
+It is **optional**. Without `VITE_API_URL` set in `ctgmap/.env`, or if the API is
+unreachable or slower than 3 seconds, the frontend computes the suggestions
+itself (same category, nearest first), so the deployed site works with no backend
+running.
+
+`backend/app/data/attractions.json` is generated — `ctgmap/src/data/attractions.js`
+stays the single source of truth. Re-export after editing the data:
+
+```bash
+cd ctgmap && npm run export:attractions
+```
+
+`npm test` fails if you forget.
