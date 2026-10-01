@@ -1562,7 +1562,7 @@ const attractions = [
     },
     moreInfoLink: "https://en.wikipedia.org/wiki/Gandhi_Ashram_Trust",
     address: "Jayag, Sonaimuri, Noakhali",
-    bestTimeToVisit: "October to March",
+    bestTimeToVisit: "Year-round",
   },
   {
     id: 90,
@@ -1574,7 +1574,7 @@ const attractions = [
     approximateLocation: true,
     category: CATEGORIES.RELIGIOUS.name,
     address: "Cox's Bazar town",
-    bestTimeToVisit: "October to March",
+    bestTimeToVisit: "Year-round",
   },
   {
     id: 91,
