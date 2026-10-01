@@ -10,6 +10,7 @@ are most like it?*
 - [Stage 1 — Data and a hello-world API](#stage-1--data-and-a-hello-world-api)
 - [Stage 2 — The recommendation engine](#stage-2--the-recommendation-engine)
 - [Stage 3 — Tests and quality](#stage-3--tests-and-quality)
+- [Stage 4 — Connecting the frontend](#stage-4--connecting-the-frontend)
 - [Try it yourself](#try-it-yourself)
 
 ---
@@ -524,6 +525,194 @@ both on display here:
 
 ---
 
+## Stage 4 — Connecting the frontend
+
+### The plain-language version
+
+Two things have to be true before a browser will use this API, and the second one
+surprises everybody the first time.
+
+**1. The frontend has to know where the API lives.** Hardcoding
+`http://localhost:8000` would work on your laptop and break everywhere else, so
+the address comes from configuration — `VITE_API_URL`.
+
+**2. The browser has to be given permission to read the response.** This is CORS,
+and it is the single most confusing thing about a first backend, so it's worth
+being precise.
+
+**The analogy.** Think of the browser as a very strict receptionist working for
+the *user*, not for you. A page from `localhost:5173` asks to call
+`localhost:8000`. Different port means a different origin, and the receptionist's
+rule is: *I'll deliver your message, but I won't hand you the reply unless the
+recipient explicitly said they accept mail from your address.* So the request
+really does reach the server, the server really does answer 200 — and the browser
+throws the response away and logs a CORS error. This is why CORS problems feel so
+maddening: **your server logs look perfect**. Nothing is wrong on the server. The
+missing thing is a header saying "yes, I accept calls from that origin".
+
+`CORSMiddleware` adds that header. The list of acceptable origins comes from
+`ALLOWED_ORIGINS`.
+
+**And then the part that matters most: what happens when the backend isn't
+there?** This map worked fine before any of this existed. It would be a bad trade
+to make a nice-to-have feature able to break the whole page. So the rule is: if
+the API can't answer — not configured, down, erroring, or just slow — the browser
+computes suggestions itself and nobody notices. The backend is an *enhancement*,
+never a dependency.
+
+### What the code does
+
+```
+ctgmap/src/
+├── api/
+│   ├── client.js         talks to the backend
+│   └── localSimilar.js   the browser-side fallback
+├── hooks/
+│   └── useSimilarPlaces.js   picks whichever one works
+└── components/attractions/
+    └── SimilarPlaces.jsx     renders the result
+```
+
+**`api/client.js`** reads the base URL and enforces a deadline:
+
+```js
+const BASE_URL = (import.meta.env.VITE_API_URL ?? "").trim().replace(/\/+$/, "");
+export const API_TIMEOUT_MS = 3000;
+```
+
+`import.meta.env` is Vite's build-time substitution — this is a constant in the
+shipped bundle, not a runtime lookup, which is why **changing `.env` requires
+restarting `npm run dev`**. Only `VITE_`-prefixed variables are exposed, and that
+prefix is a safety feature: anything exposed this way is readable by anyone who
+views the bundle, so secrets must never go in there.
+
+`fetch` has no built-in timeout, so one is built from an `AbortController`:
+
+```js
+const controller = new AbortController();
+const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+```
+
+Three seconds is deliberately impatient. These suggestions are not why anyone
+opened the page; three seconds of spinner is already a worse experience than
+instantly showing slightly less clever results.
+
+**`api/localSimilar.js`** is the fallback: same category, nearest first. It can't
+read descriptions the way TF-IDF does, but it needs no network and no data the
+page doesn't already have. It returns the *same shape* as the API, so the UI
+cannot tell them apart.
+
+**`hooks/useSimilarPlaces.js`** chooses between them. The design point worth
+noting is that **it has no error state**:
+
+```js
+.catch(() => {
+  if (!cancelled) {
+    setResolved({ slug: attraction.slug, places: localPlaces, source: "local" });
+  }
+})
+```
+
+Every failure path — not configured, network error, non-2xx, timeout — lands in
+the same place: use local results. There is no error message to show, because
+there is nothing the user could do about it and a perfectly good answer is
+available.
+
+Two subtleties in the hook:
+
+- **Results are keyed by slug.** `resolved.slug === attraction.slug` is what makes
+  a late response for a place you've navigated away from simply not match, instead
+  of appearing under the wrong place.
+- **The local result is computed during render, not stored in state.** It's pure
+  and cheap, so `useMemo` is enough. An earlier version kept it in state and reset
+  it in an effect, which React's lint rules correctly flagged as a cascading
+  render — the state-keyed-by-slug version avoids the reset entirely.
+
+**`SimilarPlaces.jsx`** renders up to four, each a button that calls
+`onSelect(slug)`. `App` resolves the slug against the local data and routes it
+through the *existing* `handleSelect`, so a suggestion click behaves exactly like
+a map pin click — same `?place=` URL, same history behaviour, shareable link, Back
+button works. New feature, no new navigation concept.
+
+The section carries `data-source="api"` or `"local"`. It's invisible to users but
+makes which path ran directly assertable in a browser check.
+
+One small thing that turned out to matter: the panel scrolls, and the suggestion
+list is at the bottom of it. Without resetting `scrollTop` on selection, clicking
+a suggestion drops you into the middle of the next place's panel, below its photo
+and title. Four lines in `App.jsx`, and the feature feels broken without it.
+
+### Verifying it in a real browser
+
+`ctgmap/scripts/check-browser.mjs` drives headless Chrome and reports which
+source was used:
+
+```bash
+npm run check:browser -- "http://localhost:5173/?place=kaptai-lake" --click=2
+```
+
+This is worth a note, because the obvious approach doesn't work. `chrome
+--dump-dom` prints the DOM at the load event — before an async fetch has
+resolved, so you always capture the loading state. Adding `--virtual-time-budget`
+makes Chrome wait, but it *also* pauses virtual time while a fetch is pending, so
+a `setTimeout` timeout never fires and a 6-second backend looks identical to a
+fast one. Measured that way the fallback appears broken when it isn't. The script
+polls over the DevTools Protocol in real wall-clock time instead.
+
+All four paths were checked this way:
+
+| Scenario                        | Source  | Settled  |
+| ------------------------------- | ------- | -------- |
+| Backend running                 | `api`   | ~0.3–0.5 s |
+| Backend stopped                 | `local` | ~0.3 s   |
+| Backend slow (6 s stub)         | `local` | ~3.4 s   |
+| `VITE_API_URL` unset            | `local` | immediate |
+
+The slow-backend case is the interesting one: it falls back at 3.4 s and then
+*stays* on local results even after the stub finally answers at 6 s — the aborted
+request's late response is correctly discarded rather than flickering in.
+
+### The professional framing
+
+**Graceful degradation**: the feature has a working answer for every failure mode,
+so the blast radius of the backend being down is "slightly worse suggestions"
+rather than "broken page". This is the difference between a feature and a
+liability, and it's cheap to build in at the start and expensive to retrofit.
+
+**On `allow_origins=["*"]`**: it's tempting and it makes the error go away. It also
+means any website on the internet can make a visitor's browser call your API with
+that visitor's network identity. For this public, read-only, unauthenticated data
+the practical risk is near zero — but wildcards reliably outlive the reasoning
+that justified them, and the one that gets copied into the next service is the one
+that hurts. The list stays explicit.
+
+> **Interviewer: "Explain CORS. Why does the request succeed in the network tab
+> but fail in JavaScript?"**
+>
+> "Because CORS is enforced by the browser on the *response*, not by the server on
+> the request. A page on one origin requests another; the browser sends it and the
+> server answers normally, but unless the response carries an
+> `Access-Control-Allow-Origin` header naming the calling origin, the browser
+> refuses to expose it to the page. That's why the server logs look clean — nothing
+> failed server-side. For requests that aren't simple GETs the browser sends an
+> `OPTIONS` preflight first and won't send the real request at all if the answer
+> doesn't permit it. The fix is server-side: name the allowed origins explicitly,
+> which is what `ALLOWED_ORIGINS` does here."
+
+> **Interviewer: "The recommendation service goes down in production. What does
+> the user see?"**
+>
+> "Suggestions computed in the browser instead — same category, nearest first —
+> and no error message, because there's nothing useful for them to do about it.
+> Every failure mode routes there: unset config, network error, non-2xx, and a
+> 3-second timeout, which is the one people forget. A hung backend is worse than a
+> dead one, since without a deadline the UI waits indefinitely on a request that
+> will never arrive. I verified all four paths in headless Chrome, including that a
+> slow response arriving after the fallback is discarded rather than overwriting
+> what the user is already reading."
+
+---
+
 ## Try it yourself
 
 All commands assume the virtual environment is active — see
@@ -608,4 +797,27 @@ And from `ctgmap/`, for the frontend side (including the export staleness guard)
 ```bash
 npm test
 npm run lint
+```
+
+### Run the whole thing together
+
+Two terminals:
+
+```bash
+cd backend && uvicorn app.main:app --reload   # :8000
+cd ctgmap  && npm run dev                     # :5173
+```
+
+Copy `ctgmap/.env.example` to `ctgmap/.env` first so the frontend knows where the
+API is, and restart `npm run dev` after changing it. Open
+<http://localhost:5173>, click any place, and scroll the panel to **"You might
+also like"**.
+
+To see the fallback, stop the backend (Ctrl-C) and reload: the suggestions are
+still there, just computed in the browser. To confirm which path ran, open
+DevTools and inspect the section — `data-source` is `api` or `local`. Or check it
+without a browser window:
+
+```bash
+npm run check:browser -- "http://localhost:5173/?place=kaptai-lake"
 ```

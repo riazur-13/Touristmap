@@ -5,11 +5,40 @@ be reviewed and changed without reading the algorithm, and the tests can import
 the same constants instead of hardcoding numbers that then drift.
 """
 
+import os
 from pathlib import Path
 
 # app/data/attractions.json, written by `npm run export:attractions` in ctgmap/.
 # Resolved relative to this file so the server starts from any directory.
 DATA_PATH = Path(__file__).resolve().parent / "data" / "attractions.json"
+
+# --- CORS ------------------------------------------------------------------
+# Browsers block a page on origin A from reading a response from origin B unless
+# B says otherwise, so the API has to name the frontends allowed to call it.
+# Vite's dev server is the default; deployments set ALLOWED_ORIGINS instead.
+DEFAULT_ALLOWED_ORIGINS = ("http://localhost:5173",)
+
+
+def allowed_origins() -> list[str]:
+    """Origins permitted to call this API, from `ALLOWED_ORIGINS`.
+
+    Comma-separated, e.g. `https://ctgmap.example,http://localhost:5173`.
+
+    Read through a function rather than at import time so tests can set the
+    variable and see the effect without reimporting the module.
+
+    Deliberately has no "*" escape hatch: a wildcard would let any site on the
+    internet call this API from a visitor's browser. The data here is public, so
+    the stakes are low today — but wildcards tend to outlive the reasoning behind
+    them, so the list is always explicit.
+    """
+    configured = [
+        origin.strip()
+        for origin in os.getenv("ALLOWED_ORIGINS", "").split(",")
+        if origin.strip()
+    ]
+    return configured or list(DEFAULT_ALLOWED_ORIGINS)
+
 
 # --- /attractions/{slug}/similar -------------------------------------------
 

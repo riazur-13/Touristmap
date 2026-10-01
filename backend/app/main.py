@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, Path, Query, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from app import config
 from app.data import load_attractions
@@ -43,6 +44,21 @@ app = FastAPI(
     ),
     version="0.1.0",
     lifespan=lifespan,
+)
+
+# The frontend is served from a different origin (Vite on :5173) than this API
+# (:8000), which browsers treat as cross-origin. Without this the browser makes
+# the request but refuses to let the page read the response.
+#
+# Only GET is allowed and no credentials are accepted: this API is read-only and
+# has no sessions or cookies, so anything more would be granting permissions
+# nothing needs.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=config.allowed_origins(),
+    allow_credentials=False,
+    allow_methods=["GET"],
+    allow_headers=["*"],
 )
 
 

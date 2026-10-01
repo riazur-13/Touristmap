@@ -121,3 +121,35 @@ npm run export:attractions
 
 Forgetting this is caught by the frontend test suite — `npm test` fails with a
 message telling you to re-export.
+
+## Configuration
+
+| Variable          | Default                 | Purpose                                |
+| ----------------- | ----------------------- | -------------------------------------- |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Comma-separated origins allowed by CORS |
+
+See `.env.example`. Note that unlike the frontend, **this file is not loaded
+automatically** — there is no dotenv dependency here, so set the variable in your
+shell:
+
+```powershell
+$env:ALLOWED_ORIGINS = "http://localhost:5173"   # PowerShell
+```
+
+```bash
+export ALLOWED_ORIGINS="http://localhost:5173"   # macOS/Linux
+```
+
+## Running it with the frontend
+
+In two terminals:
+
+```bash
+cd backend && uvicorn app.main:app --reload     # :8000
+cd ctgmap  && npm run dev                       # :5173
+```
+
+The frontend needs `VITE_API_URL=http://localhost:8000` in `ctgmap/.env` (copy
+`ctgmap/.env.example`). Without it — or if this API is down — the map computes its
+"You might also like" suggestions in the browser instead, so the site works
+either way.
