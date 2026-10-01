@@ -4,6 +4,7 @@ const attractions = [
   {
     id: 1,
     name: "Cox's Bazar Beach",
+    slug: "coxs-bazar-beach",
     description:
       "The world's longest natural sea beach stretching 120 kilometers. Cox's Bazar offers pristine sandy shores, stunning sunsets, and a variety of water activities.",
     coordinates: [21.4506, 91.9524],
@@ -17,13 +18,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Cox%27s_Bazar_Beach",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Hotels, Restaurants, Water Sports",
   },
   {
     id: 3,
     name: "Rangamati (Kaptai Lake)",
+    slug: "kaptai-lake",
     description:
       "The largest man-made lake in Bangladesh, surrounded by emerald-green hills and colorful tribal villages of the Chakma and Marma people.",
     coordinates: [22.6533, 92.1751],
@@ -37,13 +36,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Kaptai_Lake",
     address: "Rangamati, Chittagong Division",
     bestTimeToVisit: "October to April",
-    entryFee: "Boat rides vary",
-    openingHours: "Dawn to dusk",
-    facilities: "Boat rentals, Restaurants, Hotels",
   },
   {
     id: 4,
     name: "Patenga Beach",
+    slug: "patenga-beach",
     description:
       "A popular beach near Chittagong city where the Karnaphuli River meets the Bay of Bengal. Known for its scenic views and naval base.",
     coordinates: [22.2344, 91.7923],
@@ -57,13 +54,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Patenga_Sea_Beach",
     address: "Patenga, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Parking, Restaurants, Beach activities",
   },
   {
     id: 5,
     name: "Foy's Lake",
+    slug: "foys-lake",
     description:
       "A beautiful man-made lake in Chittagong surrounded by hills. Features an amusement park, water sports, and cable car rides.",
     coordinates: [22.3734, 91.7926],
@@ -77,13 +72,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Foy%27s_Lake",
     address: "Khulshi, Chittagong",
     bestTimeToVisit: "October to March",
-    entryFee: "50-100 BDT",
-    openingHours: "9:00 AM - 6:00 PM",
-    facilities: "Amusement park, Cable car, Restaurants",
   },
   {
     id: 6,
     name: "Boga Lake",
+    slug: "boga-lake",
     description:
       "A natural lake situated at 1,246 feet above sea level in Bandarban. Surrounded by dense forest and offers a peaceful environment.",
     coordinates: [21.9803, 92.4701],
@@ -97,13 +90,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Boga_Lake_(Bangladesh)",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Trekking permit required",
-    openingHours: "Camping allowed",
-    facilities: "Trekking, Camping",
   },
   {
     id: 7,
     name: "Chandranath Temple",
+    slug: "chandranath-temple",
     description:
       "An ancient Hindu temple located on top of Chandranath Hill in Sitakunda. It attracts thousands of pilgrims and offers stunning hilltop views.",
     coordinates: [22.6335, 91.6847],
@@ -117,13 +108,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chandranath_Temple",
     address: "Sitakunda, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "6:00 AM - 8:00 PM",
-    facilities: "Parking, Accommodation nearby",
   },
   {
     id: 8,
     name: "Nilgiri Hills",
+    slug: "nilgiri-hills",
     description:
       "The highest peak accessible by road in Bangladesh, offering breathtaking 360-degree views of clouds and mountains.",
     coordinates: [21.9135, 92.3244],
@@ -137,13 +126,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    entryFee: "50 BDT per person",
-    openingHours: "7:00 AM - 5:00 PM",
-    facilities: "Resort, Restaurant, Parking",
   },
   {
     id: 9,
     name: "Inani Beach",
+    slug: "inani-beach",
     description:
       "A pristine coral beach near Cox's Bazar with unique coral stones and clear blue water. Less crowded and peaceful.",
     coordinates: [21.185, 92.048],
@@ -157,13 +144,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Inani_Beach",
     address: "Ukhia, Cox's Bazar",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Beach resorts, Restaurants",
   },
   {
     id: 10,
     name: "Ethnological Museum",
+    slug: "ethnological-museum",
     description:
       "Located in Chittagong, this museum showcases the cultural heritage of various indigenous communities in the Chittagong Hill Tracts.",
     coordinates: [22.328, 91.815],
@@ -177,13 +162,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ethnological_Museum,_Chittagong",
     address: "Agrabad C/A, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "20 BDT",
-    openingHours: "10:00 AM - 5:00 PM (Closed Monday)",
-    facilities: "Guided tours, Parking",
   },
   {
     id: 11,
     name: "Himchari National Park",
+    slug: "himchari-national-park",
     description:
       "A scenic national park near Cox's Bazar featuring waterfalls, hills, and diverse wildlife.",
     coordinates: [21.3294, 92.0183],
@@ -198,13 +181,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Himchari_National_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "20 BDT",
-    openingHours: "8:00 AM - 5:00 PM",
-    facilities: "Trekking trails, Picnic spots, Parking",
   },
   {
     id: 12,
     name: "Sangu River",
+    slug: "sangu-river",
     description:
       "A pristine river flowing through Bandarban, known for its crystal-clear water and scenic beauty.",
     coordinates: [21.7833, 92.3667],
@@ -218,13 +199,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Sangu_River",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "November to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Boat services, Camping areas",
   },
   {
     id: 13,
     name: "Teknaf Beach",
+    slug: "teknaf-beach",
     description:
       "The southernmost beach in Bangladesh, near the Myanmar border. Known for its clean shores and beautiful sunsets.",
     coordinates: [20.8462, 92.272],
@@ -238,13 +217,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Teknaf_Beach",
     address: "Teknaf, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Limited facilities, Fishing boats",
   },
   {
     id: 14,
     name: "Dulahazara Safari Park",
+    slug: "dulahazara-safari-park",
     description:
       "Bangladesh's first safari park featuring Bengal tigers, elephants, and various bird species.",
     coordinates: [21.6598, 92.1032],
@@ -258,13 +235,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Dulhazra_Safari_Park",
     address: "Cox's Bazar, Chittagong Division",
     bestTimeToVisit: "October to March",
-    entryFee: "100 BDT",
-    openingHours: "9:00 AM - 5:00 PM",
-    facilities: "Safari tours, Picnic areas, Restaurant",
   },
   {
     id: 15,
     name: "Moheshkhali Island",
+    slug: "moheshkhali-island",
     description:
       "An island near Cox's Bazar known for its Buddhist temples and salt production.",
     coordinates: [21.584, 91.9226],
@@ -278,13 +253,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Moheshkhali_Island",
     address: "Moheshkhali, Cox's Bazar",
     bestTimeToVisit: "November to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Boat services, Temples, Local markets",
   },
   {
     id: 16,
     name: "Chittagong War Cemetery",
+    slug: "chittagong-war-cemetery",
     description:
       "A Commonwealth War Cemetery honoring soldiers who died in World War II.",
     coordinates: [22.3572, 91.8287],
@@ -298,13 +271,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Chittagong_War_Cemetery",
     address: "Dampara, Chittagong",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "8:00 AM - 5:00 PM",
-    facilities: "Maintained gardens, Information boards",
   },
   {
     id: 17,
     name: "Karnaphuli River",
+    slug: "karnaphuli-river",
     description:
       "The largest river in Chittagong flowing into the Bay of Bengal.",
     coordinates: [22.2586, 91.8117],
@@ -318,13 +289,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Karnaphuli",
     address: "Chittagong City",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Boat services, Ferry terminals",
   },
   {
     id: 18,
     name: "Meghla Parjatan Complex",
+    slug: "meghla-parjatan-complex",
     description:
       "A recreation complex a few kilometres from Bandarban town, built around a forest-fringed lake in the hills. Known for its hanging bridges, cable car and boating.",
     coordinates: [22.1828, 92.1877],
@@ -338,11 +307,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban",
     address: "Meghla, Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    facilities: "Hanging bridges, Cable car, Boating, Picnic spots",
   },
   {
     id: 19,
     name: "Alikadam",
+    slug: "alikadam",
     description:
       "A remote upazila in Bandarban known for untouched natural beauty and adventure trekking routes.",
     coordinates: [21.6833, 92.4167],
@@ -356,13 +325,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Ali_Kadam_Upazila",
     address: "Alikadam, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Permit required",
-    openingHours: "N/A",
-    facilities: "Basic accommodations, Trekking guides",
   },
   {
     id: 20,
     name: "Parki Beach",
+    slug: "parki-beach",
     description:
       "A serene beach located between Patenga and Anwara, offering a quieter alternative to crowded beaches.",
     coordinates: [22.1928, 91.8151],
@@ -376,13 +343,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Parki_Beach",
     address: "Anwara, Chittagong",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Fishing boats, Local restaurants",
   },
   {
     id: 21,
     name: "Jadipai Waterfall",
+    slug: "jadipai-waterfall",
     description:
       "A stunning three-tier waterfall near Keokradong in Ruma, Bandarban. Accessible via trekking.",
     coordinates: [21.9298, 92.5054],
@@ -396,13 +361,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Jadipai_Waterfall",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "July to September",
-    entryFee: "Trekking permit required",
-    openingHours: "Daylight hours",
-    facilities: "Trekking, Swimming, Camping",
   },
   {
     id: 22,
     name: "Buddha Dhatu Jadi",
+    slug: "buddha-dhatu-jadi",
     description:
       "The largest Buddhist temple in Bangladesh, featuring Southeast Asian architecture.",
     coordinates: [22.2231, 92.1977],
@@ -416,13 +379,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Buddha_Dhatu_Jadi",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "Year-round",
-    entryFee: "Free",
-    openingHours: "6:00 AM - 6:00 PM",
-    facilities: "Parking, Meditation halls, Gift shop",
   },
   {
     id: 23,
     name: "Nafakhum Waterfall",
+    slug: "nafakhum-waterfall",
     description: "One of Bangladesh's largest waterfalls on the Remakri River.",
     coordinates: [21.7333, 92.5167],
     approximateLocation: true,
@@ -436,13 +397,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Nafakhum_Waterfall",
     address: "Thanchi, Bandarban",
     bestTimeToVisit: "October to February",
-    entryFee: "Boat and trekking fees apply",
-    openingHours: "Daylight hours",
-    facilities: "Camping, Swimming, Guides",
   },
   {
     id: 24,
     name: "Saint Martin's Island",
+    slug: "saint-martins-island",
     description:
       "Bangladesh's only coral island, known for pristine beaches and unique marine biodiversity.",
     coordinates: [20.6269, 92.3233],
@@ -456,13 +415,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Saint_Martin%27s_Island",
     address: "Saint Martin, Cox's Bazar",
     bestTimeToVisit: "November to February",
-    entryFee: "Boat fare applies",
-    openingHours: "Island access seasonal",
-    facilities: "Resorts, Restaurants, Snorkeling",
   },
   {
     id: 25,
     name: "Tajingdong (Bijoy)",
+    slug: "tajingdong",
     description:
       "The highest peak in Bangladesh at 1,280 meters. Offers challenging trekking routes.",
     coordinates: [21.8333, 92.5333],
@@ -477,13 +434,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Tazing_Dong",
     address: "Ruma, Bandarban",
     bestTimeToVisit: "November to February",
-    entryFee: "Trekking permit required",
-    openingHours: "Multi-day trek",
-    facilities: "Guides mandatory, Camping",
   },
   {
     id: 26,
     name: "Khyang Para",
+    slug: "khyang-para",
     description:
       "Traditional Marma tribal villages showcasing indigenous culture and lifestyle.",
     coordinates: [22.1667, 92.25],
@@ -491,13 +446,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Khyang_people",
     address: "Bandarban District",
     bestTimeToVisit: "Year-round",
-    entryFee: "Donations appreciated",
-    openingHours: "Daylight hours",
-    facilities: "Cultural tours, Handicrafts",
   },
   {
     id: 27,
     name: "Chimbuk Hill",
+    slug: "chimbuk-hill",
     description:
       "The third-highest peak in Bangladesh offering stunning valley views.",
     coordinates: [21.8667, 92.2667],
@@ -512,13 +465,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bandarban_Sadar_Upazila",
     address: "Bandarban Sadar, Bandarban",
     bestTimeToVisit: "October to March",
-    entryFee: "30 BDT",
-    openingHours: "7:00 AM - 6:00 PM",
-    facilities: "Resort, Restaurant, Observatory",
   },
   {
     id: 28,
     name: "Hanging Bridge (Jhulonto Bridge)",
+    slug: "hanging-bridge",
     description:
       "Iconic hanging bridge in Rangamati offering scenic river valley views.",
     coordinates: [22.6278, 92.185],
@@ -532,13 +483,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Rangamati",
     address: "Rangamati",
     bestTimeToVisit: "October to March",
-    entryFee: "Free",
-    openingHours: "Open 24/7",
-    facilities: "Nearby markets, Boat services",
   },
   {
     id: 29,
     name: "Shoilo Propat (Shoilo Waterfall)",
+    slug: "shoilo-propat",
     description:
       "A beautiful waterfall in Bandarban accessible via moderate trekking.",
     coordinates: [22.1508, 92.2164],
@@ -552,13 +501,11 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Shoilo_Propat",
     address: "Milonchari, Bandarban",
     bestTimeToVisit: "June to September",
-    entryFee: "30 BDT",
-    openingHours: "Daylight hours",
-    facilities: "Trekking, Swimming, Parking",
   },
   {
     id: 30,
     name: "Batali Hill",
+    slug: "batali-hill",
     description:
       "The highest hill in Chattogram city, about 280 feet high, near the Tiger Pass crossing about a kilometre from the city centre. Its top looks out over the city.",
     coordinates: [22.34398, 91.81614],
@@ -576,6 +523,7 @@ const attractions = [
   {
     id: 31,
     name: "Bayazid Bostami Shrine",
+    slug: "bayazid-bostami-shrine",
     description:
       "A shrine complex dedicated to the Persian Sufi Bayazid Bostami, with a tomb in a brick enclosure, an old mosque and a large pond.",
     coordinates: [22.38904, 91.80919],
@@ -593,6 +541,7 @@ const attractions = [
   {
     id: 32,
     name: "Anderkilla Shahi Jame Mosque",
+    slug: "anderkilla-shahi-jame-mosque",
     description:
       "A mosque built on a high hill called Ander-Qila (the 'inner fort'), standing as a monument of the Mughal conquest of Chittagong.",
     coordinates: [22.34101, 91.83671],
@@ -610,6 +559,7 @@ const attractions = [
   {
     id: 33,
     name: "Chandanpura Mosque",
+    slug: "chandanpura-mosque",
     description:
       "A city landmark known for its many brightly painted domes and minarets. Also called Masjid-e-Siraj ud-Daulah, it stands on Nawab Siraj ud-Daulah Road.",
     coordinates: [22.34978, 91.8382],
@@ -627,6 +577,7 @@ const attractions = [
   {
     id: 34,
     name: "Chatteshwari Temple",
+    slug: "chatteshwari-temple",
     description:
       "A Hindu temple to the goddess Kali in the centre of Chattogram, considered one of the prominent Shakta pithas of Bengal. The city's name is said to derive from Chatteshwari.",
     coordinates: [22.35274, 91.82605],
@@ -644,6 +595,7 @@ const attractions = [
   {
     id: 35,
     name: "Holy Rosary Cathedral",
+    slug: "holy-rosary-cathedral",
     description:
       "The seat of the Roman Catholic Archdiocese of Chittagong. The present cathedral was built in 1843, during British rule.",
     coordinates: [22.33241, 91.8394],
@@ -661,6 +613,7 @@ const attractions = [
   {
     id: 36,
     name: "Zia Memorial Museum",
+    slug: "zia-memorial-museum",
     description:
       "The Old Circuit House, where President Ziaur Rahman was assassinated in 1981, now a museum.",
     coordinates: [22.34825, 91.82384],
@@ -678,6 +631,7 @@ const attractions = [
   {
     id: 37,
     name: "Chattogram Court Building",
+    slug: "chattogram-court-building",
     description:
       "A historic red-brick court house on Fairy Hill in the city centre.",
     coordinates: [22.33483, 91.83461],
@@ -695,6 +649,7 @@ const attractions = [
   {
     id: 38,
     name: "Darul Adalat (Portuguese Building)",
+    slug: "darul-adalat",
     description:
       "Better known as the Portuguese Building, this historic landmark was the city's first court building.",
     coordinates: [22.35197, 91.83195],
@@ -712,6 +667,7 @@ const attractions = [
   {
     id: 39,
     name: "Bangladesh Railway Museum",
+    slug: "bangladesh-railway-museum",
     description:
       "Bangladesh Railway's only museum, in a former bungalow in Pahartali that opened as a museum in 2003.",
     coordinates: [22.35433, 91.80132],
@@ -729,6 +685,7 @@ const attractions = [
   {
     id: 40,
     name: "Chittagong Zoo",
+    slug: "chittagong-zoo",
     description:
       "A 10-acre zoo at the entrance to Foy's Lake, known for the first white tiger born in Bangladesh, in 2018.",
     coordinates: [22.36672, 91.79592],
@@ -746,6 +703,7 @@ const attractions = [
   {
     id: 41,
     name: "Kattali Sea Beach",
+    slug: "kattali-sea-beach",
     description:
       "A quiet beach about 8 km from the city, known for its mangroves and the local fishing community. Also called Jele Para Sea Beach.",
     coordinates: [22.35215, 91.75765],
@@ -763,6 +721,7 @@ const attractions = [
   {
     id: 42,
     name: "Banshbaria Sea Beach",
+    slug: "banshbaria-sea-beach",
     description:
       "A beach about 9 km from Sitakunda town, with a long walkway reaching out over the tidal flats towards the sea.",
     coordinates: [22.54447, 91.66826],
@@ -780,6 +739,7 @@ const attractions = [
   {
     id: 43,
     name: "Sitakunda Botanical Garden and Eco Park",
+    slug: "sitakunda-eco-park",
     description:
       "A botanical garden and eco-park in the forested hills of Sitakunda.",
     coordinates: [22.61275, 91.68408],
@@ -797,6 +757,7 @@ const attractions = [
   {
     id: 44,
     name: "Baroiyadhala National Park",
+    slug: "baroiyadhala-national-park",
     description:
       "A national park beside the Dhaka–Chittagong Highway that keeps a corridor of forest for wildlife. Khoiyachora Waterfall lies inside it.",
     coordinates: [22.65438, 91.66826],
@@ -814,6 +775,7 @@ const attractions = [
   {
     id: 45,
     name: "Khoiyachora Waterfall",
+    slug: "khoiyachora-waterfall",
     description:
       "One of the largest waterfalls in the Mirsharai hills: a chain of seven major cascades along a forest stream.",
     coordinates: [22.76944, 91.61194],
@@ -831,6 +793,7 @@ const attractions = [
   {
     id: 46,
     name: "Mohamaya Lake",
+    slug: "mohamaya-lake",
     description:
       "A reservoir among forested hills in Mirsharai, created by the Mahamaya irrigation project and completed in 2009.",
     coordinates: [22.8168, 91.5719],
@@ -848,6 +811,7 @@ const attractions = [
   {
     id: 47,
     name: "Napittachora Waterfalls",
+    slug: "napittachora-waterfalls",
     description:
       "A trail inside Baroiyadhala National Park known for its three or four main waterfalls.",
     coordinates: [22.747, 91.6196],
@@ -865,6 +829,7 @@ const attractions = [
   {
     id: 48,
     name: "Komoldoho Waterfall",
+    slug: "komoldoho-waterfall",
     description:
       "One of the waterfalls of the Sitakunda–Mirsharai hills, a stepped fall over rock in the forest.",
     coordinates: [22.69076, 91.63996],
@@ -881,6 +846,7 @@ const attractions = [
   {
     id: 49,
     name: "Hazarikhil Wildlife Sanctuary",
+    slug: "hazarikhil-wildlife-sanctuary",
     description:
       "A wildlife sanctuary in the Ramgarh–Sitakunda hill forests, about 45 km north of Chittagong port.",
     coordinates: [22.74223, 91.6469],
@@ -896,24 +862,9 @@ const attractions = [
     bestTimeToVisit: "October to March",
   },
   {
-    id: 50,
-    name: "Bhatiari Lake",
-    description:
-      "A lake among the hills at Bhatiari, on the north-western edge of Chattogram city.",
-    coordinates: [22.43234, 91.75991],
-    category: CATEGORIES.NATURAL.name,
-    images: "/images/c50.webp",
-    photoCredit: {
-      author: "Moheen Reeyad",
-      license: "CC BY-SA 4.0",
-      sourceUrl: "https://commons.wikimedia.org/wiki/File:Bhatiari_Lake_(02).jpg",
-    },
-    address: "Bhatiari, Sitakunda, Chattogram",
-    bestTimeToVisit: "October to March",
-  },
-  {
     id: 51,
     name: "Sandwip Island",
+    slug: "sandwip-island",
     description:
       "An island off the south-eastern coast, in the Meghna estuary. With Urir Char and Bhasan Char it makes up Sandwip upazila.",
     coordinates: [22.49051, 91.42118],
@@ -931,6 +882,7 @@ const attractions = [
   {
     id: 52,
     name: "Banshkhali Sea Beach",
+    slug: "banshkhali-sea-beach",
     description:
       "A 37 km sandy beach, also known as Baharchhara Beach, with Kadamrasul and Khankhanabad as its main points.",
     coordinates: [22.06069, 91.8738],
@@ -948,6 +900,7 @@ const attractions = [
   {
     id: 53,
     name: "Banshkhali Eco-Park",
+    slug: "banshkhali-eco-park",
     description:
       "A natural eco-park of rolling hills, forest and a clear lake, looking out over the Bay of Bengal coastline.",
     coordinates: [21.98971, 91.98183],
@@ -965,6 +918,7 @@ const attractions = [
   {
     id: 54,
     name: "Chunati Wildlife Sanctuary",
+    slug: "chunati-wildlife-sanctuary",
     description:
       "A protected forest (IUCN Category IV) near the village of Chunati in southern Chattogram District.",
     coordinates: [21.93286, 92.03375],
@@ -982,6 +936,7 @@ const attractions = [
   {
     id: 55,
     name: "Rangkut Banasram, Ramu",
+    slug: "rangkut-banasram-ramu",
     description:
       "A historic Buddhist monastery in Ramu, known as the oldest Buddhist monastery in the country.",
     coordinates: [21.40217, 92.11043],
@@ -999,6 +954,7 @@ const attractions = [
   {
     id: 56,
     name: "Sonadia Island",
+    slug: "sonadia-island",
     description:
       "A small island of about 9 km², 15 km north-west of Cox's Bazar town, separated from Maheshkhali by a canal.",
     coordinates: [21.48333, 91.9],
@@ -1016,6 +972,7 @@ const attractions = [
   {
     id: 57,
     name: "Kutubdia Lighthouse",
+    slug: "kutubdia-lighthouse",
     description:
       "An island lighthouse from British rule, built between 1822 and 1846 to guide ships in the Bay of Bengal. Storms have damaged it more than once, and it has since been rebuilt.",
     coordinates: [21.86473, 91.84253],
@@ -1033,6 +990,7 @@ const attractions = [
   {
     id: 58,
     name: "Shah Porir Dwip",
+    slug: "shah-porir-dwip",
     description:
       "An island at the mouth of the Naf River, on the maritime boundary between Bangladesh and Myanmar.",
     coordinates: [20.7674, 92.334],
@@ -1050,6 +1008,7 @@ const attractions = [
   {
     id: 59,
     name: "Teknaf Wildlife Sanctuary",
+    slug: "teknaf-wildlife-sanctuary",
     description:
       "Formerly the Teknaf Game Reserve, set up in 1983 as a sanctuary for wild Asian elephants. Its 11,615 hectares of forested hills include Naitong Hill.",
     coordinates: [20.99166, 92.22084],
@@ -1067,6 +1026,7 @@ const attractions = [
   {
     id: 60,
     name: "Keokradong",
+    slug: "keokradong",
     description:
       "A peak of about 986 m in Ruma, popular with trekkers, with a small shelter at the top.",
     coordinates: [21.94988, 92.51452],
@@ -1084,6 +1044,7 @@ const attractions = [
   {
     id: 61,
     name: "Nilachal",
+    slug: "nilachal",
     description:
       "A hilltop tourist complex run by the district administration at Tigerpara, about 6 km from Bandarban town.",
     coordinates: [22.16863, 92.20988],
@@ -1101,6 +1062,7 @@ const attractions = [
   {
     id: 62,
     name: "Amiakhum Waterfall",
+    slug: "amiakhum-waterfall",
     description:
       "A remote waterfall in the Nakshiyang area of Thanchi, one of many falls along the hilly Sangu River. 'Khum' means waterfall in the Marma language.",
     coordinates: [21.77666, 92.54868],
@@ -1118,6 +1080,7 @@ const attractions = [
   {
     id: 63,
     name: "Rijuk Waterfall",
+    slug: "rijuk-waterfall",
     description:
       "A natural waterfall in Ruma upazila.",
     coordinates: [22.0154, 92.4018],
@@ -1135,6 +1098,7 @@ const attractions = [
   {
     id: 64,
     name: "Ram Jadi",
+    slug: "ram-jadi",
     description:
       "A hilltop Buddhist temple near Bandarban town, with golden spires in the style of Southeast Asian pagodas.",
     coordinates: [22.19552, 92.24441],
@@ -1151,6 +1115,7 @@ const attractions = [
   {
     id: 65,
     name: "Prantik Lake",
+    slug: "prantik-lake",
     description:
       "A man-made lake of about 2,500 acres at Holudia, formed by damming a local stream near the Bandarban–Chattogram border.",
     coordinates: [22.10684, 92.17122],
@@ -1168,6 +1133,7 @@ const attractions = [
   {
     id: 66,
     name: "Sajek Valley",
+    slug: "sajek-valley",
     description:
       "Called the 'Queen of Hills', a valley at about 550 m in the Kasalong range, known for its greenery and dense forests.",
     coordinates: [23.39092, 92.28551],
@@ -1185,6 +1151,7 @@ const attractions = [
   {
     id: 67,
     name: "Rajban Vihara",
+    slug: "rajban-vihara",
     description:
       "The largest Buddhist monastery in Bangladesh, on the edge of Rangamati town, built by followers of the monk Bana Bhante after 1977.",
     coordinates: [22.66576, 92.17061],
@@ -1202,6 +1169,7 @@ const attractions = [
   {
     id: 68,
     name: "Kaptai National Park",
+    slug: "kaptai-national-park",
     description:
       "A national park of mixed evergreen forest, established in 1999 and covering about 5,465 hectares.",
     coordinates: [22.49995, 92.17739],
@@ -1219,6 +1187,7 @@ const attractions = [
   {
     id: 69,
     name: "Polwel Park",
+    slug: "polwel-park",
     description:
       "A lakeside park in Rangamati town, on the shore of Kaptai Lake.",
     coordinates: [22.64116, 92.19992],
@@ -1235,6 +1204,7 @@ const attractions = [
   {
     id: 70,
     name: "Alutila Cave",
+    slug: "alutila-cave",
     description:
       "A 100-metre cave running through Alutila hill, surrounded by deep green forest.",
     coordinates: [23.08833, 91.95667],
@@ -1252,6 +1222,7 @@ const attractions = [
   {
     id: 71,
     name: "Khagrachari Hill District Council Park",
+    slug: "khagrachari-council-park",
     description:
       "A horticulture park with a lake on the edge of Khagrachari town.",
     coordinates: [23.09788, 91.97262],
@@ -1268,6 +1239,7 @@ const attractions = [
   {
     id: 72,
     name: "Shantipur Aranya Kutir",
+    slug: "shantipur-aranya-kutir",
     description:
       "A Buddhist forest monastery in Panchhari, known for its large Buddha statue.",
     coordinates: [23.25951, 91.89107],
@@ -1285,6 +1257,7 @@ const attractions = [
   {
     id: 73,
     name: "Shalban Vihara",
+    slug: "shalban-vihara",
     description:
       "Ruins of a 7th-century Buddhist monastery with 115 cells for monks in the Lalmai hills, in use until the 12th century.",
     coordinates: [23.42518, 91.1375],
@@ -1302,6 +1275,7 @@ const attractions = [
   {
     id: 74,
     name: "Mainamati War Cemetery",
+    slug: "mainamati-war-cemetery",
     description:
       "A Commonwealth war cemetery for soldiers killed in the Burma campaign of the Second World War; one of two in Bangladesh, with the one in Chattogram.",
     coordinates: [23.48699, 91.11201],
@@ -1319,6 +1293,7 @@ const attractions = [
   {
     id: 75,
     name: "Mainamati Museum",
+    slug: "mainamati-museum",
     description:
       "A site museum beside Shalban Vihara showing finds from the Mainamati excavations.",
     coordinates: [23.42359, 91.1372],
@@ -1336,6 +1311,7 @@ const attractions = [
   {
     id: 76,
     name: "Kotila Mura",
+    slug: "kotila-mura",
     description:
       "One of the most significant Buddhist sites at Mainamati, known for its well-preserved stupas.",
     coordinates: [23.46092, 91.12351],
@@ -1353,6 +1329,7 @@ const attractions = [
   {
     id: 77,
     name: "Dharmasagar",
+    slug: "dharmasagar",
     description:
       "A large man-made pond in Cumilla town, dug by the Tripura king Dharma Manikya I in 1458, with a Nazrul memorial beside it.",
     coordinates: [23.46444, 91.17944],
@@ -1370,6 +1347,7 @@ const attractions = [
   {
     id: 78,
     name: "Jagannath Temple (Sateroratna Mandir)",
+    slug: "jagannath-temple",
     description:
       "The 'seventeen-jewel temple', one of the tallest temples in the country, built in 1761 and dedicated to Jagannath.",
     coordinates: [23.46222, 91.20873],
@@ -1387,6 +1365,7 @@ const attractions = [
   {
     id: 79,
     name: "Shah Shuja Mosque",
+    slug: "shah-shuja-mosque",
     description:
       "A historic mosque at Mughaltuli in Cumilla town. When it was built, and by whom, is disputed.",
     coordinates: [23.46694, 91.18512],
@@ -1404,6 +1383,7 @@ const attractions = [
   {
     id: 80,
     name: "Kal Bhairab Temple",
+    slug: "kal-bhairab-temple",
     description:
       "A Shiva temple in Medda famed for its 28-foot statue of Kal Bhairab, flanked by statues of Kali and Parvati.",
     coordinates: [23.98593, 91.11292],
@@ -1421,6 +1401,7 @@ const attractions = [
   {
     id: 81,
     name: "Arifil Mosque",
+    slug: "arifil-mosque",
     description:
       "A late-17th-century mosque in Sarail, named after the saint Shah Arif.",
     coordinates: [24.07002, 91.10464],
@@ -1438,6 +1419,7 @@ const attractions = [
   {
     id: 82,
     name: "Molhead, Chandpur",
+    slug: "molhead-chandpur",
     description:
       "A riverside point at Chandpur's Boro Station where the Padma, Meghna and Dakatia rivers meet.",
     coordinates: [23.23107, 90.63937],
@@ -1454,6 +1436,7 @@ const attractions = [
   {
     id: 83,
     name: "Hajiganj Bara Mosque",
+    slug: "hajiganj-bara-mosque",
     description:
       "A historic mosque in the middle of Hajiganj Bazar, beside several madrasas and a library.",
     coordinates: [23.25161, 90.85387],
@@ -1471,6 +1454,7 @@ const attractions = [
   {
     id: 84,
     name: "Nijhum Dwip",
+    slug: "nijhum-dwip",
     description:
       "A small island of Hatiya upazila, its name meaning 'silent island', formed from islands that emerged in the estuary in the 1950s.",
     coordinates: [22.06356, 91.01075],
@@ -1488,6 +1472,7 @@ const attractions = [
   {
     id: 85,
     name: "Bazra Shahi Mosque",
+    slug: "bazra-shahi-mosque",
     description:
       "An 18th-century mosque in Bazra, Sonaimuri, described as the most notable historical monument of the area.",
     coordinates: [23.00663, 91.09123],
@@ -1501,6 +1486,127 @@ const attractions = [
     moreInfoLink: "https://en.wikipedia.org/wiki/Bajra_Shahi_Mosque",
     address: "Sonaimuri, Noakhali",
     bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 86,
+    name: "Shah Amanat Shrine",
+    slug: "shah-amanat",
+    description:
+      "The shrine of Shah Amanat (Amanatullah Khan, d. 1773), one of the most revered Sufi saints of Chittagong. Pilgrims gather in large numbers, especially on the 27th night of Ramadan.",
+    coordinates: [22.343, 91.84],
+    approximateLocation: true,
+    category: CATEGORIES.RELIGIOUS.name,
+    images: "/images/c86.webp",
+    photoCredit: {
+      author: "Owais Al Qarni",
+      license: "CC BY-SA 4.0",
+      sourceUrl:
+        "https://commons.wikimedia.org/wiki/File:Chittagong's_Shah_Amanat_Shrine_Draws_Thousands_on_the_27th_Night_of_Ramadan.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Shah_Amanat",
+    address: "Chattogram city",
+    bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 87,
+    name: "Mathin's Well",
+    slug: "mathins-well",
+    description:
+      "A well in the Teknaf police station compound, tied to a 1930s love story between police officer Dhiraj Bhattacharya and a local woman, Ma Thin, told in his memoir \"Jakhan Police Chhilam\".",
+    coordinates: [20.863, 92.298],
+    approximateLocation: true,
+    category: CATEGORIES.HISTORICAL.name,
+    images: "/images/c87.webp",
+    photoCredit: {
+      author: "Rocky Masum",
+      license: "CC BY-SA 4.0",
+      sourceUrl:
+        "https://commons.wikimedia.org/wiki/File:Well_of_Mathin_-_front_yard.jpg",
+    },
+    address: "Teknaf, Cox's Bazar",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 88,
+    name: "Debotakhum",
+    slug: "debotakhum",
+    description:
+      "A natural water-filled hollow in the hills of Rowangchhari, Bandarban, about 50 to 70 feet deep and roughly 600 feet long. Reached by a trek and a river crossing.",
+    coordinates: [22.1667, 92.3333],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c88.webp",
+    photoCredit: {
+      author: "অভিজিৎ দাস",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:দেবতাখুম.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Debotakhum",
+    address: "Rowangchhari, Bandarban",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 89,
+    name: "Gandhi Ashram",
+    slug: "gandhi-ashram",
+    description:
+      "The ashram at Jayag, Noakhali, where Mahatma Gandhi arrived on 29 January 1947 on his peace mission after the 1946 Noakhali riots. It is now run by the Gandhi Ashram Trust.",
+    coordinates: [23.07, 91.105],
+    approximateLocation: true,
+    category: CATEGORIES.HISTORICAL.name,
+    images: "/images/c89.webp",
+    photoCredit: {
+      author: "Umar",
+      license: "CC BY-SA 3.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:GANDHI_ASHRAM_03.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Gandhi_Ashram_Trust",
+    address: "Jayag, Sonaimuri, Noakhali",
+    bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 90,
+    name: "Aggameda Khyang",
+    slug: "aggameda",
+    description:
+      "A large Buddhist monastery (khyang) near the entrance of Cox's Bazar town, founded in the early 20th century by the monk U Pannya Jota Mahathero.",
+    coordinates: [21.437, 92.0],
+    approximateLocation: true,
+    category: CATEGORIES.RELIGIOUS.name,
+    address: "Cox's Bazar town",
+    bestTimeToVisit: "Year-round",
+  },
+  {
+    id: 91,
+    name: "Debta Pukur",
+    slug: "debta-pukur",
+    description:
+      "A small lake in Khagrachhari district, sacred to the Tipra community and also known as Matai Pukhiri, about 11 km south of Khagrachhari town.",
+    coordinates: [23.0156, 91.9719],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    moreInfoLink: "https://en.wikipedia.org/wiki/Matai_Pukhiri",
+    address: "Mahalchhari, Khagrachhari",
+    bestTimeToVisit: "October to March",
+  },
+  {
+    id: 92,
+    name: "Risang Waterfall",
+    slug: "risang-waterfall",
+    description:
+      "A hill waterfall about 100 feet high in Sapmara village, Matiranga, roughly 10 km from Khagrachhari town. Best in and just after the rains.",
+    coordinates: [23.0664, 91.9438],
+    approximateLocation: true,
+    category: CATEGORIES.NATURAL.name,
+    images: "/images/c92.webp",
+    photoCredit: {
+      author: "Solayman .Emon",
+      license: "CC BY-SA 4.0",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Risang_02.jpg",
+    },
+    moreInfoLink: "https://en.wikipedia.org/wiki/Risang_Waterfall",
+    address: "Sapmara, Matiranga, Khagrachhari",
+    bestTimeToVisit: "June to September",
   },
 ];
 
@@ -1522,33 +1628,9 @@ export const getBounds = (list) => {
   ];
 };
 
-const SLUG_MAX_WORDS = 4;
-const SLUG_FILLER_WORDS = new Set(["and", "of", "the"]);
-
-// URL-safe identifier derived from the name, e.g. "Cox's Bazar Beach" ->
-// "coxs-bazar-beach". A bracketed alternate name is dropped ("Shoilo Propat
-// (Shoilo Waterfall)" -> "shoilo-propat"), and a slug longer than
-// SLUG_MAX_WORDS loses its filler words and is cut to that many words.
-// Uniqueness is enforced by attractions.test.js.
-export const slugify = (name) => {
-  const words = name
-    .replace(/\([^)]*\)/g, " ")
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/['’]/g, "")
-    .split(/[^a-z0-9]+/)
-    .filter(Boolean);
-  const short =
-    words.length > SLUG_MAX_WORDS
-      ? words.filter((w) => !SLUG_FILLER_WORDS.has(w)).slice(0, SLUG_MAX_WORDS)
-      : words;
-  return short.join("-");
-};
-
-export const getSlug = (attraction) => slugify(attraction.name);
-
-const BY_SLUG = new Map(attractions.map((a) => [getSlug(a), a]));
+// Slugs are stored on each attraction (they are public URLs, so they must not
+// change when a name is edited). Uniqueness is enforced by attractions.test.js.
+const BY_SLUG = new Map(attractions.map((a) => [a.slug, a]));
 
 export const findBySlug = (slug) => BY_SLUG.get(slug) ?? null;
 

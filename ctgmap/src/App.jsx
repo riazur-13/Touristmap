@@ -5,23 +5,20 @@ import attractions, {
   findBySlug,
   getAllCategories,
   getBounds,
-  getSlug,
 } from "./data/attractions";
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 import { getCategoryColor } from "./config/constants";
-import { readPlaceSlug, withPlace } from "./utils/placeUrl";
+import {
+  closePlaceHistory,
+  initPlaceHistory,
+  readPlaceSlug,
+  showPlaceHistory,
+} from "./utils/placeUrl";
 
 const CATEGORY_OPTIONS = getAllCategories();
 // The map's "home" view: every attraction, regardless of the active filters.
 const HOME_BOUNDS = getBounds(attractions);
-
-// Adds a history entry for the new selection; no-op if the URL already matches.
-function pushPlaceUrl(slug) {
-  const url = withPlace(window.location, slug);
-  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-  if (url !== current) window.history.pushState(null, "", url);
-}
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
   const R = 6371;
@@ -200,7 +197,7 @@ function App() {
     (attraction) => {
       setSelectedAttraction(attraction);
       clearRoute();
-      pushPlaceUrl(getSlug(attraction));
+      showPlaceHistory(attraction.slug);
     },
     [clearRoute],
   );
@@ -209,7 +206,7 @@ function App() {
     setSelectedAttraction(null);
     setUserPos(null);
     clearRoute();
-    pushPlaceUrl(null);
+    closePlaceHistory();
   }, [clearRoute]);
 
   // Back/forward: the URL is the source of truth, so re-read it.
@@ -224,12 +221,9 @@ function App() {
     return () => window.removeEventListener("popstate", onPopState);
   }, [clearRoute]);
 
-  // An unknown ?place= opens nothing, so drop it rather than leave a dead link.
   useEffect(() => {
-    if (readPlaceSlug(window.location.search) && !selectedAttraction) {
-      window.history.replaceState(null, "", withPlace(window.location, null));
-    }
-    // Only the initial URL needs checking; later changes go through pushPlaceUrl.
+    initPlaceHistory(selectedAttraction?.slug ?? null);
+    // Only the initial URL needs handling; later changes go through showPlaceHistory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

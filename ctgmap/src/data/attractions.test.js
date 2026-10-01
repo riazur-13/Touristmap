@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import attractions, { findBySlug, getSlug, slugify } from "./attractions";
+import attractions, { findBySlug } from "./attractions";
 import { CATEGORIES, MAP_CONFIG } from "../config/constants";
 
 const PUBLIC_DIR = fileURLToPath(new URL("../../public", import.meta.url));
@@ -10,6 +10,7 @@ const PUBLIC_DIR = fileURLToPath(new URL("../../public", import.meta.url));
 const REQUIRED_FIELDS = {
   id: "number",
   name: "string",
+  slug: "string",
   description: "string",
   coordinates: "object",
   category: "string",
@@ -36,6 +37,9 @@ const FREE_LICENSE = /^(CC0|CC BY(-SA)? \d\.\d|Public domain)$/;
 const COMMONS_FILE_URL = /^https:\/\/commons\.wikimedia\.org\/wiki\/File:\S+$/;
 const WIKIPEDIA_URL = /^https:\/\/(en|bn)\.wikipedia\.org\/wiki\/\S+$/;
 
+const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const SLUG_MAX_WORDS = 4;
+
 const CATEGORY_NAMES = Object.values(CATEGORIES).map((c) => c.name);
 const [[SOUTH, WEST], [NORTH, EAST]] = MAP_CONFIG.MAX_BOUNDS;
 
@@ -52,38 +56,11 @@ describe("attractions data", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("has unique, non-empty URL slugs that resolve back to their place", () => {
-    const slugs = attractions.map(getSlug);
-    expect(slugs.every((s) => /^[a-z0-9]+(-[a-z0-9]+)*$/.test(s))).toBe(true);
+  it("has unique slugs that resolve back to their place", () => {
+    const slugs = attractions.map((a) => a.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
-    for (const a of attractions) expect(findBySlug(getSlug(a))).toBe(a);
+    for (const a of attractions) expect(findBySlug(a.slug)).toBe(a);
     expect(findBySlug("no-such-place")).toBeNull();
-  });
-
-  it("slugifies names", () => {
-    expect(slugify("Cox's Bazar Beach")).toBe("coxs-bazar-beach");
-  });
-
-  it("drops bracketed alternate names from slugs", () => {
-    expect(slugify("Shoilo Propat (Shoilo Waterfall)")).toBe("shoilo-propat");
-    expect(slugify("Rangamati (Kaptai Lake)")).toBe("rangamati");
-  });
-
-  it("shortens slugs over four words, dropping filler words first", () => {
-    expect(slugify("Sitakunda Botanical Garden and Eco Park")).toBe(
-      "sitakunda-botanical-garden-eco",
-    );
-    expect(slugify("Khagrachari Hill District Council Park")).toBe(
-      "khagrachari-hill-district-council",
-    );
-    expect(slugify("Anderkilla Shahi Jame Mosque")).toBe(
-      "anderkilla-shahi-jame-mosque",
-    );
-  });
-
-  it("keeps every slug to four words or fewer", () => {
-    for (const a of attractions)
-      expect(getSlug(a).split("-").length, a.name).toBeLessThanOrEqual(4);
   });
 
   describe.each(cases)("%s", (_label, a) => {
@@ -93,6 +70,11 @@ describe("attractions data", () => {
         if (type === "string") expect(a[field].trim(), field).not.toBe("");
       }
       expect(Number.isInteger(a.id)).toBe(true);
+    });
+
+    it("has a lowercase-hyphenated slug of at most four words", () => {
+      expect(a.slug).toMatch(SLUG_PATTERN);
+      expect(a.slug.split("-").length).toBeLessThanOrEqual(SLUG_MAX_WORDS);
     });
 
     it("has no unknown fields", () => {
