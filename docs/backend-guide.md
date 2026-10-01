@@ -8,6 +8,7 @@ The service answers one question: *given a place on the map, which other places
 are most like it?*
 
 - [Stage 1 — Data and a hello-world API](#stage-1--data-and-a-hello-world-api)
+- [Stage 2 — The recommendation engine](#stage-2--the-recommendation-engine)
 - [Try it yourself](#try-it-yourself)
 
 ---
@@ -182,6 +183,201 @@ reviewable change.
 
 ---
 
+## Stage 2 — The recommendation engine
+
+### The plain-language version
+
+We want: *given Patenga Beach, what else would this visitor like?*
+
+**The analogy.** Imagine describing every place on a single index card, then
+sorting the cards into piles by how much their wording overlaps. Beaches end up
+with beaches because they all mention sand, sea and sunset; monasteries end up
+with monasteries. To compare two cards you don't need to understand them — you
+just need to count which words they share. That is the entire idea.
+
+Two refinements make the counting actually work.
+
+**Common words are worthless for telling things apart.** Nearly every card says
+"the", "and", "visitors". Those words are *everywhere*, so they carry no signal.
+Conversely "waterfall" appears on few cards, so when two cards both say it, that
+is a strong hint. The standard way to encode this is **TF-IDF**: a word's weight
+goes *up* the more it appears on this card, and *down* the more cards it appears
+on. Rare shared words count; ubiquitous ones don't.
+
+**Length shouldn't win.** A place with a 60-word description shares more raw
+words with everything than one with a 20-word description. If we measured overlap
+by raw count, verbose entries would look similar to everything. **Cosine
+similarity** fixes this by comparing the *direction* of the two word-vectors and
+ignoring their magnitude — the proportions of what a place talks about, not how
+much it talks.
+
+Then there is one thing the words don't know: **a good suggestion is one you can
+act on.** Two equally beach-like beaches are not equally useful if one is 5 km
+away and the other is 300 km away. So the final score mixes in distance — but
+only a little, which is the interesting part (below).
+
+### What the code does
+
+Everything lives in `app/recommender.py`, plus the numbers in `app/config.py`.
+
+**1. One text per place.** `build_text` flattens a place into a single string:
+
+```python
+parts = [attraction.description, attraction.address]
+parts.extend([attraction.category] * config.CATEGORY_REPEAT)   # 3x
+return " ".join(parts)
+```
+
+The category is repeated three times. TF-IDF counts terms, so repetition is how
+you say "this field matters more than one word of prose" without reaching for a
+more complex model. Without it, two beaches whose descriptions happen to share no
+vocabulary would score as unrelated. The address is in there because in this
+dataset it carries genuine signal — "Bandarban", "Cox's Bazar" and
+"Khagrachhari" group places that really do belong on the same trip.
+
+**2. Vectorise and compare.**
+
+```python
+vectorizer = TfidfVectorizer(stop_words="english")
+matrix = vectorizer.fit_transform([build_text(a) for a in self._attractions])
+text_similarity = cosine_similarity(matrix)
+```
+
+`matrix` has one row per place and one column per distinct word in the whole
+dataset. `cosine_similarity` returns a 90×90 table where entry `[i][j]` is how
+similar place *i* is to place *j*, from 0 to 1.
+
+**3. Distance.** `haversine_km` returns another 90×90 table, of kilometres. It's
+written as whole-array numpy arithmetic rather than a double loop — the same
+formula, run in compiled code instead of interpreted Python.
+
+**4. Blend them.**
+
+```python
+self._score = np.clip(
+    config.TEXT_WEIGHT * text_similarity                      # 0.8
+    + config.PROXIMITY_WEIGHT * proximity_score(distance_km),  # 0.2
+    0.0, 1.0,
+)
+```
+
+`proximity_score` converts km into a 0–1 nearness value by half-life decay: 0 km
+scores 1.0, 50 km scores 0.5, 100 km scores 0.25, tapering towards zero. A decay
+curve is used rather than something linear like `1 - d/max_d` because the
+difference between 5 km and 25 km genuinely matters to a traveller, while the
+difference between 205 km and 225 km does not.
+
+**Why 0.8 / 0.2, and not 50/50?** Because the two signals are not equally
+trustworthy. Text similarity answers the question actually asked ("what is like
+this?"); distance answers a different one ("what is near this?"). At 0.2,
+proximity has just enough pull to break near-ties — which of two similar beaches
+to show first — but not enough to lift an unrelated neighbour above a genuinely
+similar place further away. You can see it working in the real output: for Patenga
+Beach, Parki Beach (5 km) edges out Kattali (14 km) despite near-identical text
+scores, yet the whole top five is still beaches rather than "everything in
+Chittagong city". At 50/50 the list degrades into a proximity list with a
+tie-breaker, which the map already shows you. Both weights live in `config.py` and
+sum to 1.0, which keeps the final score inside 0–1 and readable as a percentage.
+
+**5. Serve a request.** `similar()` takes the one row it needs and ranks it:
+
+```python
+order = np.argsort(-scores, kind="stable")
+for other in order:
+    if other == row:      # a place is never its own recommendation
+        continue
+```
+
+Two details carry weight here. `kind="stable"` makes ties resolve in dataset
+order, so the same request can never return two different orderings — which is
+what the determinism test pins down. And self-exclusion is by **index**, not by
+filtering on score: two places with identical text would both score 1.0, so
+filtering on the value could drop the wrong one.
+
+**6. The route** (`app/main.py`):
+
+```python
+limit: Annotated[int, Query(ge=config.MIN_LIMIT, le=config.MAX_LIMIT)] = config.DEFAULT_LIMIT
+```
+
+That's the whole validation implementation. FastAPI reads the constraint from the
+type annotation and rejects `?limit=0` or `?limit=11` with a `422` *before* the
+handler body runs, and documents the bounds in `/docs`. An unknown slug raises
+`UnknownSlugError` from the recommender, which the route translates into a `404`
+— deliberately converted at the HTTP boundary, because the recommender has no
+business knowing about status codes.
+
+The recommender itself is reached through a dependency:
+
+```python
+def get_recommender(request: Request) -> Recommender:
+    return request.app.state.recommender
+
+RecommenderDep = Annotated[Recommender, Depends(get_recommender)]
+```
+
+This is FastAPI's dependency injection. The handler declares what it needs in its
+signature instead of reaching for a module-level global, which keeps it testable
+in isolation.
+
+### The professional framing
+
+**The key performance decision**: the 90×90 similarity table is computed **once
+at startup**, not per request. Building it means vectorising the entire corpus —
+expensive, and identical for every request. Precomputing turns each request into a
+row lookup plus a sort: microseconds instead of milliseconds. The cost is memory
+(trivial here — 8,100 floats) and staleness, which doesn't apply because the data
+only changes on redeploy.
+
+This is a real tradeoff, not a free win, and it's worth being able to say where it
+breaks: the table is O(n²). At 90 places it's nothing. At 100,000 places it would
+be 10 billion entries and this design would be wrong — you'd switch to an
+approximate nearest-neighbour index (FAISS, `hnswlib`) and accept slightly
+imperfect neighbours in exchange for not materialising the matrix.
+
+> **Interviewer: "Why content-based filtering rather than collaborative
+> filtering?"**
+>
+> "Cold start. Collaborative filtering recommends from behaviour — 'people who
+> liked this also liked that' — which is usually more accurate, but it needs a
+> corpus of user interactions this project doesn't have and can't fake. A
+> content-based model works from the item metadata alone, so it gives sensible
+> results on the very first request with zero users. It also has no privacy
+> surface, since it never touches user data. The honest downside is that it can
+> only find things that *look* similar in the text — it will never discover that
+> two places are enjoyed by the same kind of traveller despite describing
+> themselves differently. If this had real traffic I'd log interactions and move
+> to a hybrid: content-based for cold items, collaborative once an item has enough
+> signal."
+
+> **Interviewer: "Walk me through why you precompute the similarity matrix. When
+> would that be the wrong call?"**
+>
+> "The matrix is the same for every request and expensive to build, so computing
+> it per request would pay the cost repeatedly for no benefit — it's hoisted into
+> startup, which makes each request a row lookup and a partial sort. It's the
+> right call when the item set is small and only changes on deploy, which is
+> exactly this case. It becomes wrong on two axes: size, because memory is O(n²)
+> and at six figures of items it stops fitting; and volatility, because if items
+> were added at runtime the table would be stale the moment it was built. At that
+> point I'd move to an approximate nearest-neighbour index and trade exactness for
+> scale."
+
+> **Interviewer: "You weight text at 0.8 and distance at 0.2. Where did those
+> numbers come from?"**
+>
+> "Judgement, then checked against output — and I'd say that plainly rather than
+> dress it up as tuned. The reasoning is that the two signals answer different
+> questions: text answers the one the user asked, distance answers a convenience
+> question, so distance should be a tie-breaker and not a driver. 0.2 is enough to
+> reorder near-ties and not enough to promote an unrelated neighbour over a good
+> match; I verified that on real queries. What I'd want to make it rigorous is
+> click-through data — show variants, measure which suggestions get followed, and
+> pick the weight empirically. The weights sit in one config constant specifically
+> so that becomes a one-line change."
+
+---
+
 ## Try it yourself
 
 All commands assume the virtual environment is active — see
@@ -216,10 +412,40 @@ written by hand. It is the fastest way to explore an API you don't know yet.
 If `attractions` is `0` or the server failed to start, the export is probably
 missing — run `npm run export:attractions` in `ctgmap/`.
 
+Now the interesting one. Expand **GET /attractions/{slug}/similar**, click **Try
+it out**, and fill in:
+
+- `slug`: `patenga-beach`
+- `limit`: `5`
+
+**Execute**, and you should get five beaches, nearest-and-most-similar first:
+
+```json
+{
+  "slug": "patenga-beach",
+  "name": "Patenga Beach",
+  "count": 5,
+  "results": [
+    { "slug": "parki-beach", "name": "Parki Beach", "category": "Beach",
+      "score": 0.5527, "distanceKm": 5.2 }
+  ]
+}
+```
+
+Things worth trying, to watch the validation work:
+
+| Input                              | What happens                               |
+| ---------------------------------- | ------------------------------------------ |
+| `limit` = `0` or `11`              | `422` — outside the allowed 1–10            |
+| `slug` = `not-a-place`             | `404` with an explanatory `detail`          |
+| `slug` = `kaptai-lake`             | lakes and parks instead of beaches          |
+| same request twice                 | byte-identical response (it's deterministic) |
+
 You can also call it without a browser:
 
 ```bash
 curl http://localhost:8000/health
+curl "http://localhost:8000/attractions/patenga-beach/similar?limit=3"
 ```
 
 ### Run the tests

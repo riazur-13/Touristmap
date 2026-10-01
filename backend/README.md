@@ -60,9 +60,46 @@ uvicorn app.main:app --reload
 
 ## Endpoints
 
-| Method | Path      | Description                             |
-| ------ | --------- | --------------------------------------- |
-| GET    | `/health` | Liveness check and the attraction count |
+| Method | Path                          | Description                             |
+| ------ | ----------------------------- | --------------------------------------- |
+| GET    | `/health`                     | Liveness check and the attraction count |
+| GET    | `/attractions/{slug}/similar` | Up to `limit` (1–10, default 5) matches |
+
+```bash
+curl "http://localhost:8000/attractions/patenga-beach/similar?limit=5"
+```
+
+```json
+{
+  "slug": "patenga-beach",
+  "name": "Patenga Beach",
+  "count": 5,
+  "results": [
+    {
+      "slug": "parki-beach",
+      "name": "Parki Beach",
+      "category": "Beach",
+      "score": 0.5527,
+      "distanceKm": 5.2
+    }
+  ]
+}
+```
+
+A `limit` outside 1–10 is rejected with `422`; an unknown slug returns `404`.
+
+## How the scoring works
+
+Each place is reduced to one text (description + address + its category repeated),
+turned into a TF-IDF vector, and compared to every other place by cosine
+similarity. That text score is then blended with a distance-based one:
+
+```
+final = 0.8 × text similarity + 0.2 × proximity
+```
+
+Both parts are 0–1 and the weights sum to 1, so the final score is also 0–1. The
+weights and the distance half-life live in `app/config.py`.
 
 ## Tests and linting
 
