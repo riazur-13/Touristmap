@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "export:attractions": "node scripts/export-attractions.mjs",
+    "check:browser": "node scripts/check-browser.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview"

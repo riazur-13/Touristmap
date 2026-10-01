@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { getCategoryColor } from "../../config/constants";
 import { getGoogleMapsUrl } from "../../utils/maps";
+import SimilarPlaces from "./SimilarPlaces";
 // Local, so a missing or broken photo never depends on a third-party service.
 import placeholderImage from "../../assets/placeholder.webp";
 import "./AttractionDetails.css";
@@ -73,6 +74,7 @@ const AttractionDetails = ({
   attraction,
   onClose,
   onDirections,
+  onSelectSimilar,
   routeInfo,
   routeLoading,
   routeError,
@@ -235,6 +237,8 @@ const AttractionDetails = ({
             )}
           </button>
         </div>
+
+        <SimilarPlaces attraction={attraction} onSelect={onSelectSimilar} />
       </div>
     </article>
   );

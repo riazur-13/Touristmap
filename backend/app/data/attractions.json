@@ -1,0 +1,992 @@
+[
+  {
+    "slug": "coxs-bazar-beach",
+    "name": "Cox's Bazar Beach",
+    "category": "Beach",
+    "description": "The world's longest natural sea beach stretching 120 kilometers. Cox's Bazar offers pristine sandy shores, stunning sunsets, and a variety of water activities.",
+    "address": "Cox's Bazar, Chittagong Division",
+    "coordinates": [
+      21.4506,
+      91.9524
+    ]
+  },
+  {
+    "slug": "kaptai-lake",
+    "name": "Rangamati (Kaptai Lake)",
+    "category": "Natural Wonder",
+    "description": "The largest man-made lake in Bangladesh, surrounded by emerald-green hills and colorful tribal villages of the Chakma and Marma people.",
+    "address": "Rangamati, Chittagong Division",
+    "coordinates": [
+      22.6533,
+      92.1751
+    ]
+  },
+  {
+    "slug": "patenga-beach",
+    "name": "Patenga Beach",
+    "category": "Beach",
+    "description": "A popular beach near Chittagong city where the Karnaphuli River meets the Bay of Bengal. Known for its scenic views and naval base.",
+    "address": "Patenga, Chittagong",
+    "coordinates": [
+      22.2344,
+      91.7923
+    ]
+  },
+  {
+    "slug": "foys-lake",
+    "name": "Foy's Lake",
+    "category": "Natural Wonder",
+    "description": "A beautiful man-made lake in Chittagong surrounded by hills. Features an amusement park, water sports, and cable car rides.",
+    "address": "Khulshi, Chittagong",
+    "coordinates": [
+      22.3734,
+      91.7926
+    ]
+  },
+  {
+    "slug": "boga-lake",
+    "name": "Boga Lake",
+    "category": "Natural Wonder",
+    "description": "A natural lake situated at 1,246 feet above sea level in Bandarban. Surrounded by dense forest and offers a peaceful environment.",
+    "address": "Ruma, Bandarban",
+    "coordinates": [
+      21.9803,
+      92.4701
+    ]
+  },
+  {
+    "slug": "chandranath-temple",
+    "name": "Chandranath Temple",
+    "category": "Religious Site",
+    "description": "An ancient Hindu temple located on top of Chandranath Hill in Sitakunda. It attracts thousands of pilgrims and offers stunning hilltop views.",
+    "address": "Sitakunda, Chittagong",
+    "coordinates": [
+      22.6335,
+      91.6847
+    ]
+  },
+  {
+    "slug": "nilgiri-hills",
+    "name": "Nilgiri Hills",
+    "category": "Hill Station",
+    "description": "The highest peak accessible by road in Bangladesh, offering breathtaking 360-degree views of clouds and mountains.",
+    "address": "Bandarban Sadar, Bandarban",
+    "coordinates": [
+      21.9135,
+      92.3244
+    ]
+  },
+  {
+    "slug": "inani-beach",
+    "name": "Inani Beach",
+    "category": "Beach",
+    "description": "A pristine coral beach near Cox's Bazar with unique coral stones and clear blue water. Less crowded and peaceful.",
+    "address": "Ukhia, Cox's Bazar",
+    "coordinates": [
+      21.185,
+      92.048
+    ]
+  },
+  {
+    "slug": "ethnological-museum",
+    "name": "Ethnological Museum",
+    "category": "Cultural Center",
+    "description": "Located in Chittagong, this museum showcases the cultural heritage of various indigenous communities in the Chittagong Hill Tracts.",
+    "address": "Agrabad C/A, Chittagong",
+    "coordinates": [
+      22.328,
+      91.815
+    ]
+  },
+  {
+    "slug": "himchari-national-park",
+    "name": "Himchari National Park",
+    "category": "Natural Wonder",
+    "description": "A scenic national park near Cox's Bazar featuring waterfalls, hills, and diverse wildlife.",
+    "address": "Cox's Bazar, Chittagong Division",
+    "coordinates": [
+      21.3294,
+      92.0183
+    ]
+  },
+  {
+    "slug": "sangu-river",
+    "name": "Sangu River",
+    "category": "Natural Wonder",
+    "description": "A pristine river flowing through Bandarban, known for its crystal-clear water and scenic beauty.",
+    "address": "Thanchi, Bandarban",
+    "coordinates": [
+      21.7833,
+      92.3667
+    ]
+  },
+  {
+    "slug": "teknaf-beach",
+    "name": "Teknaf Beach",
+    "category": "Beach",
+    "description": "The southernmost beach in Bangladesh, near the Myanmar border. Known for its clean shores and beautiful sunsets.",
+    "address": "Teknaf, Cox's Bazar",
+    "coordinates": [
+      20.8462,
+      92.272
+    ]
+  },
+  {
+    "slug": "dulahazara-safari-park",
+    "name": "Dulahazara Safari Park",
+    "category": "Natural Wonder",
+    "description": "Bangladesh's first safari park featuring Bengal tigers, elephants, and various bird species.",
+    "address": "Cox's Bazar, Chittagong Division",
+    "coordinates": [
+      21.6598,
+      92.1032
+    ]
+  },
+  {
+    "slug": "moheshkhali-island",
+    "name": "Moheshkhali Island",
+    "category": "Cultural Center",
+    "description": "An island near Cox's Bazar known for its Buddhist temples and salt production.",
+    "address": "Moheshkhali, Cox's Bazar",
+    "coordinates": [
+      21.584,
+      91.9226
+    ]
+  },
+  {
+    "slug": "chittagong-war-cemetery",
+    "name": "Chittagong War Cemetery",
+    "category": "Historical Site",
+    "description": "A Commonwealth War Cemetery honoring soldiers who died in World War II.",
+    "address": "Dampara, Chittagong",
+    "coordinates": [
+      22.3572,
+      91.8287
+    ]
+  },
+  {
+    "slug": "karnaphuli-river",
+    "name": "Karnaphuli River",
+    "category": "Natural Wonder",
+    "description": "The largest river in Chittagong flowing into the Bay of Bengal.",
+    "address": "Chittagong City",
+    "coordinates": [
+      22.2586,
+      91.8117
+    ]
+  },
+  {
+    "slug": "meghla-parjatan-complex",
+    "name": "Meghla Parjatan Complex",
+    "category": "Natural Wonder",
+    "description": "A recreation complex a few kilometres from Bandarban town, built around a forest-fringed lake in the hills. Known for its hanging bridges, cable car and boating.",
+    "address": "Meghla, Bandarban Sadar, Bandarban",
+    "coordinates": [
+      22.1828,
+      92.1877
+    ]
+  },
+  {
+    "slug": "alikadam",
+    "name": "Alikadam",
+    "category": "Hill Station",
+    "description": "A remote upazila in Bandarban known for untouched natural beauty and adventure trekking routes.",
+    "address": "Alikadam, Bandarban",
+    "coordinates": [
+      21.6833,
+      92.4167
+    ]
+  },
+  {
+    "slug": "parki-beach",
+    "name": "Parki Beach",
+    "category": "Beach",
+    "description": "A serene beach located between Patenga and Anwara, offering a quieter alternative to crowded beaches.",
+    "address": "Anwara, Chittagong",
+    "coordinates": [
+      22.1928,
+      91.8151
+    ]
+  },
+  {
+    "slug": "jadipai-waterfall",
+    "name": "Jadipai Waterfall",
+    "category": "Natural Wonder",
+    "description": "A stunning three-tier waterfall near Keokradong in Ruma, Bandarban. Accessible via trekking.",
+    "address": "Ruma, Bandarban",
+    "coordinates": [
+      21.9298,
+      92.5054
+    ]
+  },
+  {
+    "slug": "buddha-dhatu-jadi",
+    "name": "Buddha Dhatu Jadi",
+    "category": "Religious Site",
+    "description": "The largest Buddhist temple in Bangladesh, featuring Southeast Asian architecture.",
+    "address": "Bandarban Sadar, Bandarban",
+    "coordinates": [
+      22.2231,
+      92.1977
+    ]
+  },
+  {
+    "slug": "nafakhum-waterfall",
+    "name": "Nafakhum Waterfall",
+    "category": "Natural Wonder",
+    "description": "One of Bangladesh's largest waterfalls on the Remakri River.",
+    "address": "Thanchi, Bandarban",
+    "coordinates": [
+      21.7333,
+      92.5167
+    ]
+  },
+  {
+    "slug": "saint-martins-island",
+    "name": "Saint Martin's Island",
+    "category": "Beach",
+    "description": "Bangladesh's only coral island, known for pristine beaches and unique marine biodiversity.",
+    "address": "Saint Martin, Cox's Bazar",
+    "coordinates": [
+      20.6269,
+      92.3233
+    ]
+  },
+  {
+    "slug": "tajingdong",
+    "name": "Tajingdong (Bijoy)",
+    "category": "Hill Station",
+    "description": "The highest peak in Bangladesh at 1,280 meters. Offers challenging trekking routes.",
+    "address": "Ruma, Bandarban",
+    "coordinates": [
+      21.8333,
+      92.5333
+    ]
+  },
+  {
+    "slug": "khyang-para",
+    "name": "Khyang Para",
+    "category": "Cultural Center",
+    "description": "Traditional Marma tribal villages showcasing indigenous culture and lifestyle.",
+    "address": "Bandarban District",
+    "coordinates": [
+      22.1667,
+      92.25
+    ]
+  },
+  {
+    "slug": "chimbuk-hill",
+    "name": "Chimbuk Hill",
+    "category": "Hill Station",
+    "description": "The third-highest peak in Bangladesh offering stunning valley views.",
+    "address": "Bandarban Sadar, Bandarban",
+    "coordinates": [
+      21.8667,
+      92.2667
+    ]
+  },
+  {
+    "slug": "hanging-bridge",
+    "name": "Hanging Bridge (Jhulonto Bridge)",
+    "category": "Cultural Center",
+    "description": "Iconic hanging bridge in Rangamati offering scenic river valley views.",
+    "address": "Rangamati",
+    "coordinates": [
+      22.6278,
+      92.185
+    ]
+  },
+  {
+    "slug": "shoilo-propat",
+    "name": "Shoilo Propat (Shoilo Waterfall)",
+    "category": "Natural Wonder",
+    "description": "A beautiful waterfall in Bandarban accessible via moderate trekking.",
+    "address": "Milonchari, Bandarban",
+    "coordinates": [
+      22.1508,
+      92.2164
+    ]
+  },
+  {
+    "slug": "batali-hill",
+    "name": "Batali Hill",
+    "category": "Hill Station",
+    "description": "The highest hill in Chattogram city, about 280 feet high, near the Tiger Pass crossing about a kilometre from the city centre. Its top looks out over the city.",
+    "address": "Tiger Pass, Khulshi, Chattogram",
+    "coordinates": [
+      22.34398,
+      91.81614
+    ]
+  },
+  {
+    "slug": "bayazid-bostami-shrine",
+    "name": "Bayazid Bostami Shrine",
+    "category": "Religious Site",
+    "description": "A shrine complex dedicated to the Persian Sufi Bayazid Bostami, with a tomb in a brick enclosure, an old mosque and a large pond.",
+    "address": "Bayazid Bostami, Chattogram",
+    "coordinates": [
+      22.38904,
+      91.80919
+    ]
+  },
+  {
+    "slug": "anderkilla-shahi-jame-mosque",
+    "name": "Anderkilla Shahi Jame Mosque",
+    "category": "Religious Site",
+    "description": "A mosque built on a high hill called Ander-Qila (the 'inner fort'), standing as a monument of the Mughal conquest of Chittagong.",
+    "address": "Anderkilla, Chattogram",
+    "coordinates": [
+      22.34101,
+      91.83671
+    ]
+  },
+  {
+    "slug": "chandanpura-mosque",
+    "name": "Chandanpura Mosque",
+    "category": "Religious Site",
+    "description": "A city landmark known for its many brightly painted domes and minarets. Also called Masjid-e-Siraj ud-Daulah, it stands on Nawab Siraj ud-Daulah Road.",
+    "address": "Chandanpura, Chawkbazar, Chattogram",
+    "coordinates": [
+      22.34978,
+      91.8382
+    ]
+  },
+  {
+    "slug": "chatteshwari-temple",
+    "name": "Chatteshwari Temple",
+    "category": "Religious Site",
+    "description": "A Hindu temple to the goddess Kali in the centre of Chattogram, considered one of the prominent Shakta pithas of Bengal. The city's name is said to derive from Chatteshwari.",
+    "address": "Chatteshwari Road, Chattogram",
+    "coordinates": [
+      22.35274,
+      91.82605
+    ]
+  },
+  {
+    "slug": "holy-rosary-cathedral",
+    "name": "Holy Rosary Cathedral",
+    "category": "Religious Site",
+    "description": "The seat of the Roman Catholic Archdiocese of Chittagong. The present cathedral was built in 1843, during British rule.",
+    "address": "Patharghata, Chattogram",
+    "coordinates": [
+      22.33241,
+      91.8394
+    ]
+  },
+  {
+    "slug": "zia-memorial-museum",
+    "name": "Zia Memorial Museum",
+    "category": "Historical Site",
+    "description": "The Old Circuit House, where President Ziaur Rahman was assassinated in 1981, now a museum.",
+    "address": "Chattogram city",
+    "coordinates": [
+      22.34825,
+      91.82384
+    ]
+  },
+  {
+    "slug": "chattogram-court-building",
+    "name": "Chattogram Court Building",
+    "category": "Historical Site",
+    "description": "A historic red-brick court house on Fairy Hill in the city centre.",
+    "address": "Fairy Hill, Chattogram",
+    "coordinates": [
+      22.33483,
+      91.83461
+    ]
+  },
+  {
+    "slug": "darul-adalat",
+    "name": "Darul Adalat (Portuguese Building)",
+    "category": "Historical Site",
+    "description": "Better known as the Portuguese Building, this historic landmark was the city's first court building.",
+    "address": "Chattogram city",
+    "coordinates": [
+      22.35197,
+      91.83195
+    ]
+  },
+  {
+    "slug": "bangladesh-railway-museum",
+    "name": "Bangladesh Railway Museum",
+    "category": "Cultural Center",
+    "description": "Bangladesh Railway's only museum, in a former bungalow in Pahartali that opened as a museum in 2003.",
+    "address": "Pahartali, Chattogram",
+    "coordinates": [
+      22.35433,
+      91.80132
+    ]
+  },
+  {
+    "slug": "chittagong-zoo",
+    "name": "Chittagong Zoo",
+    "category": "Natural Wonder",
+    "description": "A 10-acre zoo at the entrance to Foy's Lake, known for the first white tiger born in Bangladesh, in 2018.",
+    "address": "Foy's Lake, Khulshi, Chattogram",
+    "coordinates": [
+      22.36672,
+      91.79592
+    ]
+  },
+  {
+    "slug": "kattali-sea-beach",
+    "name": "Kattali Sea Beach",
+    "category": "Beach",
+    "description": "A quiet beach about 8 km from the city, known for its mangroves and the local fishing community. Also called Jele Para Sea Beach.",
+    "address": "Pahartali, Chattogram",
+    "coordinates": [
+      22.35215,
+      91.75765
+    ]
+  },
+  {
+    "slug": "banshbaria-sea-beach",
+    "name": "Banshbaria Sea Beach",
+    "category": "Beach",
+    "description": "A beach about 9 km from Sitakunda town, with a long walkway reaching out over the tidal flats towards the sea.",
+    "address": "Banshbaria, Sitakunda, Chattogram",
+    "coordinates": [
+      22.54447,
+      91.66826
+    ]
+  },
+  {
+    "slug": "sitakunda-eco-park",
+    "name": "Sitakunda Botanical Garden and Eco Park",
+    "category": "Natural Wonder",
+    "description": "A botanical garden and eco-park in the forested hills of Sitakunda.",
+    "address": "Sitakunda, Chattogram",
+    "coordinates": [
+      22.61275,
+      91.68408
+    ]
+  },
+  {
+    "slug": "baroiyadhala-national-park",
+    "name": "Baroiyadhala National Park",
+    "category": "Natural Wonder",
+    "description": "A national park beside the Dhaka–Chittagong Highway that keeps a corridor of forest for wildlife. Khoiyachora Waterfall lies inside it.",
+    "address": "Sitakunda, Chattogram",
+    "coordinates": [
+      22.65438,
+      91.66826
+    ]
+  },
+  {
+    "slug": "khoiyachora-waterfall",
+    "name": "Khoiyachora Waterfall",
+    "category": "Natural Wonder",
+    "description": "One of the largest waterfalls in the Mirsharai hills: a chain of seven major cascades along a forest stream.",
+    "address": "Khoiyachora, Mirsharai, Chattogram",
+    "coordinates": [
+      22.76944,
+      91.61194
+    ]
+  },
+  {
+    "slug": "mohamaya-lake",
+    "name": "Mohamaya Lake",
+    "category": "Natural Wonder",
+    "description": "A reservoir among forested hills in Mirsharai, created by the Mahamaya irrigation project and completed in 2009.",
+    "address": "Durgapur, Mirsharai, Chattogram",
+    "coordinates": [
+      22.8168,
+      91.5719
+    ]
+  },
+  {
+    "slug": "napittachora-waterfalls",
+    "name": "Napittachora Waterfalls",
+    "category": "Natural Wonder",
+    "description": "A trail inside Baroiyadhala National Park known for its three or four main waterfalls.",
+    "address": "Mirsharai, Chattogram",
+    "coordinates": [
+      22.747,
+      91.6196
+    ]
+  },
+  {
+    "slug": "komoldoho-waterfall",
+    "name": "Komoldoho Waterfall",
+    "category": "Natural Wonder",
+    "description": "One of the waterfalls of the Sitakunda–Mirsharai hills, a stepped fall over rock in the forest.",
+    "address": "Sitakunda, Chattogram",
+    "coordinates": [
+      22.69076,
+      91.63996
+    ]
+  },
+  {
+    "slug": "hazarikhil-wildlife-sanctuary",
+    "name": "Hazarikhil Wildlife Sanctuary",
+    "category": "Natural Wonder",
+    "description": "A wildlife sanctuary in the Ramgarh–Sitakunda hill forests, about 45 km north of Chittagong port.",
+    "address": "Fatikchhari, Chattogram",
+    "coordinates": [
+      22.74223,
+      91.6469
+    ]
+  },
+  {
+    "slug": "sandwip-island",
+    "name": "Sandwip Island",
+    "category": "Natural Wonder",
+    "description": "An island off the south-eastern coast, in the Meghna estuary. With Urir Char and Bhasan Char it makes up Sandwip upazila.",
+    "address": "Sandwip, Chattogram",
+    "coordinates": [
+      22.49051,
+      91.42118
+    ]
+  },
+  {
+    "slug": "banshkhali-sea-beach",
+    "name": "Banshkhali Sea Beach",
+    "category": "Beach",
+    "description": "A 37 km sandy beach, also known as Baharchhara Beach, with Kadamrasul and Khankhanabad as its main points.",
+    "address": "Banshkhali, Chattogram",
+    "coordinates": [
+      22.06069,
+      91.8738
+    ]
+  },
+  {
+    "slug": "banshkhali-eco-park",
+    "name": "Banshkhali Eco-Park",
+    "category": "Natural Wonder",
+    "description": "A natural eco-park of rolling hills, forest and a clear lake, looking out over the Bay of Bengal coastline.",
+    "address": "Banshkhali, Chattogram",
+    "coordinates": [
+      21.98971,
+      91.98183
+    ]
+  },
+  {
+    "slug": "chunati-wildlife-sanctuary",
+    "name": "Chunati Wildlife Sanctuary",
+    "category": "Natural Wonder",
+    "description": "A protected forest (IUCN Category IV) near the village of Chunati in southern Chattogram District.",
+    "address": "Chunati, Chattogram",
+    "coordinates": [
+      21.93286,
+      92.03375
+    ]
+  },
+  {
+    "slug": "rangkut-banasram-ramu",
+    "name": "Rangkut Banasram, Ramu",
+    "category": "Religious Site",
+    "description": "A historic Buddhist monastery in Ramu, known as the oldest Buddhist monastery in the country.",
+    "address": "Ramu, Cox's Bazar",
+    "coordinates": [
+      21.40217,
+      92.11043
+    ]
+  },
+  {
+    "slug": "sonadia-island",
+    "name": "Sonadia Island",
+    "category": "Natural Wonder",
+    "description": "A small island of about 9 km², 15 km north-west of Cox's Bazar town, separated from Maheshkhali by a canal.",
+    "address": "Maheshkhali, Cox's Bazar",
+    "coordinates": [
+      21.48333,
+      91.9
+    ]
+  },
+  {
+    "slug": "kutubdia-lighthouse",
+    "name": "Kutubdia Lighthouse",
+    "category": "Historical Site",
+    "description": "An island lighthouse from British rule, built between 1822 and 1846 to guide ships in the Bay of Bengal. Storms have damaged it more than once, and it has since been rebuilt.",
+    "address": "Kutubdia, Cox's Bazar",
+    "coordinates": [
+      21.86473,
+      91.84253
+    ]
+  },
+  {
+    "slug": "shah-porir-dwip",
+    "name": "Shah Porir Dwip",
+    "category": "Beach",
+    "description": "An island at the mouth of the Naf River, on the maritime boundary between Bangladesh and Myanmar.",
+    "address": "Teknaf, Cox's Bazar",
+    "coordinates": [
+      20.7674,
+      92.334
+    ]
+  },
+  {
+    "slug": "teknaf-wildlife-sanctuary",
+    "name": "Teknaf Wildlife Sanctuary",
+    "category": "Natural Wonder",
+    "description": "Formerly the Teknaf Game Reserve, set up in 1983 as a sanctuary for wild Asian elephants. Its 11,615 hectares of forested hills include Naitong Hill.",
+    "address": "Teknaf, Cox's Bazar",
+    "coordinates": [
+      20.99166,
+      92.22084
+    ]
+  },
+  {
+    "slug": "keokradong",
+    "name": "Keokradong",
+    "category": "Hill Station",
+    "description": "A peak of about 986 m in Ruma, popular with trekkers, with a small shelter at the top.",
+    "address": "Ruma, Bandarban",
+    "coordinates": [
+      21.94988,
+      92.51452
+    ]
+  },
+  {
+    "slug": "nilachal",
+    "name": "Nilachal",
+    "category": "Hill Station",
+    "description": "A hilltop tourist complex run by the district administration at Tigerpara, about 6 km from Bandarban town.",
+    "address": "Tigerpara, Bandarban Sadar, Bandarban",
+    "coordinates": [
+      22.16863,
+      92.20988
+    ]
+  },
+  {
+    "slug": "amiakhum-waterfall",
+    "name": "Amiakhum Waterfall",
+    "category": "Natural Wonder",
+    "description": "A remote waterfall in the Nakshiyang area of Thanchi, one of many falls along the hilly Sangu River. 'Khum' means waterfall in the Marma language.",
+    "address": "Thanchi, Bandarban",
+    "coordinates": [
+      21.77666,
+      92.54868
+    ]
+  },
+  {
+    "slug": "rijuk-waterfall",
+    "name": "Rijuk Waterfall",
+    "category": "Natural Wonder",
+    "description": "A natural waterfall in Ruma upazila.",
+    "address": "Ruma, Bandarban",
+    "coordinates": [
+      22.0154,
+      92.4018
+    ]
+  },
+  {
+    "slug": "ram-jadi",
+    "name": "Ram Jadi",
+    "category": "Religious Site",
+    "description": "A hilltop Buddhist temple near Bandarban town, with golden spires in the style of Southeast Asian pagodas.",
+    "address": "Bandarban Sadar, Bandarban",
+    "coordinates": [
+      22.19552,
+      92.24441
+    ]
+  },
+  {
+    "slug": "prantik-lake",
+    "name": "Prantik Lake",
+    "category": "Natural Wonder",
+    "description": "A man-made lake of about 2,500 acres at Holudia, formed by damming a local stream near the Bandarban–Chattogram border.",
+    "address": "Suwalok, Bandarban Sadar, Bandarban",
+    "coordinates": [
+      22.10684,
+      92.17122
+    ]
+  },
+  {
+    "slug": "sajek-valley",
+    "name": "Sajek Valley",
+    "category": "Hill Station",
+    "description": "Called the 'Queen of Hills', a valley at about 550 m in the Kasalong range, known for its greenery and dense forests.",
+    "address": "Sajek, Baghaichhari, Rangamati",
+    "coordinates": [
+      23.39092,
+      92.28551
+    ]
+  },
+  {
+    "slug": "rajban-vihara",
+    "name": "Rajban Vihara",
+    "category": "Religious Site",
+    "description": "The largest Buddhist monastery in Bangladesh, on the edge of Rangamati town, built by followers of the monk Bana Bhante after 1977.",
+    "address": "Rangamati Sadar, Rangamati",
+    "coordinates": [
+      22.66576,
+      92.17061
+    ]
+  },
+  {
+    "slug": "kaptai-national-park",
+    "name": "Kaptai National Park",
+    "category": "Natural Wonder",
+    "description": "A national park of mixed evergreen forest, established in 1999 and covering about 5,465 hectares.",
+    "address": "Kaptai, Rangamati",
+    "coordinates": [
+      22.49995,
+      92.17739
+    ]
+  },
+  {
+    "slug": "polwel-park",
+    "name": "Polwel Park",
+    "category": "Natural Wonder",
+    "description": "A lakeside park in Rangamati town, on the shore of Kaptai Lake.",
+    "address": "Rangamati Sadar, Rangamati",
+    "coordinates": [
+      22.64116,
+      92.19992
+    ]
+  },
+  {
+    "slug": "alutila-cave",
+    "name": "Alutila Cave",
+    "category": "Natural Wonder",
+    "description": "A 100-metre cave running through Alutila hill, surrounded by deep green forest.",
+    "address": "Alutila, Khagrachari",
+    "coordinates": [
+      23.08833,
+      91.95667
+    ]
+  },
+  {
+    "slug": "khagrachari-council-park",
+    "name": "Khagrachari Hill District Council Park",
+    "category": "Natural Wonder",
+    "description": "A horticulture park with a lake on the edge of Khagrachari town.",
+    "address": "Khagrachari Sadar, Khagrachari",
+    "coordinates": [
+      23.09788,
+      91.97262
+    ]
+  },
+  {
+    "slug": "shantipur-aranya-kutir",
+    "name": "Shantipur Aranya Kutir",
+    "category": "Religious Site",
+    "description": "A Buddhist forest monastery in Panchhari, known for its large Buddha statue.",
+    "address": "Panchhari, Khagrachari",
+    "coordinates": [
+      23.25951,
+      91.89107
+    ]
+  },
+  {
+    "slug": "shalban-vihara",
+    "name": "Shalban Vihara",
+    "category": "Historical Site",
+    "description": "Ruins of a 7th-century Buddhist monastery with 115 cells for monks in the Lalmai hills, in use until the 12th century.",
+    "address": "Mainamati, Cumilla",
+    "coordinates": [
+      23.42518,
+      91.1375
+    ]
+  },
+  {
+    "slug": "mainamati-war-cemetery",
+    "name": "Mainamati War Cemetery",
+    "category": "Historical Site",
+    "description": "A Commonwealth war cemetery for soldiers killed in the Burma campaign of the Second World War; one of two in Bangladesh, with the one in Chattogram.",
+    "address": "Mainamati, Cumilla",
+    "coordinates": [
+      23.48699,
+      91.11201
+    ]
+  },
+  {
+    "slug": "mainamati-museum",
+    "name": "Mainamati Museum",
+    "category": "Cultural Center",
+    "description": "A site museum beside Shalban Vihara showing finds from the Mainamati excavations.",
+    "address": "Mainamati, Cumilla",
+    "coordinates": [
+      23.42359,
+      91.1372
+    ]
+  },
+  {
+    "slug": "kotila-mura",
+    "name": "Kotila Mura",
+    "category": "Historical Site",
+    "description": "One of the most significant Buddhist sites at Mainamati, known for its well-preserved stupas.",
+    "address": "Mainamati, Cumilla",
+    "coordinates": [
+      23.46092,
+      91.12351
+    ]
+  },
+  {
+    "slug": "dharmasagar",
+    "name": "Dharmasagar",
+    "category": "Natural Wonder",
+    "description": "A large man-made pond in Cumilla town, dug by the Tripura king Dharma Manikya I in 1458, with a Nazrul memorial beside it.",
+    "address": "Cumilla town, Cumilla",
+    "coordinates": [
+      23.46444,
+      91.17944
+    ]
+  },
+  {
+    "slug": "jagannath-temple",
+    "name": "Jagannath Temple (Sateroratna Mandir)",
+    "category": "Religious Site",
+    "description": "The 'seventeen-jewel temple', one of the tallest temples in the country, built in 1761 and dedicated to Jagannath.",
+    "address": "Cumilla town, Cumilla",
+    "coordinates": [
+      23.46222,
+      91.20873
+    ]
+  },
+  {
+    "slug": "shah-shuja-mosque",
+    "name": "Shah Shuja Mosque",
+    "category": "Religious Site",
+    "description": "A historic mosque at Mughaltuli in Cumilla town. When it was built, and by whom, is disputed.",
+    "address": "Mughaltuli, Cumilla",
+    "coordinates": [
+      23.46694,
+      91.18512
+    ]
+  },
+  {
+    "slug": "kal-bhairab-temple",
+    "name": "Kal Bhairab Temple",
+    "category": "Religious Site",
+    "description": "A Shiva temple in Medda famed for its 28-foot statue of Kal Bhairab, flanked by statues of Kali and Parvati.",
+    "address": "Medda, Brahmanbaria",
+    "coordinates": [
+      23.98593,
+      91.11292
+    ]
+  },
+  {
+    "slug": "arifil-mosque",
+    "name": "Arifil Mosque",
+    "category": "Religious Site",
+    "description": "A late-17th-century mosque in Sarail, named after the saint Shah Arif.",
+    "address": "Sarail, Brahmanbaria",
+    "coordinates": [
+      24.07002,
+      91.10464
+    ]
+  },
+  {
+    "slug": "molhead-chandpur",
+    "name": "Molhead, Chandpur",
+    "category": "Natural Wonder",
+    "description": "A riverside point at Chandpur's Boro Station where the Padma, Meghna and Dakatia rivers meet.",
+    "address": "Boro Station, Chandpur",
+    "coordinates": [
+      23.23107,
+      90.63937
+    ]
+  },
+  {
+    "slug": "hajiganj-bara-mosque",
+    "name": "Hajiganj Bara Mosque",
+    "category": "Religious Site",
+    "description": "A historic mosque in the middle of Hajiganj Bazar, beside several madrasas and a library.",
+    "address": "Hajiganj, Chandpur",
+    "coordinates": [
+      23.25161,
+      90.85387
+    ]
+  },
+  {
+    "slug": "nijhum-dwip",
+    "name": "Nijhum Dwip",
+    "category": "Natural Wonder",
+    "description": "A small island of Hatiya upazila, its name meaning 'silent island', formed from islands that emerged in the estuary in the 1950s.",
+    "address": "Hatiya, Noakhali",
+    "coordinates": [
+      22.06356,
+      91.01075
+    ]
+  },
+  {
+    "slug": "bazra-shahi-mosque",
+    "name": "Bazra Shahi Mosque",
+    "category": "Religious Site",
+    "description": "An 18th-century mosque in Bazra, Sonaimuri, described as the most notable historical monument of the area.",
+    "address": "Sonaimuri, Noakhali",
+    "coordinates": [
+      23.00663,
+      91.09123
+    ]
+  },
+  {
+    "slug": "shah-amanat",
+    "name": "Shah Amanat Shrine",
+    "category": "Religious Site",
+    "description": "The shrine of Shah Amanat (Amanatullah Khan, d. 1773), one of the most revered Sufi saints of Chittagong. Pilgrims gather in large numbers, especially on the 27th night of Ramadan.",
+    "address": "Chattogram city",
+    "coordinates": [
+      22.343,
+      91.84
+    ]
+  },
+  {
+    "slug": "mathins-well",
+    "name": "Mathin's Well",
+    "category": "Historical Site",
+    "description": "A well in the Teknaf police station compound, tied to a 1930s love story between police officer Dhiraj Bhattacharya and a local woman, Ma Thin, told in his memoir \"Jakhan Police Chhilam\".",
+    "address": "Teknaf, Cox's Bazar",
+    "coordinates": [
+      20.863,
+      92.298
+    ]
+  },
+  {
+    "slug": "debotakhum",
+    "name": "Debotakhum",
+    "category": "Natural Wonder",
+    "description": "A natural water-filled hollow in the hills of Rowangchhari, Bandarban, about 50 to 70 feet deep and roughly 600 feet long. Reached by a trek and a river crossing.",
+    "address": "Rowangchhari, Bandarban",
+    "coordinates": [
+      22.1667,
+      92.3333
+    ]
+  },
+  {
+    "slug": "gandhi-ashram",
+    "name": "Gandhi Ashram",
+    "category": "Historical Site",
+    "description": "The ashram at Jayag, Noakhali, where Mahatma Gandhi arrived on 29 January 1947 on his peace mission after the 1946 Noakhali riots. It is now run by the Gandhi Ashram Trust.",
+    "address": "Jayag, Sonaimuri, Noakhali",
+    "coordinates": [
+      23.07,
+      91.105
+    ]
+  },
+  {
+    "slug": "aggameda",
+    "name": "Aggameda Khyang",
+    "category": "Religious Site",
+    "description": "A large Buddhist monastery (khyang) near the entrance of Cox's Bazar town, founded in the early 20th century by the monk U Pannya Jota Mahathero.",
+    "address": "Cox's Bazar town",
+    "coordinates": [
+      21.437,
+      92
+    ]
+  },
+  {
+    "slug": "debta-pukur",
+    "name": "Debta Pukur",
+    "category": "Natural Wonder",
+    "description": "A small lake in Khagrachhari district, sacred to the Tipra community and also known as Matai Pukhiri, about 11 km south of Khagrachhari town.",
+    "address": "Mahalchhari, Khagrachhari",
+    "coordinates": [
+      23.0156,
+      91.9719
+    ]
+  },
+  {
+    "slug": "risang-waterfall",
+    "name": "Risang Waterfall",
+    "category": "Natural Wonder",
+    "description": "A hill waterfall about 100 feet high in Sapmara village, Matiranga, roughly 10 km from Khagrachhari town. Best in and just after the rains.",
+    "address": "Sapmara, Matiranga, Khagrachhari",
+    "coordinates": [
+      23.0664,
+      91.9438
+    ]
+  }
+]

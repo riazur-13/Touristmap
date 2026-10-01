@@ -1,0 +1,107 @@
+/* ── "You might also like" ─────────────────────────────────────────────────── */
+.similar-places {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.similar-places__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 var(--spacing-sm);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.similar-places__status {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.similar-places__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.similar-place {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.similar-place:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary-border);
+}
+
+.similar-place:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.similar-place__swatch {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--category-color);
+}
+
+/* min-width: 0 lets the long names below actually truncate — without it a flex
+   item refuses to shrink past its content width. */
+.similar-place__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.similar-place__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.similar-place__meta {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.similar-place__chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.similar-place:hover .similar-place__chevron {
+  color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .similar-place {
+    transition: none;
+  }
+}

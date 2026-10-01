@@ -9,6 +9,7 @@ import attractions, {
 import AttractionDetails from "./components/attractions/AttractionDetails";
 import SearchBar from "./components/ui/SearchBar";
 import { getCategoryColor } from "./config/constants";
+import { haversineKm } from "./utils/geo";
 import {
   closePlaceHistory,
   initPlaceHistory,
@@ -19,18 +20,6 @@ import {
 const CATEGORY_OPTIONS = getAllCategories();
 // The map's "home" view: every attraction, regardless of the active filters.
 const HOME_BOUNDS = getBounds(attractions);
-
-function haversineKm([lat1, lon1], [lat2, lon2]) {
-  const R = 6371;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 
 function formatDuration(minutes) {
   if (minutes < 60) return `${minutes} min`;
@@ -50,6 +39,8 @@ function App() {
   const [routeInfo, setRouteInfo] = useState(null);
   const [routeLoading, setRouteLoading] = useState(false);
   const [routeError, setRouteError] = useState(null);
+
+  const sidebarRef = useRef(null);
 
   // In-flight request bookkeeping. `abortRef` cancels the previous fetch and
   // `requestIdRef` fences off its response, so a slow earlier reply can never
@@ -202,6 +193,17 @@ function App() {
     [clearRoute],
   );
 
+  // A "You might also like" click. The suggestion carries only a slug (it may
+  // have come from the API), so resolve it against the local data before
+  // selecting — which keeps this on the same ?place= path as a map pin click.
+  const handleSelectSimilar = useCallback(
+    (slug) => {
+      const next = findBySlug(slug);
+      if (next) handleSelect(next);
+    },
+    [handleSelect],
+  );
+
   const handleClose = useCallback(() => {
     setSelectedAttraction(null);
     setUserPos(null);
@@ -226,6 +228,12 @@ function App() {
     // Only the initial URL needs handling; later changes go through showPlaceHistory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // The suggestion list sits at the bottom of the panel, so selecting from it
+  // would otherwise leave the next place scrolled past its own photo and title.
+  useEffect(() => {
+    sidebarRef.current?.scrollTo({ top: 0 });
+  }, [selectedAttraction]);
 
   // Escape closes the details panel, matching its close button.
   useEffect(() => {
@@ -353,7 +361,11 @@ function App() {
         </div>
 
         {selectedAttraction && (
-          <aside className="app__sidebar" aria-label="Attraction details">
+          <aside
+            className="app__sidebar"
+            aria-label="Attraction details"
+            ref={sidebarRef}
+          >
             <AttractionDetails
               attraction={selectedAttraction}
               routeInfo={routeInfo}
@@ -361,6 +373,7 @@ function App() {
               routeError={routeError}
               onDirections={() => handleGetDirections(selectedAttraction)}
               onClose={handleClose}
+              onSelectSimilar={handleSelectSimilar}
             />
           </aside>
         )}

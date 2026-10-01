@@ -33,4 +33,15 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z][A-Z0-9_]*$' }],
     },
   },
+  // Build tooling: runs in Node, not the browser, so it gets Node globals and
+  // none of the React rules.
+  {
+    files: ['scripts/**/*.mjs'],
+    extends: [js.configs.recommended],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: globals.node,
+      sourceType: 'module',
+    },
+  },
 ])
