@@ -9,6 +9,7 @@ are most like it?*
 
 - [Stage 1 — Data and a hello-world API](#stage-1--data-and-a-hello-world-api)
 - [Stage 2 — The recommendation engine](#stage-2--the-recommendation-engine)
+- [Stage 3 — Tests and quality](#stage-3--tests-and-quality)
 - [Try it yourself](#try-it-yourself)
 
 ---
@@ -375,6 +376,151 @@ imperfect neighbours in exchange for not materialising the matrix.
 > click-through data — show variants, measure which suggestions get followed, and
 > pick the weight empirically. The weights sit in one config constant specifically
 > so that becomes a one-line change."
+
+---
+
+## Stage 3 — Tests and quality
+
+### The plain-language version
+
+**The analogy.** Tests are the smoke alarm you install *before* the fire. Nobody
+enjoys fitting them, and they do nothing visible on a good day. Their entire value
+shows up on the day you change something innocuous and the alarm goes off.
+
+Recommendation code is unusually dangerous to leave untested, because **broken
+output still looks plausible**. If `/health` breaks, you get a 500 and you know.
+If the recommender starts suggesting Patenga Beach for Patenga Beach, or silently
+returns three results when you asked for five, the page still renders a tidy list
+of places and nothing looks wrong. You would ship it.
+
+So the suite is split by what it's protecting:
+
+- **Contract tests** — does the API behave as promised? Right number of results,
+  rejects a bad `limit`, 404s an unknown slug, never returns the place itself.
+- **Quality tests** — are the recommendations *any good*? A beach should mostly
+  get beaches. This is the one that catches "you refactored the scoring and made
+  it worse", which no contract test would notice.
+- **Unit tests** — is the arithmetic right? Checked directly rather than inferred
+  from API output, so a failure points at the line that's wrong.
+
+### What the code does
+
+```
+backend/tests/
+├── conftest.py           shared fixtures
+├── test_health.py        /health
+├── test_similar.py       the endpoint's contract + recommendation quality
+└── test_recommender.py   the scoring maths, below HTTP
+```
+
+**`conftest.py`** provides the fixtures. The important subtlety:
+
+```python
+with TestClient(app) as test_client:
+    yield test_client
+```
+
+Using `TestClient` **as a context manager** is what runs the lifespan handler. If
+you just write `TestClient(app)`, startup never fires, `app.state.recommender` is
+never set, and every test fails confusingly. Scope is `session`, so the 90×90
+matrix is built once for the whole suite rather than per test.
+
+**Self-exclusion is checked for all 90 places, not one:**
+
+```python
+@pytest.mark.parametrize("slug", ALL_SLUGS)
+def test_never_recommends_the_place_itself(client, slug):
+    body = fetch_similar(client, slug, limit=config.MAX_LIMIT)
+    assert slug not in [r["slug"] for r in body["results"]]
+```
+
+`parametrize` turns one function into one test per slug, so a failure names the
+offending place instead of just saying "a place failed". That's why the suite is
+146 tests from ~20 functions.
+
+**Invalid input must be rejected, not repaired.** `limit=0`, `limit=11`,
+`limit=-1`, `limit=abc` and `limit=1.5` all assert `422`. Clamping a bad value to
+something valid would hide the caller's bug.
+
+**Determinism is pinned at two levels** — twice on one instance (no per-request
+randomness) and across two freshly built `Recommender`s (nothing depends on dict
+ordering or an unseeded random source). There's also a subtler one:
+
+```python
+def test_a_shorter_limit_is_a_prefix_of_a_longer_one(client):
+    assert fetch_similar(client, "patenga-beach", limit=3)["results"] \
+        == fetch_similar(client, "patenga-beach", limit=10)["results"][:3]
+```
+
+Asking for 3 must give the first 3 of asking for 10. That catches a whole family
+of off-by-one and sort-order bugs that a length check sails past.
+
+**The quality check** runs over every beach in the dataset:
+
+```python
+@pytest.mark.parametrize("slug", BEACH_SLUGS)
+def test_a_beach_is_mostly_recommended_other_beaches(client, slug):
+    results = fetch_similar(client, slug, limit=5)["results"]
+    assert len([r for r in results if r["category"] == "Beach"]) >= 2
+```
+
+The threshold is deliberately **2 of 5**, while the model currently achieves 4–5
+of 5. That gap is intentional: a test asserting the current output exactly would
+fail on any reasonable reweighting, which trains you to ignore it. A loose floor
+fails only when the model has genuinely broken. There's also an aggregate check
+that ≥60% of all places get a same-category top match — asserted in aggregate
+because a few places legitimately resemble another category more than their own,
+and a per-place version would be encoding noise as a requirement.
+
+**One test documents the proximity weight is live:**
+`test_nearby_wins_between_comparable_places` asserts Parki Beach (5 km) outranks
+Kattali (14 km) for Patenga. Set `PROXIMITY_WEIGHT` to 0 and only that test
+fails — which is exactly what you want from a test of a tunable.
+
+**CI** (`.github/workflows/ci.yml`) runs on every pull request: frontend lint and
+tests in one job, backend `ruff check`, `ruff format --check` and `pytest` in
+another. The backend job runs on a **matrix** of Python 3.11 and 3.14 — 3.11
+because that's the floor the README promises (scikit-learn requires `>=3.11`), and
+3.14 because that's what this was developed on. `npm ci` is used rather than
+`npm install` because it installs exactly what the lockfile pins and fails if the
+lockfile is stale.
+
+### The professional framing
+
+A test suite's job is to fail for the right reasons. Two failure modes to avoid,
+both on display here:
+
+- **Tests that assert current output.** Pinning "Parki Beach scores 0.5527" makes
+  every tuning change a test-fixing exercise, so people stop reading the failures.
+  The quality tests assert *properties* ("mostly beaches", "ordered by score",
+  "nearer of two similar places wins") that survive reasonable change and break on
+  real regressions.
+- **Tests that can't localise a failure.** One test over all 90 slugs tells you
+  something is broken; 90 parametrised tests tell you *which place*.
+
+> **Interviewer: "How do you test a recommendation engine? There's no single
+> right answer to compare against."**
+>
+> "You separate the two questions. The contract is objectively testable — result
+> count, validation, 404s, never returning the input itself, and determinism — so I
+> test that exhaustively, parametrised over every item so a failure names the
+> culprit. Quality has no ground truth, so I test invariants instead of outputs: a
+> beach's recommendations should be mostly beaches, results must be ordered by
+> score, and of two similar places the nearer should rank higher. I set those
+> thresholds deliberately loose — the beach check requires 2 of 5 while the model
+> delivers 4 or 5 — because a test pinned to current output fails on every tuning
+> change and quickly gets ignored. With real traffic I'd add offline evaluation on
+> held-out click data, which gives you an actual metric to move."
+
+> **Interviewer: "What would you add to this CI pipeline next?"**
+>
+> "Three things, in order of value. A coverage floor, so new code can't quietly
+> arrive untested. Dependency and secret scanning — `pip-audit` plus Dependabot —
+> since pinned dependencies are reproducible but also frozen, including frozen
+> vulnerabilities. And a build-and-smoke-test step that actually boots the app and
+> hits `/health`, because `pytest` passing proves the code works while the app can
+> still fail to start for reasons tests never touch. I'd also add type checking
+> with mypy; the annotations are already there, so it's close to free."
 
 ---
 
