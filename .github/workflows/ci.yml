@@ -1,0 +1,77 @@
+name: CI
+
+# Runs on every pull request, and on pushes to main so the default branch is
+# always known-good (a PR can pass and still break main if another PR landed
+# between the check and the merge).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch cancels the previous run — no point spending
+# minutes on a commit that has already been superseded.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (lint + tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ctgmap
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: ctgmap/package-lock.json
+
+      # `npm ci` installs exactly what package-lock.json pins and fails if the
+      # lockfile is out of sync, unlike `npm install` which may quietly resolve
+      # something else.
+      - run: npm ci
+
+      - run: npm run lint
+
+      # Includes the guard that fails if backend/app/data/attractions.json is
+      # out of date with attractions.js.
+      - run: npm test
+
+  backend:
+    name: Backend (ruff + pytest, py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 is the documented floor (scikit-learn requires >=3.11); 3.14 is
+        # what the project is developed on. Testing both means a dependency that
+        # quietly needs something newer than the README claims shows up here
+        # rather than on a contributor's machine.
+        python-version: ["3.11", "3.14"]
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Check formatting
+        run: ruff format --check .
+
+      - name: Tests
+        run: pytest

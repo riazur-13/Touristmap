@@ -1,0 +1,17 @@
+# Pinned so every machine and CI run installs the exact same versions.
+# Bump deliberately, then re-run `pytest` and `ruff check .`.
+
+# Web framework and the ASGI server that runs it.
+fastapi==0.142.2
+uvicorn==0.54.0
+
+# Request/response validation and settings. v2 (Rust core) — see models.py.
+pydantic==2.13.5
+
+# TF-IDF vectoriser + cosine similarity for the recommender.
+scikit-learn==1.9.1
+
+# Test and lint toolchain.
+pytest==9.1.1
+httpx==0.28.1
+ruff==0.16.9

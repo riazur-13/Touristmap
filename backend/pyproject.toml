@@ -1,0 +1,31 @@
+# Tooling config for the backend. Dependencies live in requirements.txt; this
+# file configures the linter and the test runner only.
+
+[tool.ruff]
+line-length = 88
+# The documented floor for this project. Ruff uses it to decide which modern
+# syntax it may suggest (e.g. `list[str]` over `List[str]`).
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes: unused imports, undefined names
+    "I",   # import sorting
+    "UP",  # pyupgrade: flag syntax made obsolete by newer Python
+    "B",   # bugbear: likely bugs, e.g. mutable default arguments
+    "SIM", # simplifications
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Puts backend/ on sys.path so the tests can `from app.main import app` without
+# the package needing to be pip-installed first.
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = [
+    # Starlette's TestClient now prefers httpx2. We pin httpx deliberately (it is
+    # the widely documented version and works fine here), so this deprecation is
+    # expected rather than something to act on. Revisit when upgrading starlette.
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
